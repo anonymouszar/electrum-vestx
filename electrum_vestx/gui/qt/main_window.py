@@ -38,14 +38,15 @@ from functools import partial
 import queue
 import asyncio
 
-from PyQt5.QtGui import QPixmap, QKeySequence, QIcon, QCursor
+from PyQt5.QtGui import QPixmap, QKeySequence, QIcon, QCursor, QColor
 from PyQt5.QtCore import Qt, QRect, QStringListModel, QSize, pyqtSignal
+import PyQt5.QtCore as QtCore
 from PyQt5.QtWidgets import (QMessageBox, QComboBox, QSystemTrayIcon, QTabWidget,
                              QSpinBox, QMenuBar, QFileDialog, QCheckBox, QLabel,
                              QVBoxLayout, QGridLayout, QLineEdit, QTreeWidgetItem,
                              QHBoxLayout, QPushButton, QScrollArea, QTextEdit,
                              QShortcut, QMainWindow, QCompleter, QInputDialog,
-                             QWidget, QMenu, QSizePolicy, QStatusBar)
+                             QWidget, QMenu, QSizePolicy, QStatusBar, QGraphicsDropShadowEffect)
 
 import electrum_vestx
 from electrum_vestx import (keystore, simple_config, ecc, constants, util, bitcoin, commands,
@@ -127,6 +128,12 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
     def __init__(self, gui_object, wallet: Abstract_Wallet):
         QMainWindow.__init__(self)
+        self.setMinimumSize(1000, 582)
+        self.resize(1000,582)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        
+        self.setObjectName("main_window_container")
+        
         self.masternode_manager = None
         self.gui_object = gui_object
         self.config = config = gui_object.config  # type: SimpleConfig
@@ -156,7 +163,16 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.tx_notification_queue = queue.Queue()
         self.tx_notification_last_time = 0
 
-        self.create_status_bar()
+        #central widget
+        self.central_widget = central_widget = QWidget(self)
+        central_widget.setObjectName("central_widget")
+        central_widget.setMinimumSize(1000, 574)
+        central_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+        #self.create_status_bar()
+        #top bar widget
+        self.is_menu_expanded = False
+        self.create_top_bar()
         self.need_update = threading.Event()
 
         self.decimal_point = config.get('decimal_point', DECIMAL_POINT_DEFAULT)
@@ -168,20 +184,23 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
         self.completions = QStringListModel()
 
+        #tabs widget
         self.tabs = tabs = QTabWidget(self)
+        self.home_tab = self.create_home_tab()
+        self.history_tab = self.create_history_tab()
         self.send_tab = self.create_send_tab()
         self.receive_tab = self.create_receive_tab()
         self.addresses_tab = self.create_addresses_tab()
         self.utxo_tab = self.create_utxo_tab()
         self.console_tab = self.create_console_tab()
         self.contacts_tab = self.create_contacts_tab()
-        tabs.addTab(self.create_history_tab(), read_QIcon("tab_history.png"), _('History'))
-        tabs.addTab(self.send_tab, read_QIcon("tab_send.png"), _('Send'))
-        tabs.addTab(self.receive_tab, read_QIcon("tab_receive.png"), _('Receive'))
-        tabs.addTab(self.addresses_tab, read_QIcon("tab_addresses.png"), _("&Addresses"))
-        tabs.addTab(self.utxo_tab, read_QIcon("tab_coins.png"), _("Co&ins"))
-        tabs.addTab(self.contacts_tab, read_QIcon("tab_contacts.png"), _("Con&tacts"))
-        tabs.addTab(self.console_tab, read_QIcon("tab_console.png"), _("Con&sole"))
+#        tabs.addTab(self.create_history_tab(), read_QIcon("tab_history.png"), _('History'))
+#        tabs.addTab(self.send_tab, read_QIcon("tab_send.png"), _('Send'))
+#        tabs.addTab(self.receive_tab, read_QIcon("tab_receive.png"), _('Receive'))
+#        tabs.addTab(self.addresses_tab, read_QIcon("tab_addresses.png"), _("&Addresses"))
+#        tabs.addTab(self.utxo_tab, read_QIcon("tab_coins.png"), _("Co&ins"))
+#        tabs.addTab(self.contacts_tab, read_QIcon("tab_contacts.png"), _("Con&tacts"))
+#        tabs.addTab(self.console_tab, read_QIcon("tab_console.png"), _("Con&sole"))
 
 #        def add_optional_tab(tabs, tab, icon, description, name):
 #            tab.tab_icon = icon
@@ -196,13 +215,54 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 #        add_optional_tab(tabs, , "contacts")
 #        add_optional_tab(tabs, , "console")
 
+        tabs.setTabPosition(QTabWidget.West)
+        tabs.setMinimumSize(1000, 517)
+        tabs.setObjectName("main_window_nav_bar")
+        tabs.setIconSize(QSize(25,25))
+
+        #Home
+        tabs.addTab(self.home_tab, read_QIcon("tab_home.png"), _(' '))
+        tabs.setTabToolTip(0, _('Dashboard'))
+        #History
+        tabs.addTab(self.history_tab, read_QIcon("tab_history.png"), _(' '))
+        tabs.setTabToolTip(1, _('History'))
+        #Send
+        tabs.addTab(self.send_tab, read_QIcon("tab_send.png"), _(' '))
+        tabs.setTabToolTip(2, _('Send'))
+        #Receive
+        tabs.addTab(self.receive_tab, read_QIcon("tab_receive.png"), _(' '))
+        tabs.setTabToolTip(3, _('Receive'))
+        #Addresses
+        tabs.addTab(self.addresses_tab, read_QIcon("tab_addresses.png"), _(' '))
+        tabs.setTabToolTip(4, _('Addresses'))
+        #Coins
+        tabs.addTab(self.utxo_tab, read_QIcon("tab_coins.png"), _(' '))
+        tabs.setTabToolTip(5, _('Coins'))
+        #Contacts
+        tabs.addTab(self.contacts_tab, read_QIcon("tab_contacts.png"), _(' '))
+        tabs.setTabToolTip(6, _('Contacts'))
+        #Console
+        tabs.addTab(self.console_tab, read_QIcon("tab_console.png"), _(' '))
+        tabs.setTabToolTip(7, _('Console'))
+
         tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.setCentralWidget(tabs)
+
+        #Add the layers to the layout
+        self.central_widget_layout = central_widget_layout = QVBoxLayout(central_widget)
+        central_widget_layout.setObjectName("central_widget_layout")
+        central_widget_layout.setSpacing(0)
+        central_widget_layout.setContentsMargins(0,0,0,0)
+        self.central_widget_layout.addWidget(self.top_bar)
+        self.central_widget_layout.addWidget(tabs)
+        self.setCentralWidget(central_widget)
+
+#        tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+#        self.setCentralWidget(tabs)
 
         if self.config.get("is_maximized"):
             self.showMaximized()
 
-        self.setWindowIcon(read_QIcon("electrum-vestx.png"))
+        self.setWindowIcon(read_QIcon("electrum-pac.png"))
         self.init_menubar()
 
         wrtabs = weakref.proxy(tabs)
@@ -218,7 +278,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
         self.payment_request_ok_signal.connect(self.payment_request_ok)
         self.payment_request_error_signal.connect(self.payment_request_error)
-        self.history_list.setFocus(True)
+        #self.history_list.setFocus(True)
 
         # network callbacks
         if self.network:
@@ -884,6 +944,137 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.contact_list.update()
         self.invoice_list.update()
         self.update_completions()
+    
+    
+    def create_home_tab(self):
+
+        home_widget = QWidget()
+        home_widget.setObjectName("home_container")
+        home_widget_layout = QVBoxLayout(home_widget)
+        home_widget_layout.setContentsMargins(50,50,50,50)
+
+        #Section title
+        section_title = QLabel(home_widget)
+        section_title.setObjectName("section_title")
+        section_title.setText(_("DASHBOARD"))
+        section_title.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        #Section content
+        section_content = QWidget(home_widget)
+        content_grid_layout = QGridLayout(section_content)
+        content_grid_layout.setAlignment(Qt.AlignTop)
+        content_grid_layout.setSpacing(15)
+        content_grid_layout.setColumnStretch(0,1)
+        content_grid_layout.setColumnMinimumWidth(1,254)
+        section_content.setLayout(content_grid_layout)
+
+        ##History widget
+        history_widget = QWidget(section_content)
+        history_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        history_layout = QVBoxLayout(history_widget)
+        history_layout.setAlignment(Qt.AlignTop)
+        ###Title
+        history_title = QLabel(history_widget)
+        history_title.setObjectName("sub_section_title")
+        history_title.setText(_("History"))
+        history_title.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        ###Content
+        #history_content = self.create_dashboard_history_tab()
+        #history_content.setObjectName("sub_section_content")
+        #history_content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        ###Effects
+        history_shadow_effect = QGraphicsDropShadowEffect()
+        history_shadow_effect.setBlurRadius(10)
+        history_shadow_effect.setXOffset(5)
+        history_shadow_effect.setYOffset(5)
+        history_shadow_effect.setColor(QColor(0,0,0,20))
+        #history_content.setGraphicsEffect(history_shadow_effect)
+        ###Layout
+        history_layout.addWidget(history_title)
+        #history_layout.addWidget(history_content)
+
+        ##Price widget
+        price_widget = QWidget(section_content)
+        price_widget.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        price_layout = QVBoxLayout(price_widget)
+        price_layout.setAlignment(Qt.AlignTop)
+        ###Title
+        price_title = QLabel(price_widget)
+        price_title.setObjectName("sub_section_title")
+        price_title.setText(_("Current price"))
+        ###Content
+        price_content = QWidget(price_widget)
+        price_content.setObjectName("sub_section_content")
+        price_content_layout = QVBoxLayout(price_content)
+        price_content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.dashboard_price_label = price_label = QLabel("")
+        price_label.setObjectName("important_label")
+        price_label.setAlignment(Qt.AlignRight | QtCore.Qt.AlignVCenter)
+        price_content_layout.addWidget(price_label)
+        ###Effects
+        balance_shadow_effect = QGraphicsDropShadowEffect()
+        balance_shadow_effect.setBlurRadius(10)
+        balance_shadow_effect.setXOffset(5)
+        balance_shadow_effect.setYOffset(5)
+        balance_shadow_effect.setColor(QColor(0,0,0,20))
+        price_content.setGraphicsEffect(balance_shadow_effect)
+        price_layout.addWidget(price_title)
+        price_layout.addWidget(price_content)
+
+        ##Coins widget
+        coins_widget = QWidget(section_content)
+        coins_widget.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        coins_layout = QVBoxLayout(coins_widget)
+        coins_layout.setAlignment(Qt.AlignTop)
+        ###Title
+        coins_title = QLabel(coins_widget)
+        coins_title.setObjectName("sub_section_title")
+        coins_title.setText(_("Balance"))
+        ###Content
+        coins_content = QWidget(coins_widget)
+        coins_content.setObjectName("sub_section_content")
+        coins_content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        coins_content_layout = QVBoxLayout(coins_content)
+        ####Amounts
+        coins_content_amounts = QWidget(coins_content)
+        coins_content_amounts.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        coins_content_amounts_layout = QVBoxLayout(coins_content_amounts)
+        self.dashboard_pac_balance_label = pac_balance_label = QLabel("0 $PAC")
+        pac_balance_label.setObjectName("important_label")
+        pac_balance_label.setAlignment(Qt.AlignRight)
+        pac_balance_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.dashboard_btc_balance_label = btc_balance_label = QLabel("0 BTC")
+        btc_balance_label.setObjectName("normal_label")
+        btc_balance_label.setAlignment(Qt.AlignRight)
+        btc_balance_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.dashboard_fiat_balance_label = fiat_balance_label = QLabel("0 USD")
+        fiat_balance_label.setObjectName("important_label")
+        fiat_balance_label.setAlignment(Qt.AlignRight)
+        fiat_balance_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        coins_content_amounts_layout.setSpacing(50)
+        coins_content_amounts_layout.addWidget(pac_balance_label)
+        coins_content_amounts_layout.addWidget(btc_balance_label)
+        coins_content_amounts_layout.addWidget(fiat_balance_label)
+        coins_content_layout.addWidget(coins_content_amounts)
+        ###Effects
+        coins_shadow_effect = QGraphicsDropShadowEffect()
+        coins_shadow_effect.setBlurRadius(10)
+        coins_shadow_effect.setXOffset(5)
+        coins_shadow_effect.setYOffset(5)
+        coins_shadow_effect.setColor(QColor(0,0,0,20))
+        coins_content.setGraphicsEffect(coins_shadow_effect)
+        coins_layout.addWidget(coins_title)
+        coins_layout.addWidget(coins_content)
+
+        #row, col, rowspan, colspan
+        content_grid_layout.addWidget (history_widget, 0, 0, -1, 1)
+        content_grid_layout.addWidget (price_widget, 0, 1, 1, 1)
+        content_grid_layout.addWidget (coins_widget, 1, 1, 1, 1)
+
+        home_widget_layout.addWidget(section_title)
+        home_widget_layout.addWidget(section_content)
+        return home_widget
+
 
     def create_history_tab(self):
         self.history_model = HistoryModel(self)
@@ -2099,6 +2290,43 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
         console.updateNamespace(methods)
 
+
+    def create_top_bar(self):
+
+        self.top_bar = top_bar = QWidget(self.central_widget)
+        top_bar.setObjectName("main_window_topbar")
+        top_bar.setMinimumSize(800, 70)
+        top_bar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        self.menu_button = menu_button = StatusBarButton(read_QIcon("tab_menu.png"), _("Menu"), self.menu_expand)
+        self.logo_label = logo_label = QLabel(top_bar)
+        logo_label.setObjectName("logo_image")
+        self.balance_label = balance_label = QLabel("")
+        balance_label.setObjectName("main_window_balance")
+        balance_label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.lock_icon = QIcon()
+        self.password_button = password_button = StatusBarButton(self.lock_icon, _("Password"), self.change_password_dialog )
+        self.settings_button = settings_button = StatusBarButton(read_QIcon("preferences.png"), _("Preferences"), self.settings_dialog )
+        self.seed_button = seed_button = StatusBarButton(read_QIcon("seed.png"), _("Seed"), self.show_seed_dialog )
+        self.status_button = status_button = StatusBarButton(read_QIcon("status_connected.png"), _("Network"), lambda: self.gui_object.show_network_dialog(self) )
+
+        self.search_box = search_box = QLineEdit()
+        search_box.setObjectName("search_box")
+        search_box.textChanged.connect(self.do_search)
+        search_box.hide()
+
+        self.top_bar_layout = top_bar_layout = QHBoxLayout(top_bar)
+        top_bar_layout.setObjectName("top_bar_layout")
+        top_bar_layout.addWidget(menu_button)
+        top_bar_layout.addWidget(logo_label)
+        top_bar_layout.addWidget(self.search_box)
+        top_bar_layout.addWidget(balance_label)
+        top_bar_layout.addWidget(password_button)
+        top_bar_layout.addWidget(settings_button)
+        top_bar_layout.addWidget(seed_button)
+        top_bar_layout.addWidget(status_button)
+
+
     def create_status_bar(self):
 
         sb = QStatusBar()
@@ -2129,7 +2357,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         sb.addPermanentWidget(self.seed_button)
         self.status_button = StatusBarButton(read_QIcon("status_disconnected.png"), _("Network"), lambda: self.gui_object.show_network_dialog(self))
         sb.addPermanentWidget(self.status_button)
-        run_hook('create_status_bar', sb)
+#        run_hook('create_status_bar', sb)
+        run_hook('create_top_bar', sb)
         self.setStatusBar(sb)
 
     def update_lock_icon(self):
@@ -2811,6 +3040,32 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.address_list.refresh_headers()
         self.address_list.update()
         self.update_status()
+
+
+    def menu_expand(self):
+        if not self.is_menu_expanded:
+            self.is_menu_expanded = True
+            self.tabs.setIconSize(QSize(25,200))
+            self.tabs.setTabIcon(0, read_QIcon("tab_home_text.png"))
+            self.tabs.setTabIcon(1, read_QIcon("tab_history_text.png"))
+            self.tabs.setTabIcon(2, read_QIcon("tab_send_text.png"))
+            self.tabs.setTabIcon(3, read_QIcon("tab_receive_text.png"))
+            self.tabs.setTabIcon(4, read_QIcon("tab_addresses_text.png"))
+            self.tabs.setTabIcon(5, read_QIcon("tab_coins_text.png"))
+            self.tabs.setTabIcon(6, read_QIcon("tab_contacts_text.png"))
+            self.tabs.setTabIcon(7, read_QIcon("tab_console_text.png"))
+        else:
+            self.is_menu_expanded = False
+            self.tabs.setIconSize(QSize(25,25))
+            self.tabs.setTabIcon(0, read_QIcon("tab_home.png"))
+            self.tabs.setTabIcon(1, read_QIcon("tab_history.png"))
+            self.tabs.setTabIcon(2, read_QIcon("tab_send.png"))
+            self.tabs.setTabIcon(3, read_QIcon("tab_receive.png"))
+            self.tabs.setTabIcon(4, read_QIcon("tab_addresses.png"))
+            self.tabs.setTabIcon(5, read_QIcon("tab_coins.png"))
+            self.tabs.setTabIcon(6, read_QIcon("tab_contacts.png"))
+            self.tabs.setTabIcon(7, read_QIcon("tab_console.png"))
+
 
     def settings_dialog(self):
         self.need_restart = False
