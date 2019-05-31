@@ -91,6 +91,13 @@ def base_unit_name_to_decimal_point(unit_name: str) -> int:
         raise UnknownBaseUnit(unit_name) from None
 
 
+# Raised when importing a key that's already in the wallet.
+class AlreadyHaveAddress(Exception):
+    def __init__(self, msg, addr):
+        super(AlreadyHaveAddress, self).__init__(msg)
+        self.addr = addr
+
+
 class NotEnoughFunds(Exception):
     def __str__(self):
         return _("Insufficient funds")
@@ -149,7 +156,7 @@ class Satoshis(object):
         return self
 
     def __repr__(self):
-        return 'Satoshis(%d)'%self.value
+        return 'Vees(%d)'%self.value
 
     def __str__(self):
         return format_satoshis(self.value)
@@ -382,7 +389,7 @@ def assert_datadir_available(config_path):
         return
     else:
         raise FileNotFoundError(
-            'Electrum datadir does not exist. Was it deleted while running?' + '\n' +
+            'Electrum-Vestx datadir does not exist. Was it deleted while running?' + '\n' +
             'Should be at {}'.format(path))
 
 
@@ -455,7 +462,7 @@ def to_bytes(something, encoding='utf8') -> bytes:
 
 
 bfh = bytes.fromhex
-
+hfu = binascii.hexlify
 
 def bh2u(x: bytes) -> str:
     """
@@ -472,11 +479,11 @@ def user_dir():
     if 'ANDROID_DATA' in os.environ:
         return android_data_dir()
     elif os.name == 'posix':
-        return os.path.join(os.environ["HOME"], ".electrum")
+        return os.path.join(os.environ["HOME"], ".electrum-vestx")
     elif "APPDATA" in os.environ:
-        return os.path.join(os.environ["APPDATA"], "Electrum")
+        return os.path.join(os.environ["APPDATA"], "Electrum-Vestx")
     elif "LOCALAPPDATA" in os.environ:
-        return os.path.join(os.environ["LOCALAPPDATA"], "Electrum")
+        return os.path.join(os.environ["LOCALAPPDATA"], "Electrum-Vestx")
     else:
         #raise Exception("No home directory found in environment variables.")
         return
@@ -566,7 +573,7 @@ def format_satoshis(x, num_zeros=0, decimal_point=8, precision=None, is_diff=Fal
     return result
 
 
-FEERATE_PRECISION = 1  # num fractional decimal places for sat/byte fee rates
+FEERATE_PRECISION = 1  # num fractional decimal places for vees/kB fee rates
 _feerate_quanta = Decimal(10) ** (-FEERATE_PRECISION)
 
 
@@ -665,7 +672,7 @@ def block_explorer_info():
 
 def block_explorer(config: 'SimpleConfig') -> str:
     from . import constants
-    default_ = 'Blockstream.info'
+    default_ = 'vestxcoin.com'
     be_key = config.get('block_explorer', default_)
     be = block_explorer_info().get(be_key)
     return be_key if be is not None else default_
@@ -701,12 +708,12 @@ def parse_URI(uri: str, on_pr: Callable = None, *, loop=None) -> dict:
 
     if ':' not in uri:
         if not bitcoin.is_address(uri):
-            raise InvalidBitcoinURI("Not a bitcoin address")
+            raise InvalidBitcoinURI("Not a Vestx address")
         return {'address': uri}
 
     u = urllib.parse.urlparse(uri)
-    if u.scheme != 'bitcoin':
-        raise InvalidBitcoinURI("Not a bitcoin URI")
+    if u.scheme != 'vestx':
+        raise InvalidBitcoinURI("Not a Vestx URI")
     address = u.path
 
     # python for android fails to parse query
@@ -723,7 +730,7 @@ def parse_URI(uri: str, on_pr: Callable = None, *, loop=None) -> dict:
     out = {k: v[0] for k, v in pq.items()}
     if address:
         if not bitcoin.is_address(address):
-            raise InvalidBitcoinURI(f"Invalid bitcoin address: {address}")
+            raise InvalidBitcoinURI(f"Invalid vestx address: {address}")
         out['address'] = address
     if 'amount' in out:
         am = out['amount']
@@ -792,7 +799,7 @@ def create_bip21_uri(addr, amount_sat: Optional[int], message: Optional[str],
             raise Exception(f"illegal key for URI: {repr(k)}")
         v = urllib.parse.quote(v)
         query.append(f"{k}={v}")
-    p = urllib.parse.ParseResult(scheme='bitcoin', netloc='', path=addr, params='', query='&'.join(query), fragment='')
+    p = urllib.parse.ParseResult(scheme='vestx', netloc='', path=addr, params='', query='&'.join(query), fragment='')
     return str(urllib.parse.urlunparse(p))
 
 
@@ -819,6 +826,19 @@ def parse_json(message):
         j = None
     return j, message[n+1:]
 
+
+def utfify(arg):
+    """Convert unicode argument to UTF-8.
+
+    Used when loading things that must be serialized.
+    """
+    if isinstance(arg, dict):
+        return {utfify(k): utfify(v) for k, v in arg.items()}
+    elif isinstance(arg, list):
+        return map(utfify, arg)
+    elif isinstance(arg, str):
+        return arg.encode('utf-8')
+    return arg
 
 def setup_thread_excepthook():
     """
@@ -926,7 +946,7 @@ class TxMinedInfo(NamedTuple):
 
 def make_aiohttp_session(proxy: Optional[dict], headers=None, timeout=None):
     if headers is None:
-        headers = {'User-Agent': 'Electrum'}
+        headers = {'User-Agent': 'Electrum-Vestx'}
     if timeout is None:
         timeout = aiohttp.ClientTimeout(total=30)
     elif isinstance(timeout, (int, float)):

@@ -3,21 +3,21 @@ from kivy.factory import Factory
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 
-from electrum.util import base_units_list
-from electrum.i18n import languages
-from electrum.gui.kivy.i18n import _
-from electrum.plugin import run_hook
-from electrum import coinchooser
+from electrum_vestx.util import base_units_list
+from electrum_vestx.i18n import languages
+from electrum_vestx.gui.kivy.i18n import _
+from electrum_vestx.plugin import run_hook
+from electrum_vestx import coinchooser
 
 from .choice_dialog import ChoiceDialog
 
 Builder.load_string('''
 #:import partial functools.partial
-#:import _ electrum.gui.kivy.i18n._
+#:import _ electrum_vestx.gui.kivy.i18n._
 
 <SettingsDialog@Popup>
     id: settings
-    title: _('Electrum Settings')
+    title: _('Electrum-Vestx Settings')
     disable_pin: False
     use_encryption: False
     BoxLayout:

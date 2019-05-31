@@ -3,9 +3,9 @@
 import sys
 import asyncio
 
-from electrum.network import Network
-from electrum.util import print_msg, create_and_start_event_loop
-from electrum.synchronizer import SynchronizerBase
+from electrum_vestx.network import Network
+from electrum_vestx.util import print_msg, create_and_start_event_loop
+from electrum_vestx.synchronizer import SynchronizerBase
 
 
 try:

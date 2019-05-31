@@ -7,13 +7,13 @@ import asyncio
 from electrum import storage, bitcoin, keystore, bip32
 from electrum import Transaction
 from electrum import SimpleConfig
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED, TX_HEIGHT_UNCONF_PARENT
-from electrum.wallet import sweep, Multisig_Wallet, Standard_Wallet, Imported_Wallet
-from electrum.util import bfh, bh2u
-from electrum.transaction import TxOutput
-from electrum.mnemonic import seed_type
+from electrum_vestx.address_synchronizer import TX_HEIGHT_UNCONFIRMED, TX_HEIGHT_UNCONF_PARENT
+from electrum_vestx.wallet import sweep, Multisig_Wallet, Standard_Wallet, Imported_Wallet
+from electrum_vestx.util import bfh, bh2u
+from electrum_vestx.transaction import TxOutput
+from electrum_vestx.mnemonic import seed_type
 
-from electrum.plugins.trustedcoin import trustedcoin
+from electrum_vestx.plugins.trustedcoin import trustedcoin
 
 from . import TestCaseForTestnet
 from . import SequentialTestCase

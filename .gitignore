@@ -1,0 +1,25 @@
+####-*.patch
+*.pyc
+*.swp
+build/
+dist/
+electrum_dash/locale/
+.devlocaltmp/
+*_trial_temp
+packages
+env*/
+env
+.tox/
+.buildozer/
+bin/
+/app.fil
+
+# tox files
+.cache/
+.pytest_cache/
+.coverage
+
+electrum_data/
+electrum_dash/gui/kivy/theming/light-0.png
+electrum_dash/gui/kivy/theming/light.atlas
+*.egg-info/

@@ -4,7 +4,7 @@
 
 import tlslite
 
-from electrum.transaction import Transaction
+from electrum_vestx.transaction import Transaction
 from electrum import paymentrequest
 from electrum import paymentrequest_pb2 as pb2
 

@@ -2,9 +2,9 @@
 import json
 import asyncio
 
-from electrum.simple_config import SimpleConfig
-from electrum.network import filter_version, Network
-from electrum.util import create_and_start_event_loop, log_exceptions
+from electrum_vestx.simple_config import SimpleConfig
+from electrum_vestx.network import filter_version, Network
+from electrum_vestx.util import create_and_start_event_loop, log_exceptions
 from electrum import constants
 
 # testnet?

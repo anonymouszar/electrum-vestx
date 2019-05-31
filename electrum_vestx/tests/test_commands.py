@@ -2,9 +2,9 @@ import unittest
 from unittest import mock
 from decimal import Decimal
 
-from electrum.commands import Commands, eval_bool
+from electrum_vestx.commands import Commands, eval_bool
 from electrum import storage
-from electrum.wallet import restore_wallet_from_text
+from electrum_vestx.wallet import restore_wallet_from_text
 
 from . import TestCaseForTestnet
 
@@ -24,18 +24,18 @@ class TestCommands(unittest.TestCase):
         self.assertEqual(True, Commands._setconfig_normalize_value('show_console_tab', "True"))
 
     def test_setconfig_non_auth_list(self):
-        self.assertEqual(['file:///var/www/', 'https://electrum.org'],
-            Commands._setconfig_normalize_value('url_rewrite', "['file:///var/www/','https://electrum.org']"))
-        self.assertEqual(['file:///var/www/', 'https://electrum.org'],
-            Commands._setconfig_normalize_value('url_rewrite', '["file:///var/www/","https://electrum.org"]'))
+        self.assertEqual(['file:///var/www/', 'https://electrum_vestx.org'],
+            Commands._setconfig_normalize_value('url_rewrite', "['file:///var/www/','https://electrum_vestx.org']"))
+        self.assertEqual(['file:///var/www/', 'https://electrum_vestx.org'],
+            Commands._setconfig_normalize_value('url_rewrite', '["file:///var/www/","https://electrum_vestx.org"]'))
 
     def test_setconfig_auth(self):
         self.assertEqual("7777", Commands._setconfig_normalize_value('rpcuser', "7777"))
         self.assertEqual("7777", Commands._setconfig_normalize_value('rpcuser', '7777'))
         self.assertEqual("7777", Commands._setconfig_normalize_value('rpcpassword', '7777'))
         self.assertEqual("2asd", Commands._setconfig_normalize_value('rpcpassword', '2asd'))
-        self.assertEqual("['file:///var/www/','https://electrum.org']",
-            Commands._setconfig_normalize_value('rpcpassword', "['file:///var/www/','https://electrum.org']"))
+        self.assertEqual("['file:///var/www/','https://electrum_vestx.org']",
+            Commands._setconfig_normalize_value('rpcpassword', "['file:///var/www/','https://electrum_vestx.org']"))
 
     def test_eval_bool(self):
         self.assertFalse(eval_bool("False"))

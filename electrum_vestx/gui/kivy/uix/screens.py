@@ -18,19 +18,19 @@ from kivy.lang import Builder
 from kivy.factory import Factory
 from kivy.utils import platform
 
-from electrum.util import profiler, parse_URI, format_time, InvalidPassword, NotEnoughFunds, Fiat
-from electrum import bitcoin
-from electrum.transaction import TxOutput, Transaction, tx_from_str
-from electrum.util import send_exception_to_crash_reporter, parse_URI, InvalidBitcoinURI
-from electrum.paymentrequest import PR_UNPAID, PR_PAID, PR_UNKNOWN, PR_EXPIRED
-from electrum.plugin import run_hook
-from electrum.wallet import InternalAddressCorruption
-from electrum import simple_config
+from electrum_vestx.util import profiler, parse_URI, format_time, InvalidPassword, NotEnoughFunds, Fiat
+from electrum_vestx import bitcoin
+from electrum_vestx.transaction import TxOutput, Transaction, tx_from_str
+from electrum_vestx.util import send_exception_to_crash_reporter, parse_URI, InvalidBitcoinURI
+from electrum_vestx.paymentrequest import PR_UNPAID, PR_PAID, PR_UNKNOWN, PR_EXPIRED
+from electrum_vestx.plugin import run_hook
+from electrum_vestx.wallet import InternalAddressCorruption
+from electrum_vestx import simple_config
 
 from .context_menu import ContextMenu
 
 
-from electrum.gui.kivy.i18n import _
+from electrum_vestx.gui.kivy.i18n import _
 
 class HistoryRecycleView(RecycleView):
     pass
@@ -217,7 +217,7 @@ class SendScreen(CScreen):
             # it should be already saved
             return
         # save address as invoice
-        from electrum.paymentrequest import make_unsigned_request, PaymentRequest
+        from electrum_vestx.paymentrequest import make_unsigned_request, PaymentRequest
         req = {'address':self.screen.address, 'memo':self.screen.message}
         amount = self.app.get_amount(self.screen.amount) if self.screen.amount else 0
         req['amount'] = amount
@@ -375,7 +375,7 @@ class ReceiveScreen(CScreen):
         Clock.schedule_once(lambda dt: self.update_qr())
 
     def get_URI(self):
-        from electrum.util import create_bip21_uri
+        from electrum_vestx.util import create_bip21_uri
         amount = self.screen.amount
         if amount:
             a, u = self.screen.amount.split()

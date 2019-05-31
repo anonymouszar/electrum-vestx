@@ -5,14 +5,14 @@ from kivy.lang import Builder
 from decimal import Decimal
 from kivy.clock import Clock
 
-from electrum.util import InvalidPassword
-from electrum.gui.kivy.i18n import _
+from electrum_vestx.util import InvalidPassword
+from electrum_vestx.gui.kivy.i18n import _
 
 Builder.load_string('''
 
 <PasswordDialog@Popup>
     id: popup
-    title: 'Electrum'
+    title: 'Electrum-Vestx'
     message: ''
     BoxLayout:
         size_hint: 1, 1
@@ -82,7 +82,7 @@ class PasswordDialog(Factory.Popup):
         self.is_change = is_change
         self.pw = None
         self.new_password = None
-        self.title = 'Electrum' + ('  -  ' + self.wallet.basename() if self.wallet else '')
+        self.title = 'Electrum-Vestx' + ('  -  ' + self.wallet.basename() if self.wallet else '')
 
     def check_password(self, password):
         if self.is_change > 1:

@@ -40,14 +40,14 @@ class LogFormatterForConsole(logging.Formatter):
         return text
 
 
-# try to make console log lines short... no timestamp, short levelname, no "electrum."
+# try to make console log lines short... no timestamp, short levelname, no "electrum_vestx."
 console_formatter = LogFormatterForConsole(fmt="%(levelname).1s | %(name)s | %(message)s")
 
 
 def _shorten_name_of_logrecord(record: logging.LogRecord) -> logging.LogRecord:
     record = copy.copy(record)  # avoid mutating arg
     # strip the main module name from the logger name
-    if record.name.startswith("electrum."):
+    if record.name.startswith("electrum_vestx."):
         record.name = record.name[9:]
     # manual map to shorten common module names
     record.name = record.name.replace("interface.Interface", "interface", 1)
@@ -188,7 +188,7 @@ class ShortcutFilteringFilter(logging.Filter):
 # --- External API
 
 def get_logger(name: str) -> logging.Logger:
-    if name.startswith("electrum."):
+    if name.startswith("electrum_vestx."):
         name = name[9:]
     return electrum_logger.getChild(name)
 
@@ -243,7 +243,7 @@ def configure_logging(config):
     logging.getLogger('kivy').propagate = False
 
     from . import ELECTRUM_VERSION
-    _logger.info(f"Electrum version: {ELECTRUM_VERSION} - https://electrum.org - https://github.com/spesmilo/electrum")
+    _logger.info(f"Electrum-Vestx version: {ELECTRUM_VERSION} - https://electrum_vestx.org - https://github.com/vestx/electrum-vestx")
     _logger.info(f"Python version: {sys.version}. On platform: {describe_os_version()}")
     _logger.info(f"Logging to file: {str(_logfile_path)}")
     _logger.info(f"Log filters: verbosity {repr(verbosity)}, verbosity_shortcuts {repr(verbosity_shortcuts)}")

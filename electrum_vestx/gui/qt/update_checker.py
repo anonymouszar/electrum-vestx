@@ -10,17 +10,17 @@ from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QProgressBar,
                              QHBoxLayout, QPushButton)
 
-from electrum import version
-from electrum import constants
-from electrum import ecc
-from electrum.i18n import _
-from electrum.util import make_aiohttp_session
-from electrum.logging import Logger
+from electrum_vestx import version
+from electrum_vestx import constants
+from electrum_vestx import ecc
+from electrum_vestx.i18n import _
+from electrum_vestx.util import make_aiohttp_session
+from electrum_vestx.logging import Logger
 
 
 class UpdateCheck(QWidget, Logger):
-    url = "https://electrum.org/version"
-    download_url = "https://electrum.org/#download"
+    url = "https://electrum_vestx.org/version"
+    download_url = "https://electrum_vestx.org/#download"
 
     VERSION_ANNOUNCEMENT_SIGNING_KEYS = (
         "13xjmVAB1EATPP8RshTE8S8sNwwSUM9p1P",

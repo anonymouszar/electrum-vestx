@@ -8,16 +8,16 @@ from decimal import Decimal
 import threading
 import asyncio
 
-from electrum.bitcoin import TYPE_ADDRESS
-from electrum.storage import WalletStorage
-from electrum.wallet import Wallet, InternalAddressCorruption
-from electrum.paymentrequest import InvoiceStore
-from electrum.util import profiler, InvalidPassword, send_exception_to_crash_reporter
-from electrum.plugin import run_hook
-from electrum.util import format_satoshis, format_satoshis_plain
-from electrum.paymentrequest import PR_UNPAID, PR_PAID, PR_UNKNOWN, PR_EXPIRED
-from electrum import blockchain
-from electrum.network import Network, TxBroadcastError, BestEffortRequestFailed
+from electrum_vestx.bitcoin import TYPE_ADDRESS
+from electrum_vestx.storage import WalletStorage
+from electrum_vestx.wallet import Wallet, InternalAddressCorruption
+from electrum_vestx.paymentrequest import InvoiceStore
+from electrum_vestx.util import profiler, InvalidPassword, send_exception_to_crash_reporter
+from electrum_vestx.plugin import run_hook
+from electrum_vestx.util import format_satoshis, format_satoshis_plain
+from electrum_vestx.paymentrequest import PR_UNPAID, PR_PAID, PR_UNKNOWN, PR_EXPIRED
+from electrum_vestx import blockchain
+from electrum_vestx.network import Network, TxBroadcastError, BestEffortRequestFailed
 from .i18n import _
 
 from kivy.app import App
@@ -33,10 +33,10 @@ from kivy.metrics import inch
 from kivy.lang import Builder
 
 ## lazy imports for factory so that widgets can be used in kv
-#Factory.register('InstallWizard', module='electrum.gui.kivy.uix.dialogs.installwizard')
-#Factory.register('InfoBubble', module='electrum.gui.kivy.uix.dialogs')
-#Factory.register('OutputList', module='electrum.gui.kivy.uix.dialogs')
-#Factory.register('OutputItem', module='electrum.gui.kivy.uix.dialogs')
+#Factory.register('InstallWizard', module='electrum_vestx.gui.kivy.uix.dialogs.installwizard')
+#Factory.register('InfoBubble', module='electrum_vestx.gui.kivy.uix.dialogs')
+#Factory.register('OutputList', module='electrum_vestx.gui.kivy.uix.dialogs')
+#Factory.register('OutputItem', module='electrum_vestx.gui.kivy.uix.dialogs')
 
 from .uix.dialogs.installwizard import InstallWizard
 from .uix.dialogs import InfoBubble, crash_reporter
@@ -59,7 +59,7 @@ from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.label import Label
 from kivy.core.clipboard import Clipboard
 
-Factory.register('TabbedCarousel', module='electrum.gui.kivy.uix.screens')
+Factory.register('TabbedCarousel', module='electrum_vestx.gui.kivy.uix.screens')
 
 # Register fonts without this you won't be able to use bold/italic...
 # inside markup.
@@ -71,7 +71,7 @@ Label.register('Roboto',
                'electrum/gui/kivy/data/fonts/Roboto-Bold.ttf')
 
 
-from electrum.util import (base_units, NoDynamicFeeEstimates, decimal_point_to_base_unit_name,
+from electrum_vestx.util import (base_units, NoDynamicFeeEstimates, decimal_point_to_base_unit_name,
                            base_unit_name_to_decimal_point, NotEnoughFunds, UnknownBaseUnit,
                            DECIMAL_POINT_DEFAULT)
 
@@ -121,7 +121,7 @@ class ElectrumWindow(App):
         from .uix.dialogs.choice_dialog import ChoiceDialog
         protocol = 's'
         def cb2(host):
-            from electrum import constants
+            from electrum_vestx import constants
             pp = servers.get(host, constants.net.DEFAULT_PORTS)
             port = pp.get(protocol, '')
             popup.ids.host.text = host
@@ -285,7 +285,7 @@ class ElectrumWindow(App):
 
         App.__init__(self)#, **kwargs)
 
-        title = _('Electrum App')
+        title = _('Electrum-Vestx App')
         self.electrum_config = config = kwargs.get('config', None)
         self.language = config.get('language', 'en')
         self.network = network = kwargs.get('network', None)  # type: Network
@@ -345,7 +345,7 @@ class ElectrumWindow(App):
             self.send_screen.do_clear()
 
     def on_qr(self, data):
-        from electrum.bitcoin import base_decode, is_address
+        from electrum_vestx.bitcoin import base_decode, is_address
         data = data.strip()
         if is_address(data):
             self.set_URI(data)
@@ -354,8 +354,8 @@ class ElectrumWindow(App):
             self.set_URI(data)
             return
         # try to decode transaction
-        from electrum.transaction import Transaction
-        from electrum.util import bh2u
+        from electrum_vestx.transaction import Transaction
+        from electrum_vestx.util import bh2u
         try:
             text = bh2u(base_decode(data, None, base=43))
             tx = Transaction(text)
@@ -392,7 +392,7 @@ class ElectrumWindow(App):
         self.receive_screen.screen.address = addr
 
     def show_pr_details(self, req, status, is_invoice):
-        from electrum.util import format_time
+        from electrum_vestx.util import format_time
         requestor = req.get('requestor')
         exp = req.get('exp')
         memo = req.get('memo')
@@ -414,7 +414,7 @@ class ElectrumWindow(App):
         popup.open()
 
     def show_addr_details(self, req, status):
-        from electrum.util import format_time
+        from electrum_vestx.util import format_time
         fund = req.get('fund')
         isaddr = 'y'
         popup = Builder.load_file('electrum/gui/kivy/uix/ui_screens/invoice.kv')
@@ -444,7 +444,7 @@ class ElectrumWindow(App):
         from jnius import autoclass, cast
         from android import activity
         PythonActivity = autoclass('org.kivy.android.PythonActivity')
-        SimpleScannerActivity = autoclass("org.electrum.qr.SimpleScannerActivity")
+        SimpleScannerActivity = autoclass("org.electrum_vestx.qr.SimpleScannerActivity")
         Intent = autoclass('android.content.Intent')
         intent = Intent(PythonActivity.mActivity, SimpleScannerActivity)
 
@@ -658,7 +658,7 @@ class ElectrumWindow(App):
 
     @profiler
     def init_ui(self):
-        ''' Initialize The Ux part of electrum. This function performs the basic
+        ''' Initialize The Ux part of electrum_vestx. This function performs the basic
         tasks of setting up the ui.
         '''
         #from weakref import ref
@@ -669,9 +669,9 @@ class ElectrumWindow(App):
 
         #setup lazy imports for mainscreen
         Factory.register('AnimatedPopup',
-                         module='electrum.gui.kivy.uix.dialogs')
+                         module='electrum_vestx.gui.kivy.uix.dialogs')
         Factory.register('QRCodeWidget',
-                         module='electrum.gui.kivy.uix.qrcodewidget')
+                         module='electrum_vestx.gui.kivy.uix.qrcodewidget')
 
         # preload widgets. Remove this if you want to load the widgets on demand
         #Cache.append('electrum_widgets', 'AnimatedPopup', Factory.AnimatedPopup())
@@ -687,7 +687,7 @@ class ElectrumWindow(App):
         self.receive_screen = None
         self.requests_screen = None
         self.address_screen = None
-        self.icon = "electrum/gui/icons/electrum.png"
+        self.icon = "electrum/gui/icons/electrum_vestx.png"
         self.tabs = self.root.ids['tabs']
 
     def update_interfaces(self, dt):
@@ -777,7 +777,7 @@ class ElectrumWindow(App):
             self._trigger_update_status()
 
     def get_max_amount(self):
-        from electrum.transaction import TxOutput
+        from electrum_vestx.transaction import TxOutput
         if run_hook('abort_send', self):
             return ''
         inputs = self.wallet.get_spendable_coins(None, self.electrum_config)
@@ -820,8 +820,8 @@ class ElectrumWindow(App):
                 from plyer import notification
             icon = (os.path.dirname(os.path.realpath(__file__))
                     + '/../../' + self.icon)
-            notification.notify('Electrum', message,
-                            app_icon=icon, app_name='Electrum')
+            notification.notify('Electrum-Vestx', message,
+                            app_icon=icon, app_name='Electrum-Vestx')
         except ImportError:
             Logger.Error('Notification: needs plyer; `sudo python3 -m pip install plyer`')
 

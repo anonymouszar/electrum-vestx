@@ -1,7 +1,7 @@
 import base64
 import sys
 
-from electrum.bitcoin import (public_key_to_p2pkh, address_from_private_key,
+from electrum_vestx.bitcoin import (public_key_to_p2pkh, address_from_private_key,
                               is_address, is_private_key,
                               var_int, _op_push, address_to_script,
                               deserialize_privkey, serialize_privkey, is_segwit_address,
@@ -9,16 +9,16 @@ from electrum.bitcoin import (public_key_to_p2pkh, address_from_private_key,
                               is_compressed_privkey, EncodeBase58Check, DecodeBase58Check,
                               script_num_to_hex, push_script, add_number_to_script, int_to_hex,
                               opcodes, base_encode, base_decode, BitcoinException)
-from electrum.bip32 import (BIP32Node, convert_bip32_intpath_to_strpath,
+from electrum_vestx.bip32 import (BIP32Node, convert_bip32_intpath_to_strpath,
                             xpub_from_xprv, xpub_type, is_xprv, is_bip32_derivation,
                             is_xpub, convert_bip32_path_to_list_of_uint32,
                             normalize_bip32_derivation)
-from electrum.crypto import sha256d, SUPPORTED_PW_HASH_VERSIONS
+from electrum_vestx.crypto import sha256d, SUPPORTED_PW_HASH_VERSIONS
 from electrum import ecc, crypto, constants
-from electrum.ecc import number_to_string, string_to_number
-from electrum.util import bfh, bh2u, InvalidPassword
-from electrum.storage import WalletStorage
-from electrum.keystore import xtype_from_derivation
+from electrum_vestx.ecc import number_to_string, string_to_number
+from electrum_vestx.util import bfh, bh2u, InvalidPassword
+from electrum_vestx.storage import WalletStorage
+from electrum_vestx.keystore import xtype_from_derivation
 
 from electrum import ecc_fast
 
@@ -156,7 +156,7 @@ class Test_bitcoin(SequentialTestCase):
     @needs_test_with_all_ecc_implementations
     def test_msg_signing(self):
         msg1 = b'Chancellor on brink of second bailout for banks'
-        msg2 = b'Electrum'
+        msg2 = b'Electrum-Vestx'
 
         def sign_message_with_wif_privkey(wif_privkey, msg):
             txin_type, privkey, compressed = deserialize_privkey(wif_privkey)

@@ -7,15 +7,15 @@ from decimal import Decimal
 import getpass
 import logging
 
-import electrum
-from electrum.util import format_satoshis
-from electrum.bitcoin import is_address, COIN, TYPE_ADDRESS
-from electrum.transaction import TxOutput
-from electrum.wallet import Wallet
-from electrum.storage import WalletStorage
-from electrum.network import NetworkParameters, TxBroadcastError, BestEffortRequestFailed
-from electrum.interface import deserialize_server
-from electrum.logging import console_stderr_handler
+import electrum_vestx
+from electrum_vestx.util import format_satoshis
+from electrum_vestx.bitcoin import is_address, COIN, TYPE_ADDRESS
+from electrum_vestx.transaction import TxOutput
+from electrum_vestx.wallet import Wallet
+from electrum_vestx.storage import WalletStorage
+from electrum_vestx.network import NetworkParameters, TxBroadcastError, BestEffortRequestFailed
+from electrum_vestx.interface import deserialize_server
+from electrum_vestx.logging import console_stderr_handler
 
 _ = lambda x:x  # i18n
 
@@ -416,7 +416,7 @@ class ElectrumGui:
                         self.show_message("Error:" + server + "\nIn doubt, type \"auto-connect\"")
                         return False
             if out.get('server') or out.get('proxy'):
-                proxy = electrum.network.deserialize_proxy(out.get('proxy')) if out.get('proxy') else proxy_config
+                proxy = electrum_vestx.network.deserialize_proxy(out.get('proxy')) if out.get('proxy') else proxy_config
                 net_params = NetworkParameters(host, port, protocol, proxy, auto_connect)
                 self.network.run_from_another_thread(self.network.set_parameters(net_params))
 

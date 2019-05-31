@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import asyncio
 
-from electrum.network import filter_protocol, Network
-from electrum.util import create_and_start_event_loop, log_exceptions
-from electrum.blockchain import hash_raw_header
+from electrum_vestx.network import filter_protocol, Network
+from electrum_vestx.util import create_and_start_event_loop, log_exceptions
+from electrum_vestx.blockchain import hash_raw_header
 
 loop, stopping_fut, loop_thread = create_and_start_event_loop()
 network = Network()

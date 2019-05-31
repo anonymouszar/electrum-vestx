@@ -1,11 +1,11 @@
 import os
 
-from electrum.simple_config import SimpleConfig
+from electrum_vestx.simple_config import SimpleConfig
 from electrum import constants
-from electrum.daemon import Daemon
-from electrum.storage import WalletStorage
-from electrum.wallet import Wallet, create_new_wallet
-from electrum.commands import Commands
+from electrum_vestx.daemon import Daemon
+from electrum_vestx.storage import WalletStorage
+from electrum_vestx.wallet import Wallet, create_new_wallet
+from electrum_vestx.commands import Commands
 
 
 config = SimpleConfig({"testnet": True})  # to use ~/.electrum/testnet as datadir

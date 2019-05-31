@@ -42,13 +42,13 @@ from PyQt5.QtWidgets import (QApplication, QSystemTrayIcon, QWidget, QMenu,
 from PyQt5.QtCore import QObject, pyqtSignal, QTimer
 import PyQt5.QtCore as QtCore
 
-from electrum.i18n import _, set_language
-from electrum.plugin import run_hook
-from electrum.base_wizard import GoBack
-from electrum.util import (UserCancelled, profiler,
+from electrum_vestx.i18n import _, set_language
+from electrum_vestx.plugin import run_hook
+from electrum_vestx.base_wizard import GoBack
+from electrum_vestx.util import (UserCancelled, profiler,
                            WalletFileException, BitcoinException, get_new_wallet_name)
-from electrum.wallet import Wallet, Abstract_Wallet
-from electrum.logging import Logger
+from electrum_vestx.wallet import Wallet, Abstract_Wallet
+from electrum_vestx.logging import Logger
 
 from .installwizard import InstallWizard, WalletAlreadyOpenInMemory
 
@@ -94,7 +94,7 @@ class ElectrumGui(Logger):
         if hasattr(QtCore.Qt, "AA_ShareOpenGLContexts"):
             QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
         if hasattr(QGuiApplication, 'setDesktopFileName'):
-            QGuiApplication.setDesktopFileName('electrum.desktop')
+            QGuiApplication.setDesktopFileName('electrum_vestx.desktop')
         self.gui_thread = threading.current_thread()
         self.config = config
         self.daemon = daemon
@@ -103,7 +103,7 @@ class ElectrumGui(Logger):
         self.efilter = OpenFileEventFilter(self.windows)
         self.app = QElectrumApplication(sys.argv)
         self.app.installEventFilter(self.efilter)
-        self.app.setWindowIcon(read_QIcon("electrum.png"))
+        self.app.setWindowIcon(read_QIcon("electrum_vestx.png"))
         # timer
         self.timer = QTimer(self.app)
         self.timer.setSingleShot(False)
