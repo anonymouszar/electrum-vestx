@@ -1,10 +1,11 @@
-Electrum - Lightweight Bitcoin client
+Electrum - Lightweight Vestx client
 =====================================
 
 ::
 
   Licence: MIT Licence
   Author: Thomas Voegtlin
+  ModifiedBy: Sibby Yose
   Language: Python (>= 3.6)
   Homepage: https://electrum.org/
 
@@ -36,7 +37,7 @@ Electrum from its root directory without installing it on your
 system; all the python dependencies are included in the 'packages'
 directory. To run Electrum from its root directory, just do::
 
-    ./run_electrum
+    ./run_electrum-vestx or python run_electrum-vestx (windows)
 
 You can also install Electrum on your system, by running this command::
 
@@ -59,13 +60,18 @@ Development version
 
 Check out the code from GitHub::
 
-    git clone git://github.com/spesmilo/electrum.git
-    cd electrum
+    git clone git://github.com/anonymouszar/electrum-vestx.git
+    cd electrum-vestx
 
 Run install (this should install dependencies)::
 
     python3 -m pip install .[fast]
 
+For the hashing lib x16rt_hash is required
+
+     git clone https://github.com/random-zebra/x16rt_hash.git
+     cd x16rt_hash
+     python3 setup.py install
 
 Compile the protobuf description file::
 
