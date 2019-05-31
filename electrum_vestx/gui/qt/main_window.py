@@ -178,19 +178,23 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         tabs.addTab(self.create_history_tab(), read_QIcon("tab_history.png"), _('History'))
         tabs.addTab(self.send_tab, read_QIcon("tab_send.png"), _('Send'))
         tabs.addTab(self.receive_tab, read_QIcon("tab_receive.png"), _('Receive'))
+        tabs.addTab(self.addresses_tab, read_QIcon("tab_addresses.png"), _("&Addresses"))
+        tabs.addTab(self.utxo_tab, read_QIcon("tab_coins.png"), _("Co&ins"))
+        tabs.addTab(self.contacts_tab, read_QIcon("tab_contacts.png"), _("Con&tacts"))
+        tabs.addTab(self.console_tab, read_QIcon("tab_console.png"), _("Con&sole"))
 
-        def add_optional_tab(tabs, tab, icon, description, name):
-            tab.tab_icon = icon
-            tab.tab_description = description
-            tab.tab_pos = len(tabs)
-            tab.tab_name = name
-            if self.config.get('show_{}_tab'.format(name), False):
-                tabs.addTab(tab, icon, description.replace("&", ""))
+#        def add_optional_tab(tabs, tab, icon, description, name):
+#            tab.tab_icon = icon
+#            tab.tab_description = description
+#            tab.tab_pos = len(tabs)
+#            tab.tab_name = name
+#            if self.config.get('show_{}_tab'.format(name), False):
+#                tabs.addTab(tab, icon, description.replace("&", ""))
 
-        add_optional_tab(tabs, self.addresses_tab, read_QIcon("tab_addresses.png"), _("&Addresses"), "addresses")
-        add_optional_tab(tabs, self.utxo_tab, read_QIcon("tab_coins.png"), _("Co&ins"), "utxo")
-        add_optional_tab(tabs, self.contacts_tab, read_QIcon("tab_contacts.png"), _("Con&tacts"), "contacts")
-        add_optional_tab(tabs, self.console_tab, read_QIcon("tab_console.png"), _("Con&sole"), "console")
+#        add_optional_tab(tabs, , "addresses")
+#        add_optional_tab(tabs, , "utxo")
+#        add_optional_tab(tabs, , "contacts")
+#        add_optional_tab(tabs, , "console")
 
         tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setCentralWidget(tabs)
@@ -285,25 +289,25 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             self.history_model.refresh('fx_quotes')
         self.address_list.update()
 
-    def toggle_tab(self, tab):
-        show = not self.config.get('show_{}_tab'.format(tab.tab_name), False)
-        self.config.set_key('show_{}_tab'.format(tab.tab_name), show)
-        item_text = (_("Hide {}") if show else _("Show {}")).format(tab.tab_description)
-        tab.menu_action.setText(item_text)
-        if show:
-            # Find out where to place the tab
-            index = len(self.tabs)
-            for i in range(len(self.tabs)):
-                try:
-                    if tab.tab_pos < self.tabs.widget(i).tab_pos:
-                        index = i
-                        break
-                except AttributeError:
-                    pass
-            self.tabs.insertTab(index, tab, tab.tab_icon, tab.tab_description.replace("&", ""))
-        else:
-            i = self.tabs.indexOf(tab)
-            self.tabs.removeTab(i)
+    # def toggle_tab(self, tab):
+    #     show = not self.config.get('show_{}_tab'.format(tab.tab_name), False)
+    #     self.config.set_key('show_{}_tab'.format(tab.tab_name), show)
+    #     item_text = (_("Hide {}") if show else _("Show {}")).format(tab.tab_description)
+    #     tab.menu_action.setText(item_text)
+    #     if show:
+    #         # Find out where to place the tab
+    #         index = len(self.tabs)
+    #         for i in range(len(self.tabs)):
+    #             try:
+    #                 if tab.tab_pos < self.tabs.widget(i).tab_pos:
+    #                     index = i
+    #                     break
+    #             except AttributeError:
+    #                 pass
+    #         self.tabs.insertTab(index, tab, tab.tab_icon, tab.tab_description.replace("&", ""))
+    #     else:
+    #         i = self.tabs.indexOf(tab)
+    #         self.tabs.removeTab(i)
 
     def push_top_level_window(self, window):
         '''Used for e.g. tx dialog box to ensure new dialogs are appropriately
@@ -602,16 +606,16 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         wallet_menu.addSeparator()
         wallet_menu.addAction(_("Find"), self.toggle_search).setShortcut(QKeySequence("Ctrl+F"))
 
-        def add_toggle_action(view_menu, tab):
-            is_shown = self.config.get('show_{}_tab'.format(tab.tab_name), False)
-            item_name = (_("Hide") if is_shown else _("Show")) + " " + tab.tab_description
-            tab.menu_action = view_menu.addAction(item_name, lambda: self.toggle_tab(tab))
+        # def add_toggle_action(view_menu, tab):
+        #     is_shown = self.config.get('show_{}_tab'.format(tab.tab_name), False)
+        #     item_name = (_("Hide") if is_shown else _("Show")) + " " + tab.tab_description
+        #     tab.menu_action = view_menu.addAction(item_name, lambda: self.toggle_tab(tab))
 
-        view_menu = menubar.addMenu(_("&View"))
-        add_toggle_action(view_menu, self.addresses_tab)
-        add_toggle_action(view_menu, self.utxo_tab)
-        add_toggle_action(view_menu, self.contacts_tab)
-        add_toggle_action(view_menu, self.console_tab)
+        # view_menu = menubar.addMenu(_("&View"))
+        # add_toggle_action(view_menu, self.addresses_tab)
+        # add_toggle_action(view_menu, self.utxo_tab)
+        # add_toggle_action(view_menu, self.contacts_tab)
+        # add_toggle_action(view_menu, self.console_tab)
 
         wallet_menu.addSeparator()
         wallet_menu.addAction(_("Masternodes"), self.show_masternode_dialog)
