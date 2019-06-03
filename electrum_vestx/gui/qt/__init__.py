@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Electrum - lightweight Bitcoin client
+# Electrum - lightweight Vestx client
 # Copyright (C) 2012 thomasv@gitorious
 #
 # Permission is hereby granted, free of charge, to any person
@@ -49,6 +49,7 @@ from electrum_vestx.util import (UserCancelled, profiler,
                            WalletFileException, BitcoinException, get_new_wallet_name)
 from electrum_vestx.wallet import Wallet, Abstract_Wallet
 from electrum_vestx.logging import Logger
+from electrum_vestx.util import pkg_dir
 
 from .installwizard import InstallWizard, WalletAlreadyOpenInMemory
 
@@ -127,6 +128,7 @@ class ElectrumGui(Logger):
     def set_dark_theme_if_needed(self):
         use_dark_theme = self.config.get('qt_gui_color_theme', 'default') == 'dark'
         self.app.setStyle('Fusion')
+        self.logger.info(f"pkgdir...: {pkg_dir}")
         if use_dark_theme:
             try:
                 from .vestx_dark_style import vestx_stylesheet

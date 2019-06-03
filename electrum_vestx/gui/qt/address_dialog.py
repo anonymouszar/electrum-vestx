@@ -57,7 +57,7 @@ class AddressDialog(WindowModalDialog):
         vbox.addWidget(QLabel(_("Address:")))
         self.addr_e = ButtonsLineEdit(self.address)
         self.addr_e.addCopyButton(self.app)
-        icon = "qrcode_white.png" if ColorScheme.dark_scheme else "qrcode.png"
+        icon = "qrcode_light.png" if ColorScheme.dark_scheme else "qrcode_dark.png"
         self.addr_e.addButton(icon, self.show_qr, _("Show QR Code"))
         self.addr_e.setReadOnly(True)
         vbox.addWidget(self.addr_e)

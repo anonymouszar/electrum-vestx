@@ -1,5 +1,8 @@
 """VESTX look and feel."""
 
+import os
+from electrum_vestx.util import pkg_dir
+
 vestx_stylesheet = """
 
 /* Lite Mode -- cloned from "CleanLook" theme */
@@ -38,7 +41,7 @@ stop: 0 #A5CFFA, stop: 1 #72B2F8);
 
 #address_input, #amount_input, #label_input
 {
-    color: #000;
+    color: #343b47;
     padding: 5px;
     border-radius: 5px;
     min-height: 23px;
@@ -58,7 +61,7 @@ stop: 0 #A5CFFA, stop: 1 #72B2F8);
 
 #balance_label
 {
-    color: #000;
+    color: #343b47;
 }
 
 #history
@@ -68,7 +71,7 @@ stop: 0 #A5CFFA, stop: 1 #72B2F8);
 
 
 /**********************/
-/* $PAC CSS */
+/* $VESTX CSS */
 /*
 0. OSX Reset
 1. Navigation Bar
@@ -103,16 +106,16 @@ QGroupBox::title {
 /* 1. Navigation Bar */
 
 #main_window_topbar{
-    background-color: #000;
+    background-color: #343b47;
     position: absoulte;
 }
 
 #main_window_topbar #logo_image{
-    background: url({pkg_dir}/gui/icons/top_bar_logo.png) no-repeat left top;
+    background-color: #343b47;
 }
 
 #main_window_topbar QPushButton{
-    background-color: #000;
+    background-color: #343b47;
     width: 10px;
 }
 
@@ -125,10 +128,15 @@ QGroupBox::title {
     position: absolute;
 }
 
-#main_window_nav_bar QTabBar{
+#main_window_nav_bar > QTabBar{
     color: #fff;
     border:0;
 }
+
+#main_window_nav_bar > QTabBar {
+    background: url({pkg_dir}/gui/icons/navlogo.png) no-repeat left top;
+}
+
 
 QTabWidget#main_window_nav_bar::tab-bar {
     alignment: center;
@@ -139,7 +147,7 @@ QTabWidget#main_window_nav_bar::pane {
 }
 
 #main_window_nav_bar QTabBar::tab {
-    background-color:#000;
+    background-color:#343b47;
     color:#fff;
     min-height: 40px;
     min-width: 40px;
@@ -173,11 +181,11 @@ QCheckBox:hover {
 }
 
 QCheckBox::indicator {
-    border: 1px solid #000;
+    border: 1px solid #343b47;
 }
 
 QCheckBox::indicator::checked  {
-    background-color:#000;
+    background-color:#343b47;
 }
 
 QCheckBox::indicator:unchecked {
@@ -188,7 +196,7 @@ QValidatedLineEdit, QLineEdit, PayToEdit, QPlainTextEdit { /* Text Entry Fields 
     border: 0px;
     outline:0;
     background-color:#fff;
-    color: #000;
+    color: #343b47;
     border-radius: 5px;
 }
 
@@ -197,12 +205,12 @@ PayToEdit{
 }
 
 ButtonsLineEdit {
-    color: #000;
+    color: #343b47;
     background: #fff;
 }
 
 QLabel {
-    color: #000;
+    color: #343b47;
     min-height:25px;
 }
 
@@ -218,8 +226,8 @@ QLineEdit#search_box{
 /* Dashboard Container */
 
 QWidget#main_window_container {
-    background: #f8f6f6;
-    color: #000;
+    background: #343b47;
+    color: #343b47;
 }
 
 QWidget#central_widget {
@@ -282,19 +290,24 @@ QWidget#history_container,
 QWidget#send_container,
 QWidget#receive_container,
 QWidget#console_container {
-    border-image: url({pkg_dir}/gui/icons/background.jpg) 0 0 0 0 stretch stretch;
+    background-image: url(C:/Users/yoses/Documents/CoinDev/electrum-vestx/electrum_vestx/gui/icons/background.jpg);
 }
+
+
 
 QWidget#home_container #sub_section_content QLabel#important_label{
     font-size: 14px;
     font-weight:bold;
-    color: #f3ea13;
+    color: #ff7200;
 }
 
 QWidget#home_container #sub_section_content QLabel#normal_label{
     font-size: 14px !important;
     color: #fff;
 }
+
+
+
 
 /* Table headers */
 QWidget#home_container QTreeWidget QHeaderView::section,
@@ -388,7 +401,7 @@ QMenu::item:selected {
 
 QToolBar {
     background-color:#3398CC;
-    border:0px solid #000;
+    border:0px solid #343b47;
     padding:0;
     margin:0;
 }
@@ -418,7 +431,7 @@ QMessageBox > QLabel {
 
 
 QLabel { /* Base Text Size & Color */
-    color:#000;
+    color:#343b47;
 }
 
 
@@ -426,7 +439,7 @@ QLabel { /* Base Text Size & Color */
 /* 5. Buttons, Spinners, Dropdown */
 
 QPushButton { /* Global Button Style */
-    background-color: #000;
+    background-color: #343b47;
     border:0;
     border-radius:15px;
     color:#ffffff;
@@ -441,7 +454,7 @@ QPushButton { /* Global Button Style */
 
 QPushButton:hover {
     background-color: #ff7200;
-    color: #000;
+    color: #343b47;
 }
 
 QPushButton:focus {
@@ -455,7 +468,7 @@ QPushButton:pressed {
 
 QPushButton:disabled
 {
-    color: #000;
+    color: #343b47;
     background-color: #e7e4e4;
 }
 
@@ -466,17 +479,17 @@ QPushButton:disabled
 
 #section_content QPushButton:hover {
     background-color: #ff7200;
-    color: #000;
+    color: #343b47;
 }
 
 #section_content QPushButton:disabled {
-    background-color: #000;
+    background-color: #343b47;
 }
 
 #section_content QPushButton#main {
     border:2px solid #ff7200;
     background-color: #ff7200;
-    color: #000;
+    color: #343b47;
     height:25px;
 }
 
@@ -485,7 +498,7 @@ QPushButton:disabled
 }
 
 #section_content QPushButton#main:disabled {
-    background-color: #000;
+    background-color: #343b47;
     color: #ff7200;
 }
 
@@ -494,7 +507,7 @@ QComboBox { /* Dropdown Menus */
     padding: 3px 5px 3px 5px;
     background:#fff;
     min-height:23px;
-    color:#000;
+    color:#343b47;
     border-radius: 3px;
 }
 
@@ -596,7 +609,7 @@ QHeaderView { /* Table Header */
 QHeaderView::section { /* Table Header Sections */
     qproperty-alignment:center;
     background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0 #CCC7C7, stop: 1 #CCC7C7);
-    color:#000;
+    color:#343b47;
     min-height:25px;
     font-weight:bold;
     font-size:11px;
@@ -694,19 +707,19 @@ QScrollBar:up-arrow, QScrollBar:down-arrow, QScrollBar:left-arrow, QScrollBar:ri
 }
 
 QScrollBar:up-arrow {
-    background-image: url('{pkg_dir}/gui/icons/PAC_upArrow_small.png');
+    background-image: url({pkg_dir}/gui/icons/PAC_upArrow_small.png);
 }
 
 QScrollBar:down-arrow {
-    background-image: url('{pkg_dir}/gui/icons/PAC_downArrow_small.png');
+    background-image: url({pkg_dir}/gui/icons/PAC_downArrow_small.png);
 }
 
 QScrollBar:left-arrow {
-    background-image: url('{pkg_dir}/gui/icons/PAC_leftArrow_small.png');
+    background-image: url({pkg_dir}/gui/icons/PAC_leftArrow_small.png);
 }
 
 QScrollBar:right-arrow {
-    background-image: url('{pkg_dir}/gui/icons/PAC_rightArrow_small.png');
+    background-image: url({pkg_dir}/gui/icons/PAC_rightArrow_small.png);
 }
 
 
@@ -730,7 +743,7 @@ QTableView::item {
  
 #inverted_font_color QTreeWidget::item,
 #inverted_font_color QTableView::item {
-    color:#000;
+    color:#343b47;
 }
 
 QTreeWidget QHeaderView::section, 
@@ -742,7 +755,7 @@ QTableView QHeaderView::section{
 
 #inverted_font_color QTreeWidget QHeaderView::section,
 #inverted_font_color QTableView QHeaderView::section {
-    color:#000;
+    color:#343b47;
 }
 
 QTreeWidget QHeaderView::section:horizontal, 

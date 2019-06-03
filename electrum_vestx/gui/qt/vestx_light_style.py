@@ -1,5 +1,8 @@
 """Vestx look and feel (dark style)."""
 
+import os
+from electrum_vestx.util import pkg_dir
+
 vestx_stylesheet = """
 
 /**********************/

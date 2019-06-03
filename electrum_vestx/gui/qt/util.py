@@ -10,7 +10,7 @@ from functools import partial, lru_cache
 from typing import NamedTuple, Callable, Optional, TYPE_CHECKING, Union, List, Dict
 
 from PyQt5.QtGui import (QFont, QColor, QCursor, QPixmap, QStandardItem,
-                         QPalette, QIcon)
+                         QPalette, QIcon, QBrush)
 from PyQt5.QtCore import (Qt, QPersistentModelIndex, QModelIndex, pyqtSignal,
                           QCoreApplication, QItemSelectionModel, QThread,
                           QSortFilterProxyModel, QSize, QLocale)
@@ -18,7 +18,7 @@ from PyQt5.QtWidgets import (QPushButton, QLabel, QMessageBox, QHBoxLayout,
                              QAbstractItemView, QVBoxLayout, QLineEdit,
                              QStyle, QDialog, QGroupBox, QButtonGroup, QRadioButton,
                              QFileDialog, QWidget, QToolButton, QTreeView, QPlainTextEdit,
-                             QHeaderView, QApplication, QToolTip, QTreeWidget, QStyledItemDelegate)
+                             QHeaderView, QApplication, QToolTip, QTreeWidget, QStyledItemDelegate, QTreeWidgetItem)
 
 from electrum_vestx.i18n import _, languages
 from electrum_vestx.util import (FileImportFailed, FileExportFailed,
@@ -620,6 +620,186 @@ class MyTreeView(QTreeView):
     def toggle_toolbar(self, config=None):
         self.show_toolbar(not self.toolbar_shown, config)
 
+class MyTreeWidget(QTreeWidget):
+
+    def __init__(self, parent, create_menu, headers, stretch_column=None,
+                 editable_columns=None):
+        QTreeWidget.__init__(self, parent)
+        self.parent = parent
+        self.config = self.parent.config
+        self.stretch_column = stretch_column
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(create_menu)
+        self.setUniformRowHeights(True)
+        # extend the syntax for consistency
+        self.addChild = self.addTopLevelItem
+        self.insertChild = self.insertTopLevelItem
+
+        self.icon_cache = IconCache()
+
+        # Control which columns are editable
+        self.editor = None
+        self.pending_update = False
+        if editable_columns is None:
+            editable_columns = {stretch_column}
+        else:
+            editable_columns = set(editable_columns)
+        self.editable_columns = editable_columns
+        self.setItemDelegate(ElectrumItemDelegate(self))
+        self.itemDoubleClicked.connect(self.on_doubleclick)
+        self.update_headers(headers)
+        self.current_filter = ""
+
+        self.setRootIsDecorated(False)  # remove left margin
+        self.toolbar_shown = False
+
+    def update_headers(self, headers):
+        self.setColumnCount(len(headers))
+        self.setHeaderLabels(headers)
+        self.header().setStretchLastSection(False)
+        self.header().setDefaultAlignment(Qt.AlignCenter)
+        for col in range(len(headers)):
+            sm = QHeaderView.Stretch if col == self.stretch_column else QHeaderView.ResizeToContents
+            self.header().setSectionResizeMode(col, sm)
+
+    def editItem(self, item, column):
+        if column in self.editable_columns:
+            try:
+                self.editing_itemcol = (item, column, item.text(column))
+                # Calling setFlags causes on_changed events for some reason
+                item.setFlags(item.flags() | Qt.ItemIsEditable)
+                QTreeWidget.editItem(self, item, column)
+                item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+            except RuntimeError:
+                # (item) wrapped C/C++ object has been deleted
+                pass
+
+    def keyPressEvent(self, event):
+        if event.key() in [ Qt.Key_F2, Qt.Key_Return ] and self.editor is None:
+            self.on_activated(self.currentItem(), self.currentColumn())
+        else:
+            QTreeWidget.keyPressEvent(self, event)
+
+    def permit_edit(self, item, column):
+        return (column in self.editable_columns
+                and self.on_permit_edit(item, column))
+
+    def on_permit_edit(self, item, column):
+        return True
+
+    def on_doubleclick(self, item, column):
+        if self.permit_edit(item, column):
+            self.editItem(item, column)
+
+    def on_activated(self, item, column):
+        # on 'enter' we show the menu
+        pt = self.visualItemRect(item).bottomLeft()
+        pt.setX(50)
+        self.customContextMenuRequested.emit(pt)
+
+    def createEditor(self, parent, option, index):
+        self.editor = QStyledItemDelegate.createEditor(self.itemDelegate(),
+                                                       parent, option, index)
+        self.editor.editingFinished.connect(self.editing_finished)
+        return self.editor
+
+    def editing_finished(self):
+        # Long-time QT bug - pressing Enter to finish editing signals
+        # editingFinished twice.  If the item changed the sequence is
+        # Enter key:  editingFinished, on_change, editingFinished
+        # Mouse: on_change, editingFinished
+        # This mess is the cleanest way to ensure we make the
+        # on_edited callback with the updated item
+        if self.editor:
+            (item, column, prior_text) = self.editing_itemcol
+            if self.editor.text() == prior_text:
+                self.editor = None  # Unchanged - ignore any 2nd call
+            elif item.text(column) == prior_text:
+                pass # Buggy first call on Enter key, item not yet updated
+            else:
+                # What we want - the updated item
+                self.on_edited(*self.editing_itemcol)
+                self.editor = None
+
+            # Now do any pending updates
+            if self.editor is None and self.pending_update:
+                self.pending_update = False
+                self.on_update()
+
+    def on_edited(self, item, column, prior):
+        '''Called only when the text actually changes'''
+        key = item.data(0, Qt.UserRole)
+        text = item.text(column)
+        self.parent.wallet.set_label(key, text)
+        self.parent.history_list.update_labels()
+        self.parent.update_completions()
+
+    def update(self):
+        # Defer updates if editing
+        if self.editor:
+            self.pending_update = True
+        else:
+            self.setUpdatesEnabled(False)
+            scroll_pos = self.verticalScrollBar().value()
+            self.on_update()
+            self.setUpdatesEnabled(True)
+            # To paint the list before resetting the scroll position
+            self.parent.app.processEvents()
+            self.verticalScrollBar().setValue(scroll_pos)
+        if self.current_filter:
+            self.filter(self.current_filter)
+
+    def on_update(self):
+        pass
+
+    def get_leaves(self, root):
+        child_count = root.childCount()
+        if child_count == 0:
+            yield root
+        for i in range(child_count):
+            item = root.child(i)
+            for x in self.get_leaves(item):
+                yield x
+
+    def filter(self, p):
+        columns = self.__class__.filter_columns
+        p = p.lower()
+        self.current_filter = p
+        for item in self.get_leaves(self.invisibleRootItem()):
+            item.setHidden(all([item.text(column).lower().find(p) == -1
+                                for column in columns]))
+
+    def create_toolbar(self, config=None):
+        hbox = QHBoxLayout()
+        buttons = self.get_toolbar_buttons()
+        for b in buttons:
+            b.setVisible(False)
+            hbox.addWidget(b)
+        hide_button = QPushButton('x')
+        hide_button.setVisible(False)
+        hide_button.pressed.connect(lambda: self.show_toolbar(False, config))
+        self.toolbar_buttons = buttons + (hide_button,)
+        hbox.addStretch()
+        hbox.addWidget(hide_button)
+        return hbox
+
+    def save_toolbar_state(self, state, config):
+        pass  # implemented in subclasses
+
+    def show_toolbar(self, state, config=None):
+        if state == self.toolbar_shown:
+            return
+        self.toolbar_shown = state
+        if config:
+            self.save_toolbar_state(state, config)
+        for b in self.toolbar_buttons:
+            b.setVisible(state)
+        if not state:
+            self.on_hide_toolbar()
+
+    def toggle_toolbar(self, config=None):
+        self.show_toolbar(not self.toolbar_shown, config)
+
 
 class ButtonsWidget(QWidget):
 
@@ -866,6 +1046,32 @@ class FromList(QTreeWidget):
         self.header().setSectionResizeMode(0, sm)
         self.header().setSectionResizeMode(1, sm)
 
+
+class SortableTreeWidgetItem(QTreeWidgetItem):
+    DataRole = Qt.UserRole + 1
+
+    def __lt__(self, other):
+        column = self.treeWidget().sortColumn()
+        if None not in [x.data(column, self.DataRole) for x in [self, other]]:
+            # We have set custom data to sort by
+            return self.data(column, self.DataRole) < other.data(column, self.DataRole)
+        try:
+            # Is the value something numeric?
+            return float(self.text(column)) < float(other.text(column))
+        except ValueError:
+            # If not, we will just do string comparison
+            return self.text(column) < other.text(column)
+
+
+class IconCache:
+
+    def __init__(self):
+        self.__cache = {}
+
+    def get(self, file_name):
+        if file_name not in self.__cache:
+            self.__cache[file_name] = QIcon(file_name)
+        return self.__cache[file_name]
 
 if __name__ == "__main__":
     app = QApplication([])

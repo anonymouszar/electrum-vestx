@@ -1128,3 +1128,12 @@ def multisig_type(wallet_type):
     if match:
         match = [int(x) for x in match.group(1, 2)]
     return match
+
+TxMinedStatus = NamedTuple("TxMinedStatus", [("height", int),
+                                             ("conf", int),
+                                             ("timestamp", int),
+                                             ("header_hash", str)])
+VerifiedTxInfo = NamedTuple("VerifiedTxInfo", [("height", int),
+                                               ("timestamp", int),
+                                               ("txpos", int),
+                                               ("header_hash", str)])
