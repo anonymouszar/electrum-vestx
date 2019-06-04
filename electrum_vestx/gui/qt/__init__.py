@@ -136,6 +136,13 @@ class ElectrumGui(Logger):
             except BaseException as e:
                 use_dark_theme = False
                 self.logger.warning(f'Error setting dark theme: {repr(e)}')
+        else:
+            try:
+                from .vestx_light_style import vestx_stylesheet
+                self.app.setStyleSheet(vestx_stylesheet)
+            except BaseException as e:
+                use_dark_theme = True
+                self.logger.warning(f'Error setting dark theme: {repr(e)}')
         # Apply any necessary stylesheet patches
         patch_qt_stylesheet(use_dark_theme=use_dark_theme)
         # Even if we ourselves don't set the dark theme,

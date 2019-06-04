@@ -41,7 +41,7 @@ stop: 0 #A5CFFA, stop: 1 #72B2F8);
 
 #address_input, #amount_input, #label_input
 {
-    color: #343b47;
+    color: #19232D;
     padding: 5px;
     border-radius: 5px;
     min-height: 23px;
@@ -61,7 +61,7 @@ stop: 0 #A5CFFA, stop: 1 #72B2F8);
 
 #balance_label
 {
-    color: #343b47;
+    color: #19232D;
 }
 
 #history
@@ -106,16 +106,16 @@ QGroupBox::title {
 /* 1. Navigation Bar */
 
 #main_window_topbar{
-    background-color: #343b47;
+    background-color: #19232D;
     position: absoulte;
 }
 
 #main_window_topbar #logo_image{
-    background-color: #343b47;
+    background-color: #19232D;
 }
 
 #main_window_topbar QPushButton{
-    background-color: #343b47;
+    background-color: #19232D;
     width: 10px;
 }
 
@@ -147,7 +147,7 @@ QTabWidget#main_window_nav_bar::pane {
 }
 
 #main_window_nav_bar QTabBar::tab {
-    background-color:#343b47;
+    background-color:#19232D;
     color:#fff;
     min-height: 40px;
     min-width: 40px;
@@ -181,11 +181,11 @@ QCheckBox:hover {
 }
 
 QCheckBox::indicator {
-    border: 1px solid #343b47;
+    border: 1px solid #19232D;
 }
 
 QCheckBox::indicator::checked  {
-    background-color:#343b47;
+    background-color:#19232D;
 }
 
 QCheckBox::indicator:unchecked {
@@ -196,7 +196,7 @@ QValidatedLineEdit, QLineEdit, PayToEdit, QPlainTextEdit { /* Text Entry Fields 
     border: 0px;
     outline:0;
     background-color:#fff;
-    color: #343b47;
+    color: #19232D;
     border-radius: 5px;
 }
 
@@ -205,12 +205,12 @@ PayToEdit{
 }
 
 ButtonsLineEdit {
-    color: #343b47;
+    color: #19232D;
     background: #fff;
 }
 
 QLabel {
-    color: #343b47;
+    color: #19232D;
     min-height:25px;
 }
 
@@ -226,8 +226,8 @@ QLineEdit#search_box{
 /* Dashboard Container */
 
 QWidget#main_window_container {
-    background: #343b47;
-    color: #343b47;
+    background: #19232D;
+    color: #19232D;
 }
 
 QWidget#central_widget {
@@ -290,7 +290,7 @@ QWidget#history_container,
 QWidget#send_container,
 QWidget#receive_container,
 QWidget#console_container {
-    background-image: url(C:/Users/yoses/Documents/CoinDev/electrum-vestx/electrum_vestx/gui/icons/background.jpg);
+    border-image: url(C:/Users/yoses/Documents/CoinDev/electrum-vestx/electrum_vestx/gui/icons/background.jpg) 0 0 0 0 stretch stretch;
 }
 
 
@@ -401,7 +401,7 @@ QMenu::item:selected {
 
 QToolBar {
     background-color:#3398CC;
-    border:0px solid #343b47;
+    border:0px solid #19232D;
     padding:0;
     margin:0;
 }
@@ -431,7 +431,7 @@ QMessageBox > QLabel {
 
 
 QLabel { /* Base Text Size & Color */
-    color:#343b47;
+    color:#19232D;
 }
 
 
@@ -439,7 +439,7 @@ QLabel { /* Base Text Size & Color */
 /* 5. Buttons, Spinners, Dropdown */
 
 QPushButton { /* Global Button Style */
-    background-color: #343b47;
+    background-color: #19232D;
     border:0;
     border-radius:15px;
     color:#ffffff;
@@ -454,7 +454,7 @@ QPushButton { /* Global Button Style */
 
 QPushButton:hover {
     background-color: #ff7200;
-    color: #343b47;
+    color: #19232D;
 }
 
 QPushButton:focus {
@@ -468,7 +468,7 @@ QPushButton:pressed {
 
 QPushButton:disabled
 {
-    color: #343b47;
+    color: #19232D;
     background-color: #e7e4e4;
 }
 
@@ -479,17 +479,17 @@ QPushButton:disabled
 
 #section_content QPushButton:hover {
     background-color: #ff7200;
-    color: #343b47;
+    color: #19232D;
 }
 
 #section_content QPushButton:disabled {
-    background-color: #343b47;
+    background-color: #19232D;
 }
 
 #section_content QPushButton#main {
     border:2px solid #ff7200;
     background-color: #ff7200;
-    color: #343b47;
+    color: #19232D;
     height:25px;
 }
 
@@ -498,7 +498,7 @@ QPushButton:disabled
 }
 
 #section_content QPushButton#main:disabled {
-    background-color: #343b47;
+    background-color: #19232D;
     color: #ff7200;
 }
 
@@ -507,7 +507,7 @@ QComboBox { /* Dropdown Menus */
     padding: 3px 5px 3px 5px;
     background:#fff;
     min-height:23px;
-    color:#343b47;
+    color:#19232D;
     border-radius: 3px;
 }
 
@@ -609,7 +609,7 @@ QHeaderView { /* Table Header */
 QHeaderView::section { /* Table Header Sections */
     qproperty-alignment:center;
     background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0 #CCC7C7, stop: 1 #CCC7C7);
-    color:#343b47;
+    color:#19232D;
     min-height:25px;
     font-weight:bold;
     font-size:11px;
@@ -743,7 +743,7 @@ QTableView::item {
  
 #inverted_font_color QTreeWidget::item,
 #inverted_font_color QTableView::item {
-    color:#343b47;
+    color:#19232D;
 }
 
 QTreeWidget QHeaderView::section, 
@@ -755,7 +755,7 @@ QTableView QHeaderView::section{
 
 #inverted_font_color QTreeWidget QHeaderView::section,
 #inverted_font_color QTableView QHeaderView::section {
-    color:#343b47;
+    color:#19232D;
 }
 
 QTreeWidget QHeaderView::section:horizontal, 

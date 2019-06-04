@@ -88,7 +88,7 @@ from .util import (read_QIcon, ColorScheme, text_dialog, icon_path, WaitingDialo
                    ButtonsLineEdit, CopyCloseButton, import_meta_gui, export_meta_gui,
                    filename_field, address_field, MyTreeWidget)
 from .installwizard import WIF_HELP_TEXT
-from .history_list import HistoryList, HistoryModel
+from .history_list import HistoryList
 from .update_checker import UpdateCheck, UpdateCheckThread
 from .masternode_dialog import MasternodeDialog											   
 
@@ -670,10 +670,13 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         # add_toggle_action(view_menu, self.contacts_tab)
         # add_toggle_action(view_menu, self.console_tab)
 
-        wallet_menu.addSeparator()
-        wallet_menu.addAction(_("Masternodes"), self.show_masternode_dialog)
+        # check Segwit - exclude MN option
+        addr = self.wallet.get_receiving_address()
+        if (addr[:1] == 'V'):
+            wallet_menu.addSeparator()
+            wallet_menu.addAction(_("Masternodes"), self.show_masternode_dialog)
+           
         tools_menu = menubar.addMenu(_("&Tools"))
-
         # Settings / Preferences are all reserved keywords in macOS using this as work around
         tools_menu.addAction(_("Electrum-Vestx preferences") if sys.platform == 'darwin' else _("Preferences"), self.settings_dialog)
         tools_menu.addAction(_("&Network"), lambda: self.gui_object.show_network_dialog(self))
@@ -930,7 +933,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             wallet = self.wallet
         if wallet != self.wallet:
             return
-        self.history_model.refresh('update_tabs')
+        self.history_list.update()
+        self.dashboard_history_list.update()
         self.request_list.update()
         self.address_list.update()
         self.utxo_list.update()
@@ -943,6 +947,9 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
         home_widget = QWidget()
         home_widget.setObjectName("home_container")
+#        urlStr = icon_path("background_light.jpg")
+#        urlStr = urlStr.replace("\\","/")
+#        home_widget.setStyleSheet(" border-image: url(" + urlStr + ") 0 0 0 0 stretch stretch;")
         home_widget_layout = QVBoxLayout(home_widget)
         home_widget_layout.setContentsMargins(50,50,50,50)
 
@@ -1071,13 +1078,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
 
     def create_history_tab(self):
-        self.history_model = HistoryModel(self)
-        self.history_list = l = HistoryList(self, self.history_model)
-        self.history_model.set_view(self.history_list)
-        l.searchable_list = l
-        toolbar = l.create_toolbar(self.config)
-        toolbar_shown = self.config.get('show_toolbar_history', False)
-        l.show_toolbar(toolbar_shown)
+        from .history_list import HistoryList
+        self.history_list = l = HistoryList(self)
         return self.create_list_tab("history", l, True)
 
     def create_dashboard_history_tab(self):
@@ -2191,9 +2193,6 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
     def create_addresses_tab(self):
         from .address_list import AddressList
         self.address_list = l = AddressList(self)
-        toolbar = l.create_toolbar(self.config)
-        toolbar_shown = self.config.get('show_toolbar_addresses', False)
-        l.show_toolbar(toolbar_shown)
         return self.create_list_tab("addresses", l, True)
 
     def create_utxo_tab(self):
@@ -2325,7 +2324,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
     def create_console_tab(self):
         from .console import Console
         self.console = console = Console()
-        return console
+        return self.create_list_tab("Console", self.console)
 
     def update_console(self):
         console = self.console
