@@ -291,7 +291,7 @@ QWidget#history_container,
 QWidget#send_container,
 QWidget#receive_container,
 QWidget#console_container {
-    border-image: url(C:/Users/yoses/Documents/CoinDev/electrum-vestx/electrum_vestx/gui/icons/background_dark.jpg) 0 0 0 0 stretch stretch;
+    border-image: url(:/icons/background_dark.jpg) 0 0 0 0 stretch stretch;
 }
 
 

@@ -293,7 +293,7 @@ QWidget#history_container,
 QWidget#send_container,
 QWidget#receive_container,
 QWidget#console_container {
-    border-image: url('{fpkg_dir}/gui/icons/background_light.jpg') 0 0 0 0 stretch stretch;
+    border-image: url('{pkg_dir}/gui/icons/background_light.jpg') 0 0 0 0 stretch stretch;
 }
 
 
