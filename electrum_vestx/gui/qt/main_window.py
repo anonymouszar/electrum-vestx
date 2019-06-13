@@ -157,6 +157,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.tray = gui_object.tray
         self.app = gui_object.app
         self.cleaned_up = False
+        self.is_max = False
         self.payment_request = None
         self.checking_accounts = False
         self.qr_window = None
@@ -299,9 +300,9 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
         # If the option hasn't been set yet
         if config.get('check_updates') is None:
-            choice = self.question(title="Electrum-Vestx - " + _("Enable update check"),
-                                   msg=_("For security reasons we advise that you always use the latest version of Electrum-Vestx.") + " " +
-                                       _("Would you like to be notified when there is a newer version of Electrum-Vestx available?"))
+            choice = self.question(title="Vestx-Electrum - " + _("Enable update check"),
+                                   msg=_("For security reasons we advise that you always use the latest version of Vestx-Electrum.") + " " +
+                                       _("Would you like to be notified when there is a newer version of Vestx-Electrum available?"))
             config.set_key('check_updates', bool(choice), save=True)
 
         if config.get('check_updates', False):
@@ -309,7 +310,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             # to prevent GC from getting in our way.
             def on_version_received(v):
                 if UpdateCheck.is_newer(v):
-                    self.update_check_button.setText(_("Update to Electrum-Vestx {} is available").format(v))
+                    self.update_check_button.setText(_("Update to Vestx-Electrum {} is available").format(v))
                     self.update_check_button.clicked.connect(lambda: self.show_update_check(v))
                     self.update_check_button.show()
             self._update_check_thread = UpdateCheckThread(self)
@@ -324,7 +325,10 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         Exception_Hook(self)
 
     def on_fx_history(self):
-        self.history_model.refresh('fx_history')
+        self.history_list.refresh_headers()
+        self.history_list.update()
+        self.dashboard_history_list.refresh_headers()
+        self.dashboard_history_list.update()
         self.address_list.update()
 
     def on_quotes(self, b):
@@ -508,7 +512,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             self.setGeometry(100, 100, 840, 400)
 
     def watching_only_changed(self):
-        name = "Electrum-Vestx Testnet" if constants.net.TESTNET else "Electrum-Vestx"
+        name = "Vestx-Electrum Testnet" if constants.net.TESTNET else "Vestx-Electrum"
         title = '%s %s  -  %s' % (name, ELECTRUM_VERSION,
                                         self.wallet.basename())
         extra = [self.wallet.storage.get('wallet_type', '?')]
@@ -579,7 +583,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
                 shutil.copy2(path, new_path)
                 self.show_message(_("A copy of your wallet file was created in")+" '%s'" % str(new_path), title=_("Wallet backup created"))
             except BaseException as reason:
-                self.show_critical(_("Electrum-Vestx was unable to copy your wallet file to the specified location.") + "\n" + str(reason), title=_("Unable to create backup"))
+                self.show_critical(_("Vestx-Electrum was unable to copy your wallet file to the specified location.") + "\n" + str(reason), title=_("Unable to create backup"))
 
     def update_recently_visited(self, filename):
         recent = self.config.get('recently_open', [])
@@ -678,7 +682,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
            
         tools_menu = menubar.addMenu(_("&Tools"))
         # Settings / Preferences are all reserved keywords in macOS using this as work around
-        tools_menu.addAction(_("Electrum-Vestx preferences") if sys.platform == 'darwin' else _("Preferences"), self.settings_dialog)
+        tools_menu.addAction(_("Vestx-Electrum preferences") if sys.platform == 'darwin' else _("Preferences"), self.settings_dialog)
         tools_menu.addAction(_("&Network"), lambda: self.gui_object.show_network_dialog(self))
         tools_menu.addAction(_("&Plugins"), self.plugins_dialog)
         tools_menu.addSeparator()
@@ -717,7 +721,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             self.show_error(_('No donation address for this server'))
 
     def show_about(self):
-        QMessageBox.about(self, "Electrum-Vestx",
+        QMessageBox.about(self, "Vestx-Electrum",
                           (_("Version")+" %s" % ELECTRUM_VERSION + "\n\n" +
                            _("Electrum's focus is speed, with low resource usage and simplifying Vestx.") + " " +
                            _("You do not need to perform regular backups, because your wallet can be "
@@ -736,7 +740,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             _("Before reporting a bug, upgrade to the most recent version of Electrum (latest release or git HEAD), and include the version number in your report."),
             _("Try to explain not only what the bug is, but how it occurs.")
          ])
-        self.show_message(msg, title="Electrum-Vestx - " + _("Reporting Bugs"), rich_text=True)
+        self.show_message(msg, title="Vestx-Electrum - " + _("Reporting Bugs"), rich_text=True)
 
     def notify_transactions(self):
         if self.tx_notification_queue.qsize() == 0:
@@ -776,9 +780,9 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         if self.tray:
             try:
                 # this requires Qt 5.9
-                self.tray.showMessage("Electrum-Vestx", message, read_QIcon("electrum_dark_icon"), 20000)
+                self.tray.showMessage("Vestx-Electrum", message, read_QIcon("electrum_dark_icon"), 20000)
             except TypeError:
-                self.tray.showMessage("Electrum-Vestx", message, QSystemTrayIcon.Information, 20000)
+                self.tray.showMessage("Vestx-Electrum", message, QSystemTrayIcon.Information, 20000)
 
 
 
@@ -2630,7 +2634,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
                 "private key, and verifying with the corresponding public key. The "
                 "address you have entered does not have a unique public key, so these "
                 "operations cannot be performed.") + '\n\n' + \
-               _('The operation is undefined. Not just in Electrum-Vestx, but in general.')
+               _('The operation is undefined. Not just in Vestx-Electrum, but in general.')
 
     @protected
     def do_sign(self, address, message, signature, password):
@@ -2799,7 +2803,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             tx = tx_from_str(txt)
             return Transaction(tx)
         except BaseException as e:
-            self.show_critical(_("Electrum-Vestx was unable to parse your transaction") + ":\n" + str(e))
+            self.show_critical(_("Vestx-Electrum was unable to parse your transaction") + ":\n" + str(e))
             return
 
     def read_tx_from_qrcode(self):
@@ -2834,7 +2838,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             with open(fileName, "r") as f:
                 file_content = f.read()
         except (ValueError, IOError, os.error) as reason:
-            self.show_critical(_("Electrum-Vestx was unable to open your transaction file") + "\n" + str(reason), title=_("Unable to read file or no transaction found"))
+            self.show_critical(_("Vestx-Electrum was unable to open your transaction file") + "\n" + str(reason), title=_("Unable to read file or no transaction found"))
             return
         return self.tx_from_text(file_content)
 
@@ -2946,7 +2950,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             self.do_export_privkeys(filename, private_keys, csv_button.isChecked())
         except (IOError, os.error) as reason:
             txt = "\n".join([
-                _("Electrum-Vestx was unable to produce a private key-export."),
+                _("Vestx-Electrum was unable to produce a private key-export."),
                 str(reason)
             ])
             self.show_critical(txt, title=_("Unable to create csv"))
@@ -3569,7 +3573,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
         run_hook('close_settings_dialog')
         if self.need_restart:
-            self.show_warning(_('Please restart Electrum-Vestx to activate the new GUI settings'), title=_('Success'))
+            self.show_warning(_('Please restart Vestx-Electrum to activate the new GUI settings'), title=_('Success'))
 
 
     def closeEvent(self, event):
@@ -3600,7 +3604,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.gui_object.close_window(self)
 
     def plugins_dialog(self):
-        self.pluginsdialog = d = WindowModalDialog(self, _('Electrum-Vestx Plugins'))
+        self.pluginsdialog = d = WindowModalDialog(self, _('Vestx-Electrum Plugins'))
 
         plugins = self.gui_object.plugins
 

@@ -4,10 +4,10 @@ from PyInstaller.utils.hooks import collect_data_files, collect_submodules, coll
 
 import sys, os
 
-PACKAGE='Electrum'
-PYPKG='electrum'
-MAIN_SCRIPT='run_electrum'
-ICONS_FILE=PYPKG + '/gui/icons/electrum.icns'
+PACKAGE='Vestx-Electrum'
+PYPKG='electrum-vestx'
+MAIN_SCRIPT='run_electrum-vestx'
+ICONS_FILE=PYPKG + '/gui/icons/electrum-vestx.icns'
 APP_SIGN = os.environ.get('APP_SIGN', '')
 
 def fail(*msg):
@@ -54,7 +54,7 @@ for i, x in enumerate(sys.argv):
 else:
     raise Exception('no version')
 
-electrum = os.path.abspath(".") + "/"
+electrum-vestx = os.path.abspath(".") + "/"
 block_cipher = None
 
 # see https://github.com/pyinstaller/pyinstaller/issues/2005

@@ -3,10 +3,10 @@
 
 [Desktop Entry]
 Comment=Lightweight Vestx Client
-Exec=sh -c "PATH=\"\\$HOME/.local/bin:\\$PATH\"; electrum-vestx %u"
+Exec=sh -c "PATH=\"\\$HOME/.local/bin:\\$PATH\"; run_electrum-vestx %u"
 GenericName[en_US]=Vestx Wallet
 GenericName=Vestx Wallet
-Icon=electrum
+Icon=electrum-vestx
 Name[en_US]=Electrum Vestx Wallet
 Name=Electrum Vestx Wallet
 Categories=Finance;Network;
@@ -18,5 +18,5 @@ MimeType=x-scheme-handler/vestx;
 Actions=Testnet;
 
 [Desktop Action Testnet]
-Exec=sh -c "PATH=\"\\$HOME/.local/bin:\\$PATH\"; electrum-vestx --testnet %u"
+Exec=sh -c "PATH=\"\\$HOME/.local/bin:\\$PATH\"; run_electrum-vestx --testnet %u"
 Name=Testnet mode

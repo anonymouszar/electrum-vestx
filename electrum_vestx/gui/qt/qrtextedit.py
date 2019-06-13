@@ -37,7 +37,7 @@ class ScanQRTextEdit(ButtonsTextEdit, MessageBoxMixin):
         self.allow_multi = allow_multi
         self.setReadOnly(0)
         self.addButton("file.png", self.file_input, _("Read file"))
-        icon = "camera_white.png" if ColorScheme.dark_scheme else "camera_dark.png"
+        icon = "camera_dark.png" if ColorScheme.dark_scheme else "camera_white.png"
         self.addButton(icon, self.qr_input, _("Read QR code"))
         run_hook('scan_text_edit', self)
 

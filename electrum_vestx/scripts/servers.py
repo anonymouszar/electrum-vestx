@@ -5,7 +5,7 @@ import asyncio
 from electrum_vestx.simple_config import SimpleConfig
 from electrum_vestx.network import filter_version, Network
 from electrum_vestx.util import create_and_start_event_loop, log_exceptions
-from electrum import constants
+from electrum_vestx import constants
 
 # testnet?
 #constants.set_testnet()

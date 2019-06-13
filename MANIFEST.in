@@ -1,15 +1,15 @@
 include LICENCE RELEASE-NOTES AUTHORS
 include README.rst
-include electrum.desktop
+include electrum-vestx.desktop
 include *.py
-include run_electrum
+include run_electrum-vestx
 include contrib/requirements/requirements.txt
 include contrib/requirements/requirements-hw.txt
 recursive-include packages *.py
 recursive-include packages cacert.pem
 
-graft electrum
-prune electrum/tests
+graft electrum_vestx
+prune electrum_vestx/tests
 
 global-exclude __pycache__
 global-exclude *.py[co~]

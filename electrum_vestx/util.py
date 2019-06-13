@@ -389,7 +389,7 @@ def assert_datadir_available(config_path):
         return
     else:
         raise FileNotFoundError(
-            'Electrum-Vestx datadir does not exist. Was it deleted while running?' + '\n' +
+            'Vestx-Electrum datadir does not exist. Was it deleted while running?' + '\n' +
             'Should be at {}'.format(path))
 
 
@@ -481,9 +481,9 @@ def user_dir():
     elif os.name == 'posix':
         return os.path.join(os.environ["HOME"], ".electrum-vestx")
     elif "APPDATA" in os.environ:
-        return os.path.join(os.environ["APPDATA"], "Electrum-Vestx")
+        return os.path.join(os.environ["APPDATA"], "Vestx-Electrum")
     elif "LOCALAPPDATA" in os.environ:
-        return os.path.join(os.environ["LOCALAPPDATA"], "Electrum-Vestx")
+        return os.path.join(os.environ["LOCALAPPDATA"], "Vestx-Electrum")
     else:
         #raise Exception("No home directory found in environment variables.")
         return
@@ -946,9 +946,9 @@ class TxMinedInfo(NamedTuple):
 
 def make_aiohttp_session(proxy: Optional[dict], headers=None, timeout=None):
     if headers is None:
-        headers = {'User-Agent': 'Electrum-Vestx'}
+        headers = {'User-Agent': 'Vestx-Electrum'}
     if timeout is None:
-        timeout = aiohttp.ClientTimeout(total=30)
+        timeout = aiohttp.ClientTimeout(total=240)
     elif isinstance(timeout, (int, float)):
         timeout = aiohttp.ClientTimeout(total=timeout)
     ssl_context = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH, cafile=ca_path)

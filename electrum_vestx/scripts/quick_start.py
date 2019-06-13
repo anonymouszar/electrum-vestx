@@ -1,7 +1,7 @@
 import os
 
 from electrum_vestx.simple_config import SimpleConfig
-from electrum import constants
+from electrum_vestx import constants
 from electrum_vestx.daemon import Daemon
 from electrum_vestx.storage import WalletStorage
 from electrum_vestx.wallet import Wallet, create_new_wallet

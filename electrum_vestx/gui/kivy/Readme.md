@@ -1,6 +1,6 @@
 # Kivy GUI
 
-The Kivy GUI is used with Electrum on Android devices.
+The Kivy GUI is used with Vestx-Electrum on Android devices.
 To generate an APK file, follow these instructions.
 
 ## Android binary with Docker
@@ -21,7 +21,7 @@ folder.
 2. Build image
 
     ```
-    $ sudo docker build -t electrum-android-builder-img electrum/gui/kivy/tools
+    $ sudo docker build -t electrum-vestx-android-builder-img electrum/gui/kivy/tools
     ```
 
 3. Build locale files
@@ -41,9 +41,9 @@ folder.
     ```
     $ sudo docker run -it --rm \
         --name electrum-android-builder-cont \
-        -v $PWD:/home/user/wspace/electrum \
+        -v $PWD:/home/user/wspace/electrum-vestx \
         -v ~/.keystore:/home/user/.keystore \
-        --workdir /home/user/wspace/electrum \
+        --workdir /home/user/wspace/electrum-vestx \
         electrum-android-builder-img \
         ./contrib/make_apk
     ```
@@ -64,7 +64,7 @@ You probably need to clear the cache: `rm -rf .buildozer/android/platform/build/
 ### How do I deploy on connected phone for quick testing?
 Assuming `adb` is installed:
 ```
-$ adb -d install -r bin/Electrum-*-debug.apk
+$ adb -d install -r bin/Vestx-Electrum-*-debug.apk
 $ adb shell monkey -p org.electrum.electrum 1
 ```
 
@@ -85,6 +85,6 @@ See `log_level` in `buildozer.spec`
 ### Kivy can be run directly on Linux Desktop. How?
 Install Kivy.
 
-Build atlas: `(cd electrum/gui/kivy/; make theming)`
+Build atlas: `(cd electrum-vestx/gui/kivy/; make theming)`
 
-Run electrum with the `-g` switch: `electrum -g kivy`
+Run electrum-vestx with the `-g` switch: `electrum-vestx -g kivy`

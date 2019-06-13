@@ -65,10 +65,10 @@ Factory.register('TabbedCarousel', module='electrum_vestx.gui.kivy.uix.screens')
 # inside markup.
 from kivy.core.text import Label
 Label.register('Roboto',
-               'electrum/gui/kivy/data/fonts/Roboto.ttf',
-               'electrum/gui/kivy/data/fonts/Roboto.ttf',
-               'electrum/gui/kivy/data/fonts/Roboto-Bold.ttf',
-               'electrum/gui/kivy/data/fonts/Roboto-Bold.ttf')
+               'electrum_vestx/gui/kivy/data/fonts/Roboto.ttf',
+               'electrum_vestx/gui/kivy/data/fonts/Roboto.ttf',
+               'electrum_vestx/gui/kivy/data/fonts/Roboto-Bold.ttf',
+               'electrum_vestx/gui/kivy/data/fonts/Roboto-Bold.ttf')
 
 
 from electrum_vestx.util import (base_units, NoDynamicFeeEstimates, decimal_point_to_base_unit_name,
@@ -285,7 +285,7 @@ class ElectrumWindow(App):
 
         App.__init__(self)#, **kwargs)
 
-        title = _('Electrum-Vestx App')
+        title = _('Vestx-Electrum App')
         self.electrum_config = config = kwargs.get('config', None)
         self.language = config.get('language', 'en')
         self.network = network = kwargs.get('network', None)  # type: Network
@@ -398,7 +398,7 @@ class ElectrumWindow(App):
         memo = req.get('memo')
         amount = req.get('amount')
         fund = req.get('fund')
-        popup = Builder.load_file('electrum/gui/kivy/uix/ui_screens/invoice.kv')
+        popup = Builder.load_file('electrum_vestx/gui/kivy/uix/ui_screens/invoice.kv')
         popup.is_invoice = is_invoice
         popup.amount = amount
         popup.requestor = requestor if is_invoice else req.get('address')
@@ -417,7 +417,7 @@ class ElectrumWindow(App):
         from electrum_vestx.util import format_time
         fund = req.get('fund')
         isaddr = 'y'
-        popup = Builder.load_file('electrum/gui/kivy/uix/ui_screens/invoice.kv')
+        popup = Builder.load_file('electrum_vestx/gui/kivy/uix/ui_screens/invoice.kv')
         popup.isaddr = isaddr
         popup.is_invoice = False
         popup.status = status
@@ -479,7 +479,7 @@ class ElectrumWindow(App):
         currentActivity.startActivity(it)
 
     def build(self):
-        return Builder.load_file('electrum/gui/kivy/main.kv')
+        return Builder.load_file('electrum_vestx/gui/kivy/main.kv')
 
     def _pause(self):
         if platform == 'android':
@@ -643,7 +643,7 @@ class ElectrumWindow(App):
             d = WalletDialog()
             d.open()
         elif name == 'status':
-            popup = Builder.load_file('electrum/gui/kivy/uix/ui_screens/'+name+'.kv')
+            popup = Builder.load_file('electrum_vestx/gui/kivy/uix/ui_screens/'+name+'.kv')
             master_public_keys_layout = popup.ids.master_public_keys
             for xpub in self.wallet.get_master_public_keys()[1:]:
                 master_public_keys_layout.add_widget(TopLabel(text=_('Master Public Key')))
@@ -653,7 +653,7 @@ class ElectrumWindow(App):
                 master_public_keys_layout.add_widget(ref)
             popup.open()
         else:
-            popup = Builder.load_file('electrum/gui/kivy/uix/ui_screens/'+name+'.kv')
+            popup = Builder.load_file('electrum_vestx/gui/kivy/uix/ui_screens/'+name+'.kv')
             popup.open()
 
     @profiler
@@ -687,7 +687,7 @@ class ElectrumWindow(App):
         self.receive_screen = None
         self.requests_screen = None
         self.address_screen = None
-        self.icon = "electrum/gui/icons/electrum_vestx.png"
+        self.icon = "electrum_vestx/gui/icons/electrum_vestx.png"
         self.tabs = self.root.ids['tabs']
 
     def update_interfaces(self, dt):
@@ -820,8 +820,8 @@ class ElectrumWindow(App):
                 from plyer import notification
             icon = (os.path.dirname(os.path.realpath(__file__))
                     + '/../../' + self.icon)
-            notification.notify('Electrum-Vestx', message,
-                            app_icon=icon, app_name='Electrum-Vestx')
+            notification.notify('Vestx-Electrum', message,
+                            app_icon=icon, app_name='Vestx-Electrum')
         except ImportError:
             Logger.Error('Notification: needs plyer; `sudo python3 -m pip install plyer`')
 
@@ -854,7 +854,7 @@ class ElectrumWindow(App):
             Clock.schedule_once(lambda dt: self.show_info(_('Text copied to clipboard.\nTap again to display it as QR code.')))
 
     def show_error(self, error, width='200dp', pos=None, arrow_pos=None,
-        exit=False, icon='atlas://electrum/gui/kivy/theming/light/error', duration=0,
+        exit=False, icon='atlas://electrum_vestx/gui/kivy/theming/light/error', duration=0,
         modal=False):
         ''' Show an error Message Bubble.
         '''
@@ -866,7 +866,7 @@ class ElectrumWindow(App):
         exit=False, duration=0, modal=False):
         ''' Show an Info Message Bubble.
         '''
-        self.show_error(error, icon='atlas://electrum/gui/kivy/theming/light/important',
+        self.show_error(error, icon='atlas://electrum_vestx/gui/kivy/theming/light/important',
             duration=duration, modal=modal, exit=exit, pos=pos,
             arrow_pos=arrow_pos)
 
@@ -906,7 +906,7 @@ class ElectrumWindow(App):
             info_bubble.show_arrow = False
             img.allow_stretch = True
             info_bubble.dim_background = True
-            info_bubble.background_image = 'atlas://electrum/gui/kivy/theming/light/card'
+            info_bubble.background_image = 'atlas://electrum_vestx/gui/kivy/theming/light/card'
         else:
             info_bubble.fs = False
             info_bubble.icon = icon

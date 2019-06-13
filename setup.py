@@ -17,7 +17,7 @@ _min_python_version_tuple = tuple(map(int, (MIN_PYTHON_VERSION.split("."))))
 
 
 if sys.version_info[:3] < _min_python_version_tuple:
-    sys.exit("Error: Electrum-Vestx requires Python version >= %s..." % MIN_PYTHON_VERSION)
+    sys.exit("Error: Vestx-Electrum requires Python version >= %s..." % MIN_PYTHON_VERSION)
 
 with open('contrib/requirements/requirements.txt') as f:
     requirements = f.read().splitlines()
@@ -46,7 +46,7 @@ if platform.system() in ['Linux', 'FreeBSD', 'DragonFly']:
         else:
             usr_share = os.path.expanduser('~/.local/share')
     data_files += [
-        (os.path.join(usr_share, 'applications/'), ['electrum_vestx.desktop']),
+        (os.path.join(usr_share, 'applications/'), ['electrum-vestx.desktop']),
         (os.path.join(usr_share, icons_dirname), ['electrum_vestx/gui/icons/electrum-vestx.png']),
     ]
 
@@ -59,7 +59,7 @@ extras_require['full'] = [pkg for sublist in list(extras_require.values()) for p
 
 
 setup(
-    name="Electrum-Vestx",
+    name="Vestx-Electrum",
     version=version.ELECTRUM_VERSION,
     python_requires='>={}'.format(MIN_PYTHON_VERSION),
     install_requires=requirements,
@@ -77,13 +77,13 @@ setup(
         '': ['*.txt', '*.json', '*.ttf', '*.otf'],
         'electrum_vestx': [
             'wordlist/*.txt',
-            'locale/*/LC_MESSAGES/electrum_vestx.mo',
+            'locale/*/LC_MESSAGES/electrum.mo',
         ],
         'electrum_vestx.gui': [
             'icons/*',
         ],
     },
-    scripts=['electrum_vestx/electrum_vestx'],
+    scripts=['electrum_vestx/electrum-vestx'],
     data_files=data_files,
     description="Lightweight Vestx Wallet",
     author="Sibby Yose",

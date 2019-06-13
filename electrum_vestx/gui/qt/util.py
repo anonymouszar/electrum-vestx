@@ -433,26 +433,8 @@ def filename_field(parent, config, defaultname, select_msg):
     return vbox, filename_e, b1
 
 class ElectrumItemDelegate(QStyledItemDelegate):
-    def __init__(self, tv):
-        super().__init__(tv)
-        self.tv = tv
-        self.opened = None
-        def on_closeEditor(editor: QLineEdit, hint):
-            self.opened = None
-        def on_commitData(editor: QLineEdit):
-            new_text = editor.text()
-            idx = QModelIndex(self.opened)
-            row, col = idx.row(), idx.column()
-            _prior_text, user_role = self.tv.text_txid_from_coordinate(row, col)
-            # check that we didn't forget to set UserRole on an editable field
-            assert user_role is not None, (row, col)
-            self.tv.on_edited(idx, user_role, new_text)
-        self.closeEditor.connect(on_closeEditor)
-        self.commitData.connect(on_commitData)
-
-    def createEditor(self, parent, option, idx):
-        self.opened = QPersistentModelIndex(idx)
-        return super().createEditor(parent, option, idx)
+    def createEditor(self, parent, option, index):
+        return self.parent().createEditor(parent, option, index)
 
 class MyTreeView(QTreeView):
 
@@ -929,7 +911,7 @@ class ColorScheme:
     RED = ColorSchemeItem("#7c1111", "#f18c8c")
     BLUE = ColorSchemeItem("#123b7c", "#8cb3f2")
     PURPLE = ColorSchemeItem("#8A2BE2", "#8A2BE2")
-    DEFAULT = ColorSchemeItem("black", "white")
+    DEFAULT = ColorSchemeItem("white", "black")
 
     @staticmethod
     def has_dark_background(widget):

@@ -243,7 +243,7 @@ def configure_logging(config):
     logging.getLogger('kivy').propagate = False
 
     from . import ELECTRUM_VERSION
-    _logger.info(f"Electrum-Vestx version: {ELECTRUM_VERSION} - https://electrum_vestx.org - https://github.com/vestx/electrum-vestx")
+    _logger.info(f"Vestx-Electrum version: {ELECTRUM_VERSION} - https://electrum_vestx.org - https://github.com/vestx/electrum-vestx")
     _logger.info(f"Python version: {sys.version}. On platform: {describe_os_version()}")
     _logger.info(f"Logging to file: {str(_logfile_path)}")
     _logger.info(f"Log filters: verbosity {repr(verbosity)}, verbosity_shortcuts {repr(verbosity_shortcuts)}")

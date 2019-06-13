@@ -17,18 +17,18 @@ folder.
 2. Build image
 
     ```
-    $ sudo docker build --no-cache -t electrum-appimage-builder-img contrib/build-linux/appimage
+    $ sudo docker build --no-cache -t electrum-vestx-appimage-builder-img contrib/build-linux/appimage
     ```
 
 3. Build binary
 
     ```
     $ sudo docker run -it \
-        --name electrum-appimage-builder-cont \
-        -v $PWD:/opt/electrum \
+        --name electrum-vestx-appimage-builder-cont \
+        -v $PWD:/opt/electrum-vestx \
         --rm \
-        --workdir /opt/electrum/contrib/build-linux/appimage \
-        electrum-appimage-builder-img \
+        --workdir /opt/electrum-vestx/contrib/build-linux/appimage \
+        electrum-vestx-appimage-builder-img \
         ./build.sh
     ```
 
@@ -38,4 +38,4 @@ folder.
 ## FAQ
 
 ### How can I see what is included in the AppImage?
-Execute the binary as follows: `./electrum*.AppImage --appimage-extract`
+Execute the binary as follows: `./electrum-vestx*.AppImage --appimage-extract`

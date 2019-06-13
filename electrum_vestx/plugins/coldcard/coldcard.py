@@ -44,7 +44,7 @@ try:
         # avoid use of pycoin for MiTM message signature test
         def mitm_verify(self, sig, expect_xpub):
             # verify a signature (65 bytes) over the session key, using the master bip32 node
-            # - customized to use specific EC library of Electrum-Vestx.
+            # - customized to use specific EC library of Vestx-Electrum.
             pubkey = BIP32Node.from_xkey(expect_xpub).eckey
             try:
                 pubkey.verify_message_hash(sig[1:65], self.session_key)

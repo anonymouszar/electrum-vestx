@@ -63,4 +63,4 @@ Copy the Electrum.app directory over and install the dependencies, e.g.:
 Then you can just invoke `package.sh` with the path to the app:
 
     cd electrum
-    ./contrib/osx/package.sh ~/Electrum.app/
+    ./contrib/osx/package.sh ~/Vestx-Electrum.app/
