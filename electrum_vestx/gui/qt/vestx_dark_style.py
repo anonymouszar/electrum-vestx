@@ -111,7 +111,7 @@ QGroupBox::title {
 }
 
 #main_window_topbar #logo_image{
-    background-color: #000;
+    background: url({pkg_dir}/gui/icons/navlogo.png) no-repeat left top;
 }
 
 #main_window_topbar QPushButton{
@@ -127,16 +127,6 @@ QGroupBox::title {
     border:0;
     position: absolute;
 }
-
-#main_window_nav_bar > QTabBar{
-    color: #fff;
-    border:0;
-}
-
-#main_window_nav_bar > QTabBar {
-    background: url({pkg_dir}/gui/icons/navlogo.png) no-repeat left top;
-}
-
 
 QTabWidget#main_window_nav_bar::tab-bar {
     alignment: center;
@@ -291,7 +281,7 @@ QWidget#history_container,
 QWidget#send_container,
 QWidget#receive_container,
 QWidget#console_container {
-    border-image: url(:/icons/background_dark.jpg) 0 0 0 0 stretch stretch;
+    border-image: url({pkg_dir}/gui/icons/background_dark.jpg) 0 0 0 0 stretch stretch;
 }
 
 
@@ -528,7 +518,7 @@ QComboBox::drop-down {
 }
 
 QComboBox::down-arrow {
-    border-image: url('{pkg_dir}/gui/icons/PAC_downArrow.png') 0 0 0 0 stretch stretch;
+    border-image: url({pkg_dir}/gui/icons/PAC_downArrow.png) 0 0 0 0 stretch stretch;
 }
 
 QComboBox QListView {
@@ -837,3 +827,6 @@ QDialog QWidget { /* Remove Annoying Focus Rectangle */
     outline: 0;
 }
 """
+
+pkg_dir_for_css = pkg_dir.replace(os.sep, '/')
+vestx_stylesheet = vestx_stylesheet.replace('{pkg_dir}', '%s' % pkg_dir_for_css)

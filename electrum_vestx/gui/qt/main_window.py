@@ -2368,7 +2368,6 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.menu_button = menu_button = StatusBarButton(read_QIcon("tab_menu_" + self.strTheme + ".png"), _("Menu"), self.menu_expand)
         self.logo_label = logo_label = QLabel(top_bar)
         logo_label.setObjectName("logo_image")
-        logo_label.setPixmap(read_QIcon("navlogo.png").pixmap(128,128))
         self.balance_label = balance_label = QLabel("")
         balance_label.setObjectName("main_window_balance")
         balance_label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)

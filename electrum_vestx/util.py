@@ -69,7 +69,7 @@ base_units = {'VESTX':8, 'mVESTX':5, 'uVESTX':2, 'vees':0}
 base_units_inverse = inv_dict(base_units)
 base_units_list = ['VESTX', 'mVESTX', 'uVESTX', 'vees']  # list(dict) does not guarantee order
 
-DECIMAL_POINT_DEFAULT = 5  # mVESTX
+DECIMAL_POINT_DEFAULT = 8  # VESTX
 
 
 class UnknownBaseUnit(Exception): pass
