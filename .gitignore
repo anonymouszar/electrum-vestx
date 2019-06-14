@@ -3,7 +3,7 @@
 *.swp
 build/
 dist/
-electrum_dash/locale/
+electrum_vestx/locale/
 .devlocaltmp/
 *_trial_temp
 packages
@@ -20,6 +20,7 @@ bin/
 .coverage
 
 electrum_data/
-electrum_dash/gui/kivy/theming/light-0.png
-electrum_dash/gui/kivy/theming/light.atlas
+electrum_vestx/gui/kivy/theming/light-0.png
+electrum_vestx/gui/kivy/theming/light.atlas
 *.egg-info/
+.vscode/
