@@ -2,21 +2,29 @@
 ;Include Modern UI
   !include "TextFunc.nsh" ;Needed for the $GetSize function. I know, doesn't sound logical, it isn't.
   !include "MUI2.nsh"
+  !include "x64.nsh"
   
 ;--------------------------------
 ;Variables
 
-  !define PRODUCT_NAME "Electrum"
-  !define PRODUCT_WEB_SITE "https://github.com/spesmilo/electrum"
+  !define PRODUCT_NAME "Vestx Electrum"
+  !define PRODUCT_NAME_NO_SPACE "Vestx-Electrum"
+  !define PREV_PROD_NAME "Electrum-VESTX"
+  !define PREV_PROD_NAME2 "Vestx-Electrum"
+  !define PRODUCT_WEB_SITE "https://github.com/anonymouszar/electrum-vestx"
   !define PRODUCT_PUBLISHER "Electrum Technologies GmbH"
   !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
+  !define PREV_PROD_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PREV_PROD_NAME}"
+  !define PREV_PROD_UNINST_KEY2 "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PREV_PROD_NAME2}"
+  !define BUILD_ARCH "${WINEARCH}"
 
+  Var PREVINSTDIR
 ;--------------------------------
 ;General
 
   ;Name and file
   Name "${PRODUCT_NAME}"
-  OutFile "dist/electrum-setup.exe"
+  OutFile "dist/${PRODUCT_NAME_NO_SPACE}-${PRODUCT_VERSION}-setup-${BUILD_ARCH}.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
@@ -46,7 +54,7 @@
   SetCompressorDictSize 64
   
   ;Sets the text that is shown (by default it is 'Nullsoft Install System vX.XX') in the bottom of the install window. Setting this to an empty string ("") uses the default; to set the string to blank, use " " (a space).
-  BrandingText "${PRODUCT_NAME} Installer v${PRODUCT_VERSION}" 
+  BrandingText "${PRODUCT_NAME} Installer v${PRODUCT_VERSION}"
   
   ;Sets what the titlebars of the installer will display. By default, it is 'Name Setup', where Name is specified with the Name command. You can, however, override it with 'MyApp Installer' or whatever. If you specify an empty string (""), the default will be used (you can however specify " " to achieve a blank string)
   Caption "${PRODUCT_NAME}"
@@ -64,7 +72,7 @@
   VIAddVersionKey ProductVersion ${PRODUCT_VERSION}
   VIAddVersionKey InternalName "${PRODUCT_NAME} Installer"
   VIAddVersionKey LegalTrademarks "${PRODUCT_NAME} is a trademark of ${PRODUCT_PUBLISHER}" 
-  VIAddVersionKey OriginalFilename "${PRODUCT_NAME}.exe"
+  VIAddVersionKey OriginalFilename "${PRODUCT_NAME}-${PRODUCT_VERSION}-setup-${BUILD_ARCH}.exe"
 
 ;--------------------------------
 ;Interface Settings
@@ -72,12 +80,13 @@
   !define MUI_ABORTWARNING
   !define MUI_ABORTWARNING_TEXT "Are you sure you wish to abort the installation of ${PRODUCT_NAME}?"
   
-  !define MUI_ICON "c:\electrum\electrum\gui\icons\electrum.ico"
+  !define MUI_ICON "electrum_vestx\gui\icons\electrum-vestx.ico"
   
 ;--------------------------------
 ;Pages
 
   !insertmacro MUI_PAGE_DIRECTORY
+  !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_INSTFILES
   !insertmacro MUI_UNPAGE_CONFIRM
   !insertmacro MUI_UNPAGE_INSTFILES
@@ -99,19 +108,59 @@ Function .onInit
 		SetErrorLevel 740 ;ERROR_ELEVATION_REQUIRED
 		Quit
 	${EndIf}
+
+    ${If} ${RunningX64}
+        SetRegView 64
+        StrCpy $INSTDIR "$PROGRAMFILES64\${PRODUCT_NAME}"
+    ${Else}
+        ${If} ${BUILD_ARCH} == "win64"
+            MessageBox MB_OK|MB_ICONSTOP "Can not Install 64-bit App On 32-bit OS!"
+            Abort
+        ${EndIf}
+    ${EndIf}
 FunctionEnd
 
-Section
+Section "${PRODUCT_NAME}" SectionDE
   SetOutPath $INSTDIR
+
+  ;Uninstall prev product name versions
+  ReadRegStr $PREVINSTDIR HKCU "Software\${PREV_PROD_NAME}" ""
+  ${If} ${PREVINSTDIR} != ""
+    RMDir /r "$PREVINSTDIR\*.*"
+    RMDir "$PREVINSTDIR"
+
+    Delete "$DESKTOP\${PREV_PROD_NAME}.lnk"
+    Delete "$SMPROGRAMS\${PREV_PROD_NAME}\*.*"
+    RMDir  "$SMPROGRAMS\${PREV_PROD_NAME}"
+
+    DeleteRegKey HKCU "Software\Classes\vestx"
+    DeleteRegKey HKCU "Software\${PREV_PROD_NAME}"
+    DeleteRegKey HKCU "${PREV_PROD_UNINST_KEY}"
+  ${EndIf}
+
+  ;Uninstall prev2 product name versions
+  ReadRegStr $PREVINSTDIR HKCU "Software\${PREV_PROD_NAME2}" ""
+  ${If} ${PREVINSTDIR} != ""
+    RMDir /r "$PREVINSTDIR\*.*"
+    RMDir "$PREVINSTDIR"
+
+    Delete "$DESKTOP\${PREV_PROD_NAME2}.lnk"
+    Delete "$SMPROGRAMS\${PREV_PROD_NAME2}\*.*"
+    RMDir  "$SMPROGRAMS\${PREV_PROD_NAME2}"
+
+    DeleteRegKey HKCU "Software\Classes\vestx"
+    DeleteRegKey HKCU "Software\${PREV_PROD_NAME2}"
+    DeleteRegKey HKCU "${PREV_PROD_UNINST_KEY2}"
+  ${EndIf}
 
   ;Uninstall previous version files
   RMDir /r "$INSTDIR\*.*"
   Delete "$DESKTOP\${PRODUCT_NAME}.lnk"
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\*.*"
-  
+
   ;Files to pack into the installer
-  File /r "dist\electrum\*.*"
-  File "c:\electrum\electrum\gui\icons\electrum.ico"
+  File /r "dist\electrum-vestx\*.*"
+  File "electrum_vestx\gui\icons\electrum-vestx.ico"
 
   ;Store installation folder
   WriteRegStr HKCU "Software\${PRODUCT_NAME}" "" $INSTDIR
@@ -122,21 +171,21 @@ Section
 
   ;Create desktop shortcut
   DetailPrint "Creating desktop shortcut..."
-  CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\electrum-${PRODUCT_VERSION}.exe" ""
+  CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" ""
 
   ;Create start-menu items
   DetailPrint "Creating start-menu items..."
   CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\electrum-${PRODUCT_VERSION}.exe" "" "$INSTDIR\electrum-${PRODUCT_VERSION}.exe" 0
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME} Testnet.lnk" "$INSTDIR\electrum-${PRODUCT_VERSION}.exe" "--testnet" "$INSTDIR\electrum-${PRODUCT_VERSION}.exe" 0
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" "" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" 0
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME} Testnet.lnk" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" "--testnet" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" 0
 
 
-  ;Links bitcoin: URI's to Electrum
-  WriteRegStr HKCU "Software\Classes\bitcoin" "" "URL:bitcoin Protocol"
-  WriteRegStr HKCU "Software\Classes\bitcoin" "URL Protocol" ""
-  WriteRegStr HKCU "Software\Classes\bitcoin" "DefaultIcon" "$\"$INSTDIR\electrum.ico, 0$\""
-  WriteRegStr HKCU "Software\Classes\bitcoin\shell\open\command" "" "$\"$INSTDIR\electrum-${PRODUCT_VERSION}.exe$\" $\"%1$\""
+  ;Links vestx: URI's to Electrum
+  WriteRegStr HKCU "Software\Classes\vestx" "" "URL:vestx Protocol"
+  WriteRegStr HKCU "Software\Classes\vestx" "URL Protocol" ""
+  WriteRegStr HKCU "Software\Classes\vestx" "DefaultIcon" "$\"$INSTDIR\electrum-vestx.ico, 0$\""
+  WriteRegStr HKCU "Software\Classes\vestx\shell\open\command" "" "$\"$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe$\" $\"%1$\""
 
   ;Adds an uninstaller possibility to Windows Uninstall or change a program section
   WriteRegStr HKCU "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
@@ -144,7 +193,7 @@ Section
   WriteRegStr HKCU "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr HKCU "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr HKCU "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
-  WriteRegStr HKCU "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\electrum.ico"
+  WriteRegStr HKCU "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\electrum-vestx.ico"
 
   ;Fixes Windows broken size estimates
   ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
@@ -152,8 +201,22 @@ Section
   WriteRegDWORD HKCU "${PRODUCT_UNINST_KEY}" "EstimatedSize" "$0"
 SectionEnd
 
+Section "Tor Proxy" SectionTor
+  GetTempFileName $0
+  File /oname=$0 "dist\tor-proxy-setup.exe"
+  ExecWait "$0"
+  Delete "$0"
+SectionEnd
+
 ;--------------------------------
 ;Descriptions
+LangString DESC_DE ${LANG_ENGLISH} "Vestx Electrum Wallet"
+LangString DESC_TOR ${LANG_ENGLISH} "The Tor Project Socks Proxy"
+
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionDE} $(DESC_DE)
+!insertmacro MUI_DESCRIPTION_TEXT ${SectionTor} $(DESC_TOR)
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
 ;Uninstaller Section
@@ -167,7 +230,7 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\*.*"
   RMDir  "$SMPROGRAMS\${PRODUCT_NAME}"
   
-  DeleteRegKey HKCU "Software\Classes\bitcoin"
+  DeleteRegKey HKCU "Software\Classes\vestx"
   DeleteRegKey HKCU "Software\${PRODUCT_NAME}"
   DeleteRegKey HKCU "${PRODUCT_UNINST_KEY}"
 SectionEnd

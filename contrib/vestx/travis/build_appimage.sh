@@ -5,20 +5,21 @@ set -e
 PROJECT_ROOT="$(dirname "$(readlink -e "$0")")/../../.."
 CONTRIB="$PROJECT_ROOT/contrib"
 DISTDIR="$PROJECT_ROOT/dist"
-BUILDDIR="$CONTRIB/build-linux/appimage/build/appimage"
+BUILDDIR="/var/build/appimage"
 APPDIR="$BUILDDIR/electrum-vestx.AppDir"
-CACHEDIR="$CONTRIB/build-linux/appimage/.cache/appimage"
+CACHEDIR="$BUILDDIR/.cache/appimage"
 
 # pinned versions
 PYTHON_VERSION=3.6.8
 PKG2APPIMAGE_COMMIT="83483c2971fcaa1cb0c1253acd6c731ef8404381"
 LIBSECP_VERSION="b408c6a8b287003d1ade5709e6f7bc3c7f1d5be7"
 
+pushd $PROJECT_ROOT
+source $CONTRIB/vestx/travis/electrum_vestx_version_env.sh
+popd
+VERSION=$VESTX_ELECTRUM_VERSION
+APPIMAGE="$DISTDIR/Vestx-Electrum-$VERSION-x86_64.AppImage"
 
-VERSION=`git describe --tags --dirty --always`
-APPIMAGE="$DISTDIR/electrum-vestx-$VERSION-x86_64.AppImage"
-
-rm -rf "$BUILDDIR"
 mkdir -p "$APPDIR" "$CACHEDIR" "$DISTDIR"
 
 
@@ -31,50 +32,6 @@ verify_hash "$CACHEDIR/functions.sh" "a73a21a6c1d1e15c0a9f47f017ae833873d1dc6aa7
 
 download_if_not_exist "$CACHEDIR/appimagetool" "https://github.com/probonopd/AppImageKit/releases/download/11/appimagetool-x86_64.AppImage"
 verify_hash "$CACHEDIR/appimagetool" "c13026b9ebaa20a17e7e0a4c818a901f0faba759801d8ceab3bb6007dde00372"
-
-download_if_not_exist "$CACHEDIR/Python-$PYTHON_VERSION.tar.xz" "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz"
-verify_hash "$CACHEDIR/Python-$PYTHON_VERSION.tar.xz" "35446241e995773b1bed7d196f4b624dadcadc8429f26282e756b2fb8a351193"
-
-
-
-info "building python."
-tar xf "$CACHEDIR/Python-$PYTHON_VERSION.tar.xz" -C "$BUILDDIR"
-(
-    cd "$BUILDDIR/Python-$PYTHON_VERSION"
-    export SOURCE_DATE_EPOCH=1530212462
-    TZ=UTC faketime -f '2019-01-01 01:01:01' ./configure \
-      --cache-file="$CACHEDIR/python.config.cache" \
-      --prefix="$APPDIR/usr" \
-      --enable-ipv6 \
-      --enable-shared \
-      --with-threads \
-      -q
-    TZ=UTC faketime -f '2019-01-01 01:01:01' make -s
-    make -s install > /dev/null
-)
-
-
-info "building libsecp256k1."
-(
-    git clone https://github.com/bitcoin-core/secp256k1 "$CACHEDIR"/secp256k1 \
-        || (cd "$CACHEDIR"/secp256k1 && git reset --hard && git pull)
-    cd "$CACHEDIR"/secp256k1
-    git reset --hard "$LIBSECP_VERSION"
-    git clean -f -x -q
-    export SOURCE_DATE_EPOCH=1530212462
-    ./autogen.sh
-    echo "LDFLAGS = -no-undefined" >> Makefile.am
-    ./configure \
-      --prefix="$APPDIR/usr" \
-      --enable-module-recovery \
-      --enable-experimental \
-      --enable-module-ecdh \
-      --disable-jni \
-      -q
-    make -s
-    make -s install > /dev/null
-)
-
 
 appdir_python() {
   env \
@@ -90,26 +47,7 @@ info "installing pip."
 "$python" -m ensurepip
 
 
-info "preparing electrum-vestx-locale."
-(
-    cd "$PROJECT_ROOT"
-    git submodule update --init
-
-    pushd "$CONTRIB"/deterministic-build/electrum-locale
-    if ! which msgfmt > /dev/null 2>&1; then
-        echo "Please install gettext"
-        exit 1
-    fi
-    for i in ./locale/*; do
-        dir="$PROJECT_ROOT/electrum-vestx/$i/LC_MESSAGES"
-        mkdir -p $dir
-        msgfmt --output-file="$dir/electrum.mo" "$i/electrum.po" || true
-    done
-    popd
-)
-
-
-info "installing electrum and its dependencies."
+info "installing electrum-vestx and its dependencies."
 mkdir -p "$CACHEDIR/pip_cache"
 "$python" -m pip install --cache-dir "$CACHEDIR/pip_cache" -r "$CONTRIB/deterministic-build/requirements.txt"
 "$python" -m pip install --cache-dir "$CACHEDIR/pip_cache" -r "$CONTRIB/deterministic-build/requirements-binaries.txt"
@@ -122,12 +60,12 @@ cp "/usr/lib/libzbar.so.0" "$APPDIR/usr/lib/libzbar.so.0"
 
 
 info "desktop integration."
-cp "$PROJECT_ROOT/electrum.desktop" "$APPDIR/electrum.desktop"
-cp "$PROJECT_ROOT/electrum/gui/icons/electrum.png" "$APPDIR/electrum.png"
+cp "$PROJECT_ROOT/electrum-vestx.desktop" "$APPDIR/electrum-vestx.desktop"
+cp "$PROJECT_ROOT/electrum_vestx/gui/icons/electrum-vestx.png" "$APPDIR/electrum-vestx.png"
 
 
 # add launcher
-cp "$CONTRIB/build-linux/appimage/apprun.sh" "$APPDIR/AppRun"
+cp "$CONTRIB/vestx/travis/apprun.sh" "$APPDIR/AppRun"
 
 info "finalizing AppDir."
 (

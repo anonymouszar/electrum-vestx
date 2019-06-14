@@ -275,7 +275,7 @@ class ProposalsTab(QWidget):
         form.addRow(_('Number of Payments:'), self.payments_count_edit)
         form.addRow(_('Starting Block:'), self.start_block_edit)
         form.addRow(_('Payment Address:'), self.address_edit)
-        form.addRow(_('Monthly DASH Payment:'), self.amount_edit)
+        form.addRow(_('Monthly VESTX Payment:'), self.amount_edit)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.tree)
