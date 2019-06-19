@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-LABEL maintainer "Andriy Khavryuchenko <akhavr@khavr.com>"
+LABEL maintainer "Sibby Yose <sibcool@gmail.com>"
 
 USER root
 WORKDIR /root
