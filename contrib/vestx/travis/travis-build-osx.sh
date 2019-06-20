@@ -44,21 +44,21 @@ export PATH="/usr/local/opt/gettext/bin:$PATH"
 find . -name '*.po' -delete
 find . -name '*.pot' -delete
 
-cp contrib/dash/osx.spec .
-cp contrib/dash/pyi_runtimehook.py .
-cp contrib/dash/pyi_tctl_runtimehook.py .
+cp contrib/vestx/osx.spec .
+cp contrib/vestx/pyi_runtimehook.py .
+cp contrib/vestx/pyi_tctl_runtimehook.py .
 
 pyinstaller \
     -y \
     --name electrum-vestx-$VESTX_ELECTRUM_VERSION.bin \
     osx.spec
 
-info "Adding Dash URI types to Info.plist"
+info "Adding Vestx URI types to Info.plist"
 plutil -insert 'CFBundleURLTypes' \
-   -xml '<array><dict> <key>CFBundleURLName</key> <string>dash</string> <key>CFBundleURLSchemes</key> <array><string>dash</string></array> </dict></array>' \
-   -- dist/Dash\ Electrum.app/Contents/Info.plist \
+   -xml '<array><dict> <key>CFBundleURLName</key> <string>dash</string> <key>CFBundleURLSchemes</key> <array><string>vestx</string></array> </dict></array>' \
+   -- dist/Vestx\ Electrum.app/Contents/Info.plist \
    || fail "Could not add keys to Info.plist. Make sure the program 'plutil' exists and is installed."
 
 sudo hdiutil create -fs HFS+ -volname "Dash Electrum" \
-    -srcfolder dist/Dash\ Electrum.app \
-    dist/Dash-Electrum-$VESTX_ELECTRUM_VERSION-macosx.dmg
+    -srcfolder dist/Vestx\ Electrum.app \
+    dist/Vestx-Electrum-$VESTX_ELECTRUM_VERSION-macosx.dmg
