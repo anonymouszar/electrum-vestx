@@ -343,7 +343,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         edit.textEdited.emit(edit.text())
         # History tab needs updating if it used spot
         if self.fx.history_used_spot:
-            self.history_model.refresh('fx_quotes')
+            self.history_list.update()
+            self.dashboard_history_list.update()
         self.address_list.update()
 
     # def toggle_tab(self, tab):
@@ -443,7 +444,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         elif event == 'verified':
             wallet, tx_hash, tx_mined_status = args
             if wallet == self.wallet:
-                self.history_model.update_tx_mined_status(tx_hash, tx_mined_status)
+                self.history_list.update_item(*args)
+                self.dashboard_history_list.update_item(*args)
         elif event == 'fee':
             if self.config.is_dynfee():
                 self.fee_slider.update()
@@ -452,7 +454,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             if self.config.is_dynfee():
                 self.fee_slider.update()
                 self.require_fee_update = True
-            self.history_model.on_fee_histogram()
+                # todo: update only unconfirmed tx
+            self.history_list.update()
         else:
             self.logger.info(f"unexpected network_qt signal: {event} {args}")
 
@@ -3500,7 +3503,8 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
             if not self.fx: return
             self.fx.set_history_config(checked)
             update_exchanges()
-            self.history_model.refresh('on_history')
+            self.history_list.refresh_headers()
+            self.dashboard_history_list.refresh_headers()
             if self.fx.is_enabled() and checked:
                 self.fx.trigger_update()
             update_history_capgains_cb()
@@ -3508,7 +3512,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         def on_history_capgains(checked):
             if not self.fx: return
             self.fx.set_history_capital_gains_config(checked)
-            self.history_model.refresh('on_history_capgains')
+            self.history_list.refresh_headers()
 
         def on_fiat_address(checked):
             if not self.fx: return
