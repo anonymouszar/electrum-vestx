@@ -5,7 +5,7 @@ echo wine build version is $VESTX_ELECTRUM_VERSION
 
 mv /opt/zbarw $WINEPREFIX/drive_c/
 
-mv /opt/x11_hash $WINEPREFIX/drive_c/
+mv /opt/x16rt_hash $WINEPREFIX/drive_c/
 
 mv /opt/libsecp256k1/libsecp256k1-0.dll \
    /opt/libsecp256k1/libsecp256k1.dll
