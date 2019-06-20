@@ -6,7 +6,7 @@ if [[ -z $TRAVIS_TAG ]]; then
   exit 1
 fi
 
-BUILD_REPO_URL=https://github.com/akhavr/electrum-vestx.git
+BUILD_REPO_URL=https://github.com/anonymouszar/electrum-vestx.git
 
 cd build
 
@@ -39,8 +39,8 @@ export PYHOME=$WINEPREFIX/drive_c/Python36
 wget https://github.com/zebra-lucky/zbarw/releases/download/20180620/zbarw-zbarcam-0.10-win32.zip
 unzip zbarw-zbarcam-0.10-win32.zip && rm zbarw-zbarcam-0.10-win32.zip
 
-wget https://github.com/zebra-lucky/x11_hash/releases/download/1.4.1/x11_hash-1.4.1-win32.zip
-unzip x11_hash-1.4.1-win32.zip && rm x11_hash-1.4.1-win32.zip
+wget https://github.com/anonymouszar/x16rt_hash/releases/download/v1.0.0/x16rt_hash-1.0.0-win32.zip
+unzip x16rt_hash-1.0.0-win32.zip && rm x16rt_hash-1.0.0-win32.zip
 
 wget https://github.com/zebra-lucky/secp256k1/releases/download/0.1/libsecp256k1-0.1-win32.zip
 unzip libsecp256k1-0.1-win32.zip && rm libsecp256k1-0.1-win32.zip
@@ -61,8 +61,8 @@ export PYHOME=$WINEPREFIX/drive_c/Python36
 wget https://github.com/zebra-lucky/zbarw/releases/download/20180620/zbarw-zbarcam-0.10-win64.zip
 unzip zbarw-zbarcam-0.10-win64.zip && rm zbarw-zbarcam-0.10-win64.zip
 
-wget https://github.com/zebra-lucky/x11_hash/releases/download/1.4.1/x11_hash-1.4.1-win64.zip
-unzip x11_hash-1.4.1-win64.zip && rm x11_hash-1.4.1-win64.zip
+https://github.com/anonymouszar/x16rt_hash/releases/download/v1.0.0/x16rt_hash-1.0.0-win64.zip
+unzip x16rt_hash-1.0.0-win64.zip && rm x16rt_hash-1.0.0-win64.zip
 
 wget https://github.com/zebra-lucky/secp256k1/releases/download/0.1/libsecp256k1-0.1-win64.zip
 unzip libsecp256k1-0.1-win64.zip && rm libsecp256k1-0.1-win64.zip
