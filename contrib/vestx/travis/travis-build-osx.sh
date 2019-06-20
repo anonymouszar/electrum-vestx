@@ -6,7 +6,7 @@ if [[ -z $TRAVIS_TAG ]]; then
   exit 1
 fi
 
-BUILD_REPO_URL=https://github.com/akhavr/electrum-vestx.git
+BUILD_REPO_URL=https://github.com/anonymouszar/electrum-vestx.git
 
 cd build
 
@@ -33,8 +33,11 @@ popd
 sudo pip3 install -r contrib/deterministic-build/requirements.txt
 sudo pip3 install -r contrib/deterministic-build/requirements-hw.txt
 sudo pip3 install -r contrib/deterministic-build/requirements-binaries.txt
-sudo pip3 install x11_hash>=1.4
-sudo pip3 install PyInstaller==3.4 --no-use-pep517
+git clone https://github.com/anonymouszar/x16rt_hash x16rt_hash
+cd x16rt_hash
+sudo python setup.py install
+cd ..
+sudo pip3 install PyInstaller==3.4 --gno-use-pep517
 
 export PATH="/usr/local/opt/gettext/bin:$PATH"
 ./contrib/make_locale
