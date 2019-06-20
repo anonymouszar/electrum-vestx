@@ -55,7 +55,7 @@ script:
 deploy:
 - provider: releases
   api_key:
-    secure: #todo
+    secure: sbjZ+oSSzNGk1g4xQq4qTlMVTznIqxQn9lVZNpbACeRTO22aXEABlcu3Ko82RhUrYyV7UBZbWyBnGEhF5C7PE7FAsFptEaTYi+F/2ZENAwEaLCkfXv1MBmKKGPryLgRoWL6+HNPZlycjMzucq8pUt2S7WysdHSpaC7fvaG8HuqnnC2/+JArSmkXv0JzNtbFZEkeIAzj5y3HL/THfSUPDfE2KtVfx/524/wM/dXZrS3kkF3BANdnCOpY1XNZyKmrS8i5sYbu5bFRWvoOP38DQ1sKguwQG+EIpGtFrJJKmFBvMcLMmvGePtmzOOgA+dp3hQwpyBGPmAf7An11nP1D/Io060Gi3IOlwf3yTaiwje09ikSdwXrYGpxjjp6yo14qywgtSKL7Uk1Pkx0UcumPBJ+1O+wzYykS1+fgrTpqiw87tjhw89GIlXfewug3tH2lG8I6GgGsWaxQODGBK72oKkhUH1Rj4ctrKjm8GxI9xJ1fM6fLc1uma33kiEQJAhy9qja23yJ860aDqV5VPwEvSYfKcI92MRGg+VBLnGs32p5gzvZKDOCDfqe0p5az1BhUE+Jbh2CtyJdOstaOZV67QqZxQOZpcd+e5R6PMoo4+wMp3NZSsTt4rDkmOGmMRrqrASUpz4vErqkLPZwvJmFKxVo9L9hpLjEE4ttcEm0a+OTM=
   file:
   - build/electrum-vestx/dist/Vestx-Electrum-$VESTX_ELECTRUM_VERSION-macosx.dmg
   on:
@@ -64,7 +64,7 @@ deploy:
     condition: "$TRAVIS_OS_NAME = osx"
 - provider: releases
   api_key:
-    secure: #todo
+    secure: sbjZ+oSSzNGk1g4xQq4qTlMVTznIqxQn9lVZNpbACeRTO22aXEABlcu3Ko82RhUrYyV7UBZbWyBnGEhF5C7PE7FAsFptEaTYi+F/2ZENAwEaLCkfXv1MBmKKGPryLgRoWL6+HNPZlycjMzucq8pUt2S7WysdHSpaC7fvaG8HuqnnC2/+JArSmkXv0JzNtbFZEkeIAzj5y3HL/THfSUPDfE2KtVfx/524/wM/dXZrS3kkF3BANdnCOpY1XNZyKmrS8i5sYbu5bFRWvoOP38DQ1sKguwQG+EIpGtFrJJKmFBvMcLMmvGePtmzOOgA+dp3hQwpyBGPmAf7An11nP1D/Io060Gi3IOlwf3yTaiwje09ikSdwXrYGpxjjp6yo14qywgtSKL7Uk1Pkx0UcumPBJ+1O+wzYykS1+fgrTpqiw87tjhw89GIlXfewug3tH2lG8I6GgGsWaxQODGBK72oKkhUH1Rj4ctrKjm8GxI9xJ1fM6fLc1uma33kiEQJAhy9qja23yJ860aDqV5VPwEvSYfKcI92MRGg+VBLnGs32p5gzvZKDOCDfqe0p5az1BhUE+Jbh2CtyJdOstaOZV67QqZxQOZpcd+e5R6PMoo4+wMp3NZSsTt4rDkmOGmMRrqrASUpz4vErqkLPZwvJmFKxVo9L9hpLjEE4ttcEm0a+OTM=
   file:
   - build/electrum-vestx/dist/Vestx-Electrum-$VESTX_ELECTRUM_VERSION.tar.gz
   - build/electrum-vestx/dist/Vestx-Electrum-$VESTX_ELECTRUM_VERSION.zip
