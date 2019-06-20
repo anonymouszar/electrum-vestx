@@ -281,7 +281,7 @@ QWidget#history_container,
 QWidget#send_container,
 QWidget#receive_container,
 QWidget#console_container {
-    border-image: url({pkg_dir}/gui/icons/background_dark.jpg) 0 0 0 0 stretch stretch;
+    border-image: url({pkg_dir}/gui/icons/background_s_dark.jpg) 0 0 0 0 stretch stretch;
 }
 
 
@@ -464,33 +464,35 @@ QPushButton:disabled
 }
 
 #section_content QPushButton {
-    border:1px solid #ff7200;
-    color: #ff7200;
+    border:1px solid #343b47;
+    background-color: #ffb054;
+    color: #FFFFFF;
+
 }
 
 #section_content QPushButton:hover {
-    background-color: #ff7200;
-    color: #000;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #850550, stop: 1 #ffb054);
+    color: #d7d7d7;
 }
 
 #section_content QPushButton:disabled {
-    background-color: #000;
+    background-color: #d7d7d7;
 }
 
 #section_content QPushButton#main {
-    border:2px solid #ff7200;
-    background-color: #ff7200;
-    color: #000;
+    border:2px solid #343b47;
+    background-color: #ffb054;
+    color: #FFFFFF;
     height:25px;
 }
 
 #section_content QPushButton#main:hover {
-    background-color: #e42727
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #850550, stop: 1 #ffb054)
 }
 
 #section_content QPushButton#main:disabled {
-    background-color: #000;
-    color: #ff7200;
+    background-color: #d7d7d7;
+    color: #FFFFFF;
 }
 
 QComboBox { /* Dropdown Menus */

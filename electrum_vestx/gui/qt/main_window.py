@@ -642,13 +642,13 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.import_address_menu = wallet_menu.addAction(_("Import addresses"), self.import_addresses)
         wallet_menu.addSeparator()
 
-        addresses_menu = wallet_menu.addMenu(_("&Addresses"))
-        addresses_menu.addAction(_("&Filter"), lambda: self.address_list.toggle_toolbar(self.config))
+        #addresses_menu = wallet_menu.addMenu(_("&Addresses"))
+        #addresses_menu.addAction(_("&Filter"), lambda: self.address_list.toggle_toolbar(self.config))
         labels_menu = wallet_menu.addMenu(_("&Labels"))
         labels_menu.addAction(_("&Import"), self.do_import_labels)
         labels_menu.addAction(_("&Export"), self.do_export_labels)
         history_menu = wallet_menu.addMenu(_("&History"))
-        history_menu.addAction(_("&Filter"), lambda: self.history_list.toggle_toolbar(self.config))
+        #history_menu.addAction(_("&Filter"), lambda: self.history_list.toggle_toolbar(self.config))
         history_menu.addAction(_("&Summary"), self.history_list.show_summary)
         history_menu.addAction(_("&Plot"), self.history_list.plot_history_dialog)
         history_menu.addAction(_("&Export"), self.history_list.export_history_dialog)
@@ -951,9 +951,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
 
         home_widget = QWidget()
         home_widget.setObjectName("home_container")
-#        urlStr = icon_path("background_light.jpg")
-#        urlStr = urlStr.replace("\\","/")
-#        home_widget.setStyleSheet(" border-image: url(" + urlStr + ") 0 0 0 0 stretch stretch;")
+
         home_widget_layout = QVBoxLayout(home_widget)
         home_widget_layout.setContentsMargins(50,50,50,50)
 
