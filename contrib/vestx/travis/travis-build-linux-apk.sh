@@ -22,5 +22,5 @@ sudo chown -R 1000 electrum-vestx
 
 docker run --rm \
     -v $(pwd)/electrum-vestx:/home/buildozer/build \
-    -t zebralucky/electrum-vestx-winebuild:Kivy33x bash -c \
+    -t anonymouszar/electrum-vestx-winebuild:Kivy33x bash -c \
     'rm -rf packages && ./contrib/make_packages && ./contrib/make_apk'
