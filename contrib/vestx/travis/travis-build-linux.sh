@@ -20,7 +20,7 @@ wget -O electrum-vestx/dist/tor-proxy-setup.exe \
 docker run --rm \
     -v $(pwd):/opt \
     -w /opt/electrum-vestx \
-    -t zebralucky/electrum-dash-winebuild:LinuxPy36 /opt/build_linux.sh
+    -t anonymouszar/electrum-vestx-winebuild:LinuxPy36 /opt/build_linux.sh
 
 sudo find . -name '*.po' -delete
 sudo find . -name '*.pot' -delete
@@ -29,7 +29,7 @@ sudo find . -name '*.pot' -delete
 docker run --rm \
     -v $(pwd):/opt \
     -w /opt/electrum-vestx/contrib/vestx/travis \
-    -t zebralucky/electrum-dash-winebuild:LinuxAppImage ./build_appimage.sh
+    -t anonymouszar/electrum-vestx-winebuild:LinuxAppImage ./build_appimage.sh
 
 
 export WINEARCH=win32
