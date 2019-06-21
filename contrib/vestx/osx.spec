@@ -121,7 +121,7 @@ excludes += [
     'PyQt5.QtWinExtras',
 ]
 
-a = Analysis(['electrum-vestx'],
+a = Analysis(['run_electrum-vestx'],
              hiddenimports=hiddenimports,
              datas=datas,
              binaries=binaries,
