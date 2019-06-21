@@ -16,9 +16,9 @@ cd $WINEPREFIX/drive_c/electrum-vestx
 rm -rf build
 rm -rf dist/electrum-vestx
 
-cp contrib/dash/deterministic.spec .
-cp contrib/dash/pyi_runtimehook.py .
-cp contrib/dash/pyi_tctl_runtimehook.py .
+cp contrib/vestx/deterministic.spec .
+cp contrib/vestx/pyi_runtimehook.py .
+cp contrib/vestx/pyi_tctl_runtimehook.py .
 
 wine python -m pip install -r contrib/deterministic-build/requirements.txt
 wine python -m pip install -r contrib/deterministic-build/requirements-hw.txt
@@ -38,4 +38,4 @@ fi
 wine "$NSIS_EXE" /NOCD -V3 \
     /DPRODUCT_VERSION=$VESTX_ELECTRUM_VERSION \
     /DWINEARCH=$WINEARCH \
-    contrib/dash/electrum-vestx.nsi
+    contrib/vestx/electrum-vestx.nsi
