@@ -16,7 +16,7 @@ cd electrum-vestx
 
 export PY36BINDIR=/Library/Frameworks/Python.framework/Versions/3.6/bin/
 export PATH=$PATH:$PY36BINDIR
-source ./contrib/dash/travis/electrum_vestx_version_env.sh;
+source ./contrib/vestx/travis/electrum_vestx_version_env.sh;
 echo osx build version is $VESTX_ELECTRUM_VERSION
 
 
@@ -59,6 +59,6 @@ plutil -insert 'CFBundleURLTypes' \
    -- dist/Vestx\ Electrum.app/Contents/Info.plist \
    || fail "Could not add keys to Info.plist. Make sure the program 'plutil' exists and is installed."
 
-sudo hdiutil create -fs HFS+ -volname "Dash Electrum" \
+sudo hdiutil create -fs HFS+ -volname "Vestx Electrum" \
     -srcfolder dist/Vestx\ Electrum.app \
     dist/Vestx-Electrum-$VESTX_ELECTRUM_VERSION-macosx.dmg
