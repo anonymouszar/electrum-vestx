@@ -33,6 +33,49 @@ verify_hash "$CACHEDIR/functions.sh" "a73a21a6c1d1e15c0a9f47f017ae833873d1dc6aa7
 download_if_not_exist "$CACHEDIR/appimagetool" "https://github.com/probonopd/AppImageKit/releases/download/11/appimagetool-x86_64.AppImage"
 verify_hash "$CACHEDIR/appimagetool" "c13026b9ebaa20a17e7e0a4c818a901f0faba759801d8ceab3bb6007dde00372"
 
+download_if_not_exist "$CACHEDIR/Python-$PYTHON_VERSION.tar.xz" "https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz"
+verify_hash "$CACHEDIR/Python-$PYTHON_VERSION.tar.xz" "35446241e995773b1bed7d196f4b624dadcadc8429f26282e756b2fb8a351193"
+
+
+
+info "building python."
+tar xf "$CACHEDIR/Python-$PYTHON_VERSION.tar.xz" -C "$BUILDDIR"
+(
+    cd "$BUILDDIR/Python-$PYTHON_VERSION"
+    export SOURCE_DATE_EPOCH=1530212462
+    TZ=UTC faketime -f '2019-01-01 01:01:01' ./configure \
+      --cache-file="$CACHEDIR/python.config.cache" \
+      --prefix="$APPDIR/usr" \
+      --enable-ipv6 \
+      --enable-shared \
+      --with-threads \
+      -q
+    TZ=UTC faketime -f '2019-01-01 01:01:01' make -j4 -s
+    make -s install > /dev/null
+)
+
+
+info "building libsecp256k1."
+(
+    git clone https://github.com/bitcoin-core/secp256k1 "$CACHEDIR"/secp256k1 \
+        || (cd "$CACHEDIR"/secp256k1 && git reset --hard && git pull)
+    cd "$CACHEDIR"/secp256k1
+    git reset --hard "$LIBSECP_VERSION"
+    git clean -f -x -q
+    export SOURCE_DATE_EPOCH=1530212462
+    ./autogen.sh
+    echo "LDFLAGS = -no-undefined" >> Makefile.am
+    ./configure \
+      --prefix="$APPDIR/usr" \
+      --enable-module-recovery \
+      --enable-experimental \
+      --enable-module-ecdh \
+      --disable-jni \
+      -q
+    make -j4 -s
+    make -s install > /dev/null
+)
+
 appdir_python() {
   env \
     PYTHONNOUSERSITE=1 \
