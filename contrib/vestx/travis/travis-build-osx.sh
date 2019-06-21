@@ -37,7 +37,7 @@ git clone https://github.com/anonymouszar/x16rt_hash x16rt_hash
 cd x16rt_hash
 sudo python setup.py install
 cd ..
-sudo pip3 install PyInstaller==3.4 --gno-use-pep517
+sudo pip3 install PyInstaller==3.4 --no-use-pep517
 
 export PATH="/usr/local/opt/gettext/bin:$PATH"
 ./contrib/make_locale
