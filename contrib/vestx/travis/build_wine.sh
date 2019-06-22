@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./contrib/dash/travis/electrum_vestx_version_env.sh;
+source ./contrib/vestxl/travis/electrum_vestx_version_env.sh;
 echo wine build version is $VESTX_ELECTRUM_VERSION
 
 mv /opt/zbarw $WINEPREFIX/drive_c/
