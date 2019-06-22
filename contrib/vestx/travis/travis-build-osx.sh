@@ -55,7 +55,7 @@ pyinstaller \
 
 info "Adding Vestx URI types to Info.plist"
 plutil -insert 'CFBundleURLTypes' \
-   -xml '<array><dict> <key>CFBundleURLName</key> <string>dash</string> <key>CFBundleURLSchemes</key> <array><string>vestx</string></array> </dict></array>' \
+   -xml '<array><dict> <key>CFBundleURLName</key> <string>vestx</string> <key>CFBundleURLSchemes</key> <array><string>vestx</string></array> </dict></array>' \
    -- dist/Vestx\ Electrum.app/Contents/Info.plist \
    || fail "Could not add keys to Info.plist. Make sure the program 'plutil' exists and is installed."
 
