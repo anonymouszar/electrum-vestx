@@ -35,7 +35,7 @@ sudo pip3 install -r contrib/deterministic-build/requirements-hw.txt
 sudo pip3 install -r contrib/deterministic-build/requirements-binaries.txt
 git clone https://github.com/anonymouszar/x16rt_hash x16rt_hash
 cd x16rt_hash
-sudo python setup.py install
+sudo python3 setup.py install
 cd ..
 sudo pip3 install PyInstaller==3.4 --no-use-pep517
 
