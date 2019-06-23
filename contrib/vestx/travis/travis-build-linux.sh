@@ -61,7 +61,7 @@ export PYHOME=$WINEPREFIX/drive_c/Python36
 wget https://github.com/zebra-lucky/zbarw/releases/download/20180620/zbarw-zbarcam-0.10-win64.zip
 unzip zbarw-zbarcam-0.10-win64.zip && rm zbarw-zbarcam-0.10-win64.zip
 
-https://github.com/anonymouszar/x16rt_hash/releases/download/v1.0.0/x16rt_hash-1.0.0-win64.zip
+wget https://github.com/anonymouszar/x16rt_hash/releases/download/v1.0.0/x16rt_hash-1.0.0-win64.zip
 unzip x16rt_hash-1.0.0-win64.zip && rm x16rt_hash-1.0.0-win64.zip
 
 wget https://github.com/zebra-lucky/secp256k1/releases/download/0.1/libsecp256k1-0.1-win64.zip
