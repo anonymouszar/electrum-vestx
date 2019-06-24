@@ -188,7 +188,7 @@ class AddressList(MyTreeWidget):
             if addr_URL:
                 menu.addAction(_("View on block explorer"), lambda: webbrowser.open(addr_URL))
 
-            if not self.wallet.is_frozen(addr):
+            if not self.wallet.is_frozen_address(addr):
                 menu.addAction(_("Freeze"), lambda: self.parent.set_frozen_state([addr], True))
             else:
                 menu.addAction(_("Unfreeze"), lambda: self.parent.set_frozen_state([addr], False))

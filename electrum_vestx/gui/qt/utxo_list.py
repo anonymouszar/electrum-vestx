@@ -74,7 +74,7 @@ class UTXOList(MyTreeWidget):
             utxo_item.setTextAlignment(2, Qt.AlignRight)
             utxo_item.setTextAlignment(3, Qt.AlignRight)
             utxo_item.setData(0, Qt.UserRole, name)
-            if self.wallet.is_frozen(address):
+            if self.wallet.is_frozen_address(address):
                 utxo_item.setBackground(0, ColorScheme.BLUE.as_color(True))
             self.addChild(utxo_item)
 

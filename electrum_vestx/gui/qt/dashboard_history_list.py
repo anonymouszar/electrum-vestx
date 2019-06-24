@@ -28,7 +28,7 @@ import webbrowser
 
 from .util import *
 from electrum_vestx.i18n import _
-from electrum_vestx.util import block_explorer_URL, profiler, TxMinedStatus
+from electrum_vestx.util import block_explorer_URL, profiler, TxMinedInfo
 from electrum_vestx.logging import get_logger, Logger
 
 _logger = get_logger(__name__)
@@ -118,7 +118,9 @@ class DashboardHistoryList(MyTreeWidget, AcceptFileDragDrop):
             value = tx_item['value'].value
             balance = tx_item['balance'].value
             label = tx_item['label']
-            tx_mined_status = TxMinedStatus(height, conf, timestamp, None)
+            tx_mined_status = TxMinedInfo(height=tx_item['height'],
+                                    conf=tx_item['confirmations'],
+                                    timestamp=tx_item['timestamp'])
             status, status_str = self.wallet.get_tx_status(tx_hash, tx_mined_status)
             has_invoice = self.wallet.invoices.paid.get(tx_hash)
             icon = self.icon_cache.get(":icons/" + TX_ICONS[status])
@@ -151,7 +153,7 @@ class DashboardHistoryList(MyTreeWidget, AcceptFileDragDrop):
         tx = self.wallet.transactions.get(tx_hash)
         self.parent.show_transaction(tx)
 
-    def update_item(self, tx_hash, tx_mined_status):
+    def update_item(self, wallet, tx_hash, tx_mined_status):
         if self.wallet is None:
             return
         conf = tx_mined_status.conf

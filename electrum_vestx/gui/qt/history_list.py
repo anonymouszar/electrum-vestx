@@ -47,7 +47,7 @@ from electrum_vestx.logging import get_logger, Logger
 
 from .util import (read_QIcon, MONOSPACE_FONT, Buttons, CancelButton, OkButton,
                    filename_field, MyTreeView, MyTreeWidget, AcceptFileDragDrop, WindowModalDialog,
-                   CloseButton)
+                   CloseButton, SortableTreeWidgetItem)
 
 if TYPE_CHECKING:
     from electrum_vestx.wallet import Abstract_Wallet
@@ -275,13 +275,15 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
             self.header().setSectionResizeMode(5, QHeaderView.ResizeToContents)
         for tx_item in self.transactions:
             tx_hash = tx_item['txid']
-            height = tx_item['height']
+            
             conf = tx_item['confirmations']
-            timestamp = tx_item['timestamp']
+            
             value = tx_item['value'].value
             balance = tx_item['balance'].value
             label = tx_item['label']
-            tx_mined_status = TxMinedStatus(height, conf, timestamp, None)
+            tx_mined_status = TxMinedInfo(height=tx_item['height'],
+                                    conf=tx_item['confirmations'],
+                                    timestamp=tx_item['timestamp'])
             status, status_str = self.wallet.get_tx_status(tx_hash, tx_mined_status)
             has_invoice = self.wallet.invoices.paid.get(tx_hash)
             icon = self.icon_cache.get(":icons/" + TX_ICONS[status])
@@ -347,7 +349,7 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
             label = self.wallet.get_label(txid)
             item.setText(3, label)
 
-    def update_item(self, tx_hash, tx_mined_status):
+    def update_item(self, wallet, tx_hash, tx_mined_status):
         if self.wallet is None:
             return
         conf = tx_mined_status.conf
