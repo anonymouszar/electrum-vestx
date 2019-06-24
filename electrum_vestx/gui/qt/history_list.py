@@ -286,7 +286,7 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
                                     timestamp=tx_item['timestamp'])
             status, status_str = self.wallet.get_tx_status(tx_hash, tx_mined_status)
             has_invoice = self.wallet.invoices.paid.get(tx_hash)
-            icon = self.icon_cache.get(":icons/" + TX_ICONS[status])
+            icon = read_QIcon(TX_ICONS[status])
             v_str = self.parent.format_amount(value, is_diff=True, whitespaces=True)
             balance_str = self.parent.format_amount(balance, whitespaces=True)
             entry = ['', tx_hash, status_str, label, v_str, balance_str]
@@ -354,7 +354,7 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
             return
         conf = tx_mined_status.conf
         status, status_str = self.wallet.get_tx_status(tx_hash, tx_mined_status)
-        icon = self.icon_cache.get(":icons/" +  TX_ICONS[status])
+        icon = read_QIcon(TX_ICONS[status])
         items = self.findItems(tx_hash, Qt.UserRole|Qt.MatchContains|Qt.MatchRecursive, column=1)
         if items:
             item = items[0]
@@ -379,7 +379,7 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
             column_data = item.text(column)
         tx_URL = block_explorer_URL(self.config, 'tx', tx_hash)
         height = self.wallet.get_tx_height(tx_hash).height
-        tx = self.wallet.transactions.get(tx_hash)
+        tx = self.wallet.db.get_transaction(tx_hash)
         is_relevant, is_mine, v, fee = self.wallet.get_wallet_delta(tx)
         is_unconfirmed = height <= 0
         pr_key = self.wallet.invoices.paid.get(tx_hash)
@@ -392,7 +392,7 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
                            lambda bound_c=c: self.editItem(item, bound_c))
         menu.addAction(_("Details"), lambda: self.parent.show_transaction(tx))
         if pr_key:
-            menu.addAction(self.icon_cache.get(":icons/seal"), _("View invoice"), lambda: self.parent.show_invoice(pr_key))
+            menu.addAction(read_QIcon(("seal"), _("View invoice"), lambda: self.parent.show_invoice(pr_key))
         if tx_URL:
             menu.addAction(_("View on block explorer"), lambda: webbrowser.open(tx_URL))
         menu.exec_(self.viewport().mapToGlobal(position))

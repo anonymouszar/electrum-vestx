@@ -123,7 +123,7 @@ class DashboardHistoryList(MyTreeWidget, AcceptFileDragDrop):
                                     timestamp=tx_item['timestamp'])
             status, status_str = self.wallet.get_tx_status(tx_hash, tx_mined_status)
             has_invoice = self.wallet.invoices.paid.get(tx_hash)
-            icon = self.icon_cache.get(":icons/" + TX_ICONS[status])
+            icon = read_QIcon(TX_ICONS[status])
             v_str = self.parent.format_amount(value, is_diff=True, whitespaces=True)
             balance_str = self.parent.format_amount(balance, whitespaces=True)
             entry = ['', tx_hash, status_str, label, v_str, balance_str]
@@ -133,7 +133,7 @@ class DashboardHistoryList(MyTreeWidget, AcceptFileDragDrop):
             item.setToolTip(0, str(conf) + " confirmation" + ("s" if conf != 1 else ""))
             item.setData(0, SortableTreeWidgetItem.DataRole, (status, conf))
             if has_invoice:
-                item.setIcon(3, self.icon_cache.get(":icons/seal"))
+                item.setIcon(3, read_QIcon("seal"))
             for i in range(len(entry)):
                 if i>3:
                     item.setTextAlignment(i, Qt.AlignRight | Qt.AlignVCenter)
@@ -150,7 +150,7 @@ class DashboardHistoryList(MyTreeWidget, AcceptFileDragDrop):
 
     def on_doubleclick(self, item, column):
         tx_hash = item.data(0, Qt.UserRole)
-        tx = self.wallet.transactions.get(tx_hash)
+        tx = self.wallet.db.get_transaction(tx_hash)
         self.parent.show_transaction(tx)
 
     def update_item(self, wallet, tx_hash, tx_mined_status):
@@ -158,7 +158,7 @@ class DashboardHistoryList(MyTreeWidget, AcceptFileDragDrop):
             return
         conf = tx_mined_status.conf
         status, status_str = self.wallet.get_tx_status(tx_hash, tx_mined_status)
-        icon = self.icon_cache.get(":icons/" +  TX_ICONS[status])
+        icon = read_QIcon(TX_ICONS[status])
         items = self.findItems(tx_hash, Qt.UserRole|Qt.MatchContains|Qt.MatchRecursive, column=1)
         if items:
             item = items[0]
@@ -175,7 +175,7 @@ class DashboardHistoryList(MyTreeWidget, AcceptFileDragDrop):
         if not tx_hash:
             return
         tx_URL = block_explorer_URL(self.config, 'tx', tx_hash)
-        tx = self.wallet.transactions.get(tx_hash)
+        tx = self.wallet.db.get_transaction(tx_hash)
         menu = QMenu()
         menu.addAction(_("Details"), lambda: self.parent.show_transaction(tx))
         if tx_URL:

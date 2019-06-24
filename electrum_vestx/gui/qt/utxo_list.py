@@ -88,7 +88,7 @@ class UTXOList(MyTreeWidget):
         menu.addAction(_("Spend"), lambda: self.parent.spend_coins(coins))
         if len(selected) == 1:
             txid = selected[0].split(':')[0]
-            tx = self.wallet.transactions.get(txid)
+            tx = self.wallet.db.get_transaction(txid)
             menu.addAction(_("Details"), lambda: self.parent.show_transaction(tx))
 
         menu.exec_(self.viewport().mapToGlobal(position))
