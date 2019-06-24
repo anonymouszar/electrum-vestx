@@ -1,5 +1,5 @@
 # If you want Electrum to appear in a Linux app launcher ("start menu"), install this by doing:
-# sudo desktop-file-install electrum.desktop
+# sudo desktop-file-install electrum-vestx.desktop
 
 [Desktop Entry]
 Comment=Lightweight Vestx Client
@@ -8,8 +8,8 @@ GenericName[en_US]=Vestx Wallet
 GenericName=Vestx Wallet
 Icon=electrum-vestx
 Name[en_US]=Electrum Vestx Wallet
-Name=Electrum Vestx Wallet
-Categories=Finance;Network;
+Name=Vestx Electrum
+Categories=Network;
 StartupNotify=true
 StartupWMClass=electrum-vestx
 Terminal=false

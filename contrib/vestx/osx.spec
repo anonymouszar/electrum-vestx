@@ -16,7 +16,7 @@ PY36BINDIR =  os.environ.get('PY36BINDIR')
 VESTX_ELECTRUM_VERSION =  os.environ.get('VESTX_ELECTRUM_VERSION')
 
 hiddenimports = collect_submodules('trezorlib')
-hiddenimports += collect_submodules('hideezlib')
+hiddenimports += collect_submodules('ckcc')
 hiddenimports += collect_submodules('safetlib')
 hiddenimports += collect_submodules('btchip')
 hiddenimports += collect_submodules('keepkeylib')
@@ -49,8 +49,7 @@ hiddenimports += [
     'electrum_vestx.plugins.revealer.qt',
     'electrum_vestx.plugins.labels.qt',
     'electrum_vestx.plugins.trezor.qt',
-    'electrum_vestx.plugins.hideez.client',
-    'electrum_vestx.plugins.hideez.qt',
+    'electrum_vestx.plugins.coldcard.qt',
     'electrum_vestx.plugins.safe_t.client',
     'electrum_vestx.plugins.safe_t.qt',
     'electrum_vestx.plugins.ledger.qt',
@@ -65,7 +64,7 @@ datas = [
 ]
 
 datas += collect_data_files('trezorlib')
-datas += collect_data_files('hideezlib')
+datas += collect_data_files('ckcc')
 datas += collect_data_files('safetlib')
 datas += collect_data_files('btchip')
 datas += collect_data_files('keepkeylib')
