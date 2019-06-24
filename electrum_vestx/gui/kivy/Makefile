@@ -10,7 +10,7 @@ prepare:
 	# running pre build setup
 	@cp tools/buildozer.spec ../../../buildozer.spec
 	# copy electrum to main.py
-	@cp ../../../run_electrum-vestx ../../../main.py
+	@cp ../../../electrum-vestx ../../../main.py
 	@-if [ ! -d "../../../.buildozer" ];then \
 		cd ../../..; buildozer android debug;\
 		cp -f electrum_vestx/gui/kivy/tools/blacklist.txt .buildozer/android/platform/python-for-android/src/blacklist.txt;\
