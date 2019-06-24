@@ -392,7 +392,7 @@ class HistoryList(MyTreeWidget, AcceptFileDragDrop):
                            lambda bound_c=c: self.editItem(item, bound_c))
         menu.addAction(_("Details"), lambda: self.parent.show_transaction(tx))
         if pr_key:
-            menu.addAction(read_QIcon(("seal"), _("View invoice"), lambda: self.parent.show_invoice(pr_key))
+            menu.addAction(read_QIcon("seal"), _("View invoice"), lambda: self.parent.show_invoice(pr_key))
         if tx_URL:
             menu.addAction(_("View on block explorer"), lambda: webbrowser.open(tx_URL))
         menu.exec_(self.viewport().mapToGlobal(position))

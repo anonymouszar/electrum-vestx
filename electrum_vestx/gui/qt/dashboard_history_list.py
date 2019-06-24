@@ -25,11 +25,16 @@
 
 
 import webbrowser
+import datetime
+
+from PyQt5.QtWidgets import QMenu
 
 from .util import *
+
 from electrum_vestx.i18n import _
 from electrum_vestx.util import block_explorer_URL, profiler, TxMinedInfo
 from electrum_vestx.logging import get_logger, Logger
+
 
 _logger = get_logger(__name__)
 
