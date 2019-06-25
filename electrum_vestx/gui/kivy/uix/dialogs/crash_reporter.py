@@ -89,7 +89,7 @@ class CrashReporter(BaseCrashReporter, Factory.Popup):
 
 
 [b]Additional information[/b]
- * Electrum version: {app_version}
+ * Vestx Electrum version: {app_version}
  * Operating system: {os}
  * Wallet type: {wallet_type}
  * Locale: {locale}
@@ -170,7 +170,7 @@ class ExceptionHook(base.ExceptionHandler, Logger):
         base.ExceptionHandler.__init__(self)
         Logger.__init__(self)
         self.main_window = main_window
-        if not main_window.electrum_config.get(BaseCrashReporter.config_key, default=True):
+        if not main_window.electrum_config.get(BaseCrashReporter.config_key, default=False):
             return
         # For exceptions in Kivy:
         base.ExceptionManager.add_handler(self)

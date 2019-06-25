@@ -64,7 +64,7 @@ class CScreen(Factory.Screen):
 
     @profiler
     def load_screen(self):
-        self.screen = Builder.load_file('electrum/gui/kivy/uix/ui_screens/' + self.kvname + '.kv')
+        self.screen = Builder.load_file('electrum_vestx/gui/kivy/uix/ui_screens/' + self.kvname + '.kv')
         self.add_widget(self.screen)
         self.loaded = True
         self.update()
@@ -136,7 +136,7 @@ class HistoryScreen(CScreen):
 
     def get_card(self, tx_hash, tx_mined_status, value, balance):
         status, status_str = self.app.wallet.get_tx_status(tx_hash, tx_mined_status)
-        icon = "atlas://electrum/gui/kivy/theming/light/" + TX_ICONS[status]
+        icon = "atlas://electrum_vestx/gui/kivy/theming/light/" + TX_ICONS[status]
         label = self.app.wallet.get_label(tx_hash) if tx_hash else _('Pruned transaction outputs')
         ri = {}
         ri['screen'] = self
@@ -262,7 +262,7 @@ class SendScreen(CScreen):
                 self.app.show_error(_('Recipient not specified.') + ' ' + _('Please scan a Bitcoin address or a payment request'))
                 return
             if not bitcoin.is_address(address):
-                self.app.show_error(_('Invalid Bitcoin Address') + ':\n' + address)
+                self.app.show_error(_('Invalid Vestx Address') + ':\n' + address)
                 return
             try:
                 amount = self.app.get_amount(self.screen.amount)
@@ -391,7 +391,7 @@ class ReceiveScreen(CScreen):
 
     def do_share(self):
         uri = self.get_URI()
-        self.app.do_share(uri, _("Share Bitcoin Request"))
+        self.app.do_share(uri, _("Share Vestx Request"))
 
     def do_copy(self):
         uri = self.get_URI()

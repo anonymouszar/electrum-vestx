@@ -9,7 +9,7 @@ theming:
 prepare:
 	# running pre build setup
 	@cp tools/buildozer.spec ../../../buildozer.spec
-	# copy electrum to main.py
+	# copy electrum-vestx to main.py
 	@cp ../../../electrum-vestx ../../../main.py
 	@-if [ ! -d "../../../.buildozer" ];then \
 		cd ../../..; buildozer android debug;\
@@ -26,7 +26,7 @@ release:
 	@make clean
 clean:
 	# Cleaning up
-	# rename main.py to electrum
+	# rename main.py to electrum-vestx
 	@-rm ../../../main.py
 	# remove buildozer.spec
 	@-rm ../../../buildozer.spec
