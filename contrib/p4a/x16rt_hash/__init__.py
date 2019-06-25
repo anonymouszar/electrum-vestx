@@ -1,10 +1,10 @@
 from pythonforandroid.recipe import CythonRecipe
 
 
-class X11HashRecipe(CythonRecipe):
+class X16RTHashRecipe(CythonRecipe):
 
-    url = 'https://files.pythonhosted.org/packages/76/50/b1bd87b5e4411e177417aff138e7396fc02eee585777f863de2f6e7a706c/x16rt_hash-{version}.tar.gz'
-    version = '1.0.0'
+    url = 'https://files.pythonhosted.org/packages/77/d2/83e12ad85a42859b7d1699180c5d8b39af8689a82ae9aa638e854db3eb53/x16rt_hash-1.0.1.tar.gz'
+    version = '1.0.1'
     depends = ['python3']
 
     def should_build(self, arch):
@@ -12,4 +12,4 @@ class X11HashRecipe(CythonRecipe):
         return True
 
 
-recipe = X11HashRecipe()
+recipe = X16RTHashRecipe()

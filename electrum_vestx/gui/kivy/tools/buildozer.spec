@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = Dash Electrum
+title = Vestx Electrum
 
 # (str) Package name
 package.name = Electrum_VESTX
@@ -98,7 +98,7 @@ android.add_src = electrum_vestx/gui/kivy/data/java-classes/
 
 android.gradle_dependencies = me.dm7.barcodescanner:zxing:1.9.8
 
-android.add_activities = org.vestx.electrum.qr.SimpleScannerActivity
+android.add_activities = org.electrum.qr.SimpleScannerActivity
 
 # (str) python-for-android branch to use, if not master, useful to try
 # not yet merged features.
