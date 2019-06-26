@@ -32,7 +32,7 @@
         Rectangle:
             size: self.size
             pos: self.pos
-            source: 'tlas://electrum_vestx/gui/kivy/theming/light/background'
+            source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
 
 <ActionView>:
     canvas.before:
@@ -376,6 +376,7 @@
         tab_height: '48dp'
         tab_width: panel.width/3
         strip_border: 0, 0, 0, 0
+        source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
         SendScreen:
             id: send_screen
             tab: send_tab
@@ -462,3 +463,4 @@ BoxLayout:
         id: manager
         ScreenTabs:
             id: tabs
+            source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
