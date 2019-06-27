@@ -10,7 +10,7 @@
 
 <Label>
     markup: True
-    font_name: 'Roboto'
+    font_name: 'Montserrat-Regular.otf'
     font_size: '16sp'
     bound: False
     on_text: if isinstance(self.text, _) and not self.bound: self.bound=True; _.bind(self)
@@ -27,8 +27,6 @@
 
 <Carousel>:
     canvas.before:
-        Color:
-            rgba: 0.1, 0.1, 0.1, 1
         Rectangle:
             size: self.size
             pos: self.pos
@@ -300,6 +298,11 @@
     padding: 0, 0, 0, 0
 
 <TabbedPanelStrip>:
+    canvas.before:
+        Rectangle:
+            size: self.size
+            pos: self.pos
+            source: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_panel_strip'
     on_parent:
         if self.parent: self.parent.bar_width = 0
         if self.parent: self.parent.scroll_x = 0.5
@@ -325,7 +328,8 @@
     halign: 'center'
     valign: 'middle'
     bold: True
-    font_size: '12.5sp'
+    font_size: '16sp'
+    font_name: 'Montserrat-SemiBold.otf'
     background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_btn'
     background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_btn_pressed'
 
@@ -373,10 +377,9 @@
 <ScreenTabs@Screen>
     TabbedCarousel:
         id: panel
-        tab_height: '48dp'
+        tab_height: '70dp'
         tab_width: panel.width/3
         strip_border: 0, 0, 0, 0
-        source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
         SendScreen:
             id: send_screen
             tab: send_tab
@@ -388,16 +391,18 @@
             tab: receive_tab
         CleanHeader:
             id: send_tab
-            text: _('Send')
             slide: 0
+            text: 'Send'
+
         CleanHeader:
             id: history_tab
-            text: _('Balance')
             slide: 1
+            text: 'Home'
         CleanHeader:
             id: receive_tab
-            text: _('Receive')
             slide: 2
+            text: 'Receive'
+
 
 
 <ActionOvrButton@ActionButton>
@@ -414,10 +419,10 @@ BoxLayout:
 
     canvas.before:
         Color:
-            rgb: .6, .6, .6
+            rgb: 0.212, 0.145, 0.176
         Rectangle:
             size: self.size
-            source: 'electrum_vestx/gui/kivy/data/background.png'
+
 
     ActionBar:
 
@@ -435,9 +440,9 @@ BoxLayout:
                 important: True
                 size_hint: 1, 1
                 bold: True
-                color: 0.7, 0.7, 0.7, 1
+                color: 0.9, 0.9, 0.9, 1
                 text: app.wallet_name
-                font_size: '22dp'
+                font_size: '20dp'
                 #minimum_width: '1dp'
                 on_release: app.popup_dialog('status')
 

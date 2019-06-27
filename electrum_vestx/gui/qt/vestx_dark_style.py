@@ -15,8 +15,7 @@ MiniWindow QPushButton {
     color: #777;
     border: 1px solid #CCC;
     border-radius: 0;
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-stop: 0 white, stop: 1 #E6E6E6);
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 white, stop: 1 #E6E6E6);
     min-height: 30px;
     min-width: 30px;
 }
@@ -106,7 +105,7 @@ QGroupBox::title {
 /* 1. Navigation Bar */
 
 #main_window_topbar{
-    background-color: #000;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.3 #1f2233, stop: 1 #2f2331);
     position: absoulte;
 }
 
@@ -115,7 +114,7 @@ QGroupBox::title {
 }
 
 #main_window_topbar QPushButton{
-    background-color: #000;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #1f2233, stop: 1 #1f2233);
     width: 10px;
 }
 
@@ -137,7 +136,7 @@ QTabWidget#main_window_nav_bar::pane {
 }
 
 #main_window_nav_bar QTabBar::tab {
-    background-color:#000;
+    background-color:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #1f2233, stop: 1 #1f2233);
     color:#fff;
     min-height: 40px;
     min-width: 40px;
@@ -217,12 +216,12 @@ QLineEdit#search_box{
 /* Dashboard Container */
 
 QWidget#main_window_container {
-    background: #000;
+    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.6 #1f2233, stop: 1 #1f2233);
     color: #000;
 }
 
 QWidget#central_widget {
-    background-color:#000;
+    background-color:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.6 #1f2233, stop: 1 #1f2233);
 }
 
 /* Section title */
@@ -281,7 +280,7 @@ QWidget#history_container,
 QWidget#send_container,
 QWidget#receive_container,
 QWidget#console_container {
-    border-image: url({pkg_dir}/gui/icons/background_s_dark.jpg) 0 0 0 0 stretch stretch;
+    border-image: url({pkg_dir}/gui/icons/background_s4_dark.jpg) 0 0 0 0 stretch stretch;
 }
 
 

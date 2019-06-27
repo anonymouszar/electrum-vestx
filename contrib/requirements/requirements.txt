@@ -11,4 +11,4 @@ aiohttp_socks
 certifi
 pycryptodomex
 python-bls
-x16rt_hash>=1.0.1
+x16rt_hash>=1.0.2

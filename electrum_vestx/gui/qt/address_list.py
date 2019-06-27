@@ -49,14 +49,14 @@ class AddressList(MyTreeWidget):
         self.setSortingEnabled(True)
         self.show_change = 0
         self.show_used = 0
-        self.change_button = QComboBox(self)
-        self.change_button.currentIndexChanged.connect(self.toggle_change)
-        for t in [_('All'), _('Receiving'), _('Change')]:
-            self.change_button.addItem(t)
-        self.used_button = QComboBox(self)
-        self.used_button.currentIndexChanged.connect(self.toggle_used)
-        for t in [_('All'), _('Unused'), _('Funded'), _('Used')]:
-            self.used_button.addItem(t)
+        #self.change_button = QComboBox(self)
+        #self.change_button.currentIndexChanged.connect(self.toggle_change)
+        #for t in [_('All'), _('Receiving'), _('Change')]:
+        #    self.change_button.addItem(t)
+        #self.used_button = QComboBox(self)
+        #self.used_button.currentIndexChanged.connect(self.toggle_used)
+        #for t in [_('All'), _('Unused'), _('Funded'), _('Used')]:
+        #    self.used_button.addItem(t)
 
     def get_toolbar_buttons(self):
          return QLabel(_("Filter:")), self.change_button, self.used_button

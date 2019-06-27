@@ -64,11 +64,11 @@ Factory.register('TabbedCarousel', module='electrum_vestx.gui.kivy.uix.screens')
 # Register fonts without this you won't be able to use bold/italic...
 # inside markup.
 from kivy.core.text import Label
-Label.register('Roboto',
-               'electrum_vestx/gui/kivy/data/fonts/Roboto.ttf',
-               'electrum_vestx/gui/kivy/data/fonts/Roboto.ttf',
-               'electrum_vestx/gui/kivy/data/fonts/Roboto-Bold.ttf',
-               'electrum_vestx/gui/kivy/data/fonts/Roboto-Bold.ttf')
+Label.register('Montserrat',
+               'electrum_vestx/gui/kivy/data/fonts/Montserrat-Regular.otf',
+               'electrum_vestx/gui/kivy/data/fonts/Montserrat-Regular.otf',
+               'electrum_vestx/gui/kivy/data/fonts/Montserrat-SemiBold.otf',
+               'electrum_vestx/gui/kivy/data/fonts/Montserrat-SemiBold.otf')
 
 
 from electrum_vestx.util import (base_units, NoDynamicFeeEstimates, decimal_point_to_base_unit_name,
