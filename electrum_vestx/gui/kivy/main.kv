@@ -298,11 +298,7 @@
     padding: 0, 0, 0, 0
 
 <TabbedPanelStrip>:
-    canvas.before:
-        Rectangle:
-            size: self.size
-            pos: self.pos
-            source: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_panel_strip'
+
     on_parent:
         if self.parent: self.parent.bar_width = 0
         if self.parent: self.parent.scroll_x = 0.5
@@ -378,6 +374,7 @@
     TabbedCarousel:
         id: panel
         tab_height: '70dp'
+        tab_pos: 'bottom_mid'
         tab_width: panel.width/3
         strip_border: 0, 0, 0, 0
         SendScreen:
@@ -416,13 +413,6 @@
 
 BoxLayout:
     orientation: 'vertical'
-
-    canvas.before:
-        Color:
-            rgb: 0.212, 0.145, 0.176
-        Rectangle:
-            size: self.size
-
 
     ActionBar:
 

@@ -48,8 +48,8 @@ settings file or with key -z). To install:
 Manual zip aligning:
 
     android-sdk-linux/build-tools/27.0.3/zipalign -v 4 \
-        Electrum_VESTX-3.0.6.1-release-unsigned.apk \
-        Vestx-Electrum-3.0.6.1-release.apk
+        Electrum_VESTX-3.3.6.0-release-unsigned.apk \
+        Vestx-Electrum-3.3.6.0-release.apk
 
 
 

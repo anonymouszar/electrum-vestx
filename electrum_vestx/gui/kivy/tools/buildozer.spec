@@ -13,7 +13,7 @@ package.domain = org.vestx.electrum
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,ttf,txt,gif,pem,mo,vs,fs,json
+source.include_exts = py,png,jpg,kv,atlas,ttf,otf,txt,gif,pem,mo,vs,fs,json
 
 # (list) Source files to exclude (let empty to not exclude anything)
 source.exclude_exts = spec
@@ -35,7 +35,15 @@ version.filename = %(source.dir)s/electrum_vestx/version.py
 #version = 1.9.8
 
 # (list) Application requirements
-requirements = python3, android, openssl, plyer, kivy==b47f669f44dbda4f463bcb7d2cada639f7fed3bc, libffi, libsecp256k1, x16rt_hash
+requirements =
+    python3,
+    android,
+    openssl,
+    plyer,
+    kivy==82d561d62577757d478df52173610f925c05ecab,
+    libffi,
+    libsecp256k1,
+    x16rt_hash
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/gui/kivy/theming/splash.png
@@ -68,7 +76,7 @@ android.minapi = 21
 android.sdk = 24
 
 # (str) Android NDK version to use
-android.ndk = 14b
+android.ndk = 17c
 
 # (int) Android NDK API to use (optional). This is the minimum API your app will support.
 android.ndk_api = 21
@@ -77,10 +85,10 @@ android.ndk_api = 21
 android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-android.ndk_path = /opt/android-ndk
+android.ndk_path = /opt/android/android-ndk
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
-android.sdk_path = /opt/android-sdk
+android.sdk_path = /opt/android/android-sdk
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.renpy.android.PythonActivity
