@@ -735,7 +735,7 @@ QTableView::item {
  
 #inverted_font_color QTreeWidget::item,
 #inverted_font_color QTableView::item {
-    color:#000;
+    color:#fff;
 }
 
 QTreeWidget QHeaderView::section, 
