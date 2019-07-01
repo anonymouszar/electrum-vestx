@@ -107,7 +107,7 @@ QGroupBox::title {
 /* 1. Navigation Bar */
 
 #main_window_topbar{
-    background-color: #d7d7d7;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.3 #bbbbbb, stop: 1 #d7d7d7);
     position: absoulte;
 }
 
@@ -116,12 +116,12 @@ QGroupBox::title {
 }
 
 #main_window_topbar QPushButton{
-    background-color: #d7d7d7;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.3 #d7d7d7, stop: 1 #d7d7d7);
     width: 10px;
 }
 
 #main_window_topbar QPushButton:hover{
-    background-color:#E2E0E0;
+    background-color:#bcbcbc;
 }
 
 #main_window_nav_bar {
@@ -139,8 +139,8 @@ QTabWidget#main_window_nav_bar::pane {
 }
 
 #main_window_nav_bar QTabBar::tab {
-    background-color:#d7d7d7;
-    color:#d7d7d7;
+    background-color:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.3 #bbbbbb, stop: 1 #bbbbbb);
+    color:#bcbcbc;
     min-height: 40px;
     min-width: 40px;
     padding-left:1em;
@@ -157,7 +157,7 @@ QTabWidget#main_window_nav_bar::pane {
 }
 
 #main_window_nav_bar QTabBar::tab:selected, #main_window_nav_bar QTabBar::tab:hover {
-    background-color:#E2E0E0;
+    background-color:#dfdfdf;
 }
 
 /**********************/
@@ -218,12 +218,12 @@ QLineEdit#search_box{
 /* Dashboard Container */
 
 QWidget#main_window_container {
-    background: #d7d7d7;
+    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #bbbbbb, stop: 0.3 #bbbbbb);
     color: #d7d7d7;
 }
 
 QWidget#central_widget {
-    background-color:#d7d7d7;
+    background-color:qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #bbbbbb, stop: 0.3 #bbbbbb);
 }
 
 /* Section title */
@@ -282,7 +282,7 @@ QWidget#history_container,
 QWidget#send_container,
 QWidget#receive_container,
 QWidget#console_container {
-    border-image: url({pkg_dir}/gui/icons/background_s_light.jpg) 0 0 0 0 stretch stretch;
+    border-image: url({pkg_dir}/gui/icons/background_s2_light.jpg) 0 0 0 0 stretch stretch;
 }
 
 
@@ -290,7 +290,7 @@ QWidget#console_container {
 QWidget#home_container #sub_section_content QLabel#important_label{
     font-size: 14px;
     font-weight:bold;
-    color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #850550, stop: 1 #ffb054);
+    color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #850550, stop: 1 #850054);
 }
 
 QWidget#home_container #sub_section_content QLabel#normal_label{
@@ -466,13 +466,13 @@ QPushButton:disabled
 
 #section_content QPushButton {
     border:1px solid #343b47;
-    background-color: #ffb054;
+    background-color: #850054;
     color: #FFFFFF;
 
 }
 
 #section_content QPushButton:hover {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #850550, stop: 1 #ffb054);
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #850550, stop: 1 #850054);
     color: #d7d7d7;
 }
 
@@ -482,13 +482,13 @@ QPushButton:disabled
 
 #section_content QPushButton#main {
     border:2px solid #850550;
-    background-color: #ffb054;
+    background-color: #850054;
     color: #d7d7d7;
     height:25px;
 }
 
 #section_content QPushButton#main:hover {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #850550, stop: 1 #ffb054);
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #850550, stop: 1 #850054);
 }
 
 #section_content QPushButton#main:disabled {
