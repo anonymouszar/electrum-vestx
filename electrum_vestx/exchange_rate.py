@@ -358,9 +358,11 @@ class FxThread(ThreadJob):
         rate = self.exchange_rate()
         return '' if rate.is_nan() else "%s" % self.value_str(btc_balance, rate)
 
-    def format_amount_and_units(self, btc_balance):
+    def format_amount_and_units(self, btc_balance, ccy=None):
         rate = self.exchange_rate()
-        return '' if rate.is_nan() else "%s %s" % (self.value_str(btc_balance, rate), self.ccy)
+        if ccy is None:
+            ccy = self.ccy
+        return '' if rate.is_nan() else "%s %s" % (self.value_str(btc_balance, rate), ccy)
 
     def get_fiat_status_text(self, btc_balance, base_unit, decimal_point):
         rate = self.exchange_rate()
