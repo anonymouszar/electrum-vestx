@@ -146,7 +146,7 @@ class CoinGecko(ExchangeBase):
 
     async def get_rates(self, ccy):
         json = await self.get_json('api.coingecko.com', '/api/v3/coins/vestxcoin')
-        return dict([(ccy.upper(), format(d['value'],'.8f'))
+        return dict([(ccy.upper(), (format(d,'.10f')))
                      for ccy, d in json['market_data']['current_price'].items()])
 
     def history_ccys(self):
