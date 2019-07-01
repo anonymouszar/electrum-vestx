@@ -178,8 +178,7 @@ Section "${PRODUCT_NAME}" SectionDE
   CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "$INSTDIR\Uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" "" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" 0
-  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME} Testnet.lnk" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" "--testnet" "$INSTDIR\electrum-vestx-${PRODUCT_VERSION}.exe" 0
-
+  
 
   ;Links vestx: URI's to Electrum
   WriteRegStr HKCU "Software\Classes\vestx" "" "URL:vestx Protocol"

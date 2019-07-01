@@ -882,6 +882,11 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
     def update_status(self):
         if not self.wallet:
             return
+        
+        price_vestx = ""
+        balance_vestx = ""
+        balance_btc = ""
+        balance_fiat = ""
 
         if self.network is None:
             text = _("Offline")
@@ -911,6 +916,12 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
                 if x:
                     text +=  " [%s unmatured]"%(self.format_amount(x, is_diff=True).strip())
 
+                #Dashboard data
+                price_vestx = self.fx.get_fiat_status_text(c + u + x, self.base_unit(), self.get_decimal_point()) or ''
+                balance_vestx = self.format_amount(c) + " " + self.base_unit()
+                balance_btc = self.fx.format_amount_and_units(c, "BTC")
+                balance_fiat = "$" + self.fx.format_amount_and_units(c, "USD")
+
                 # append fiat balance and price
                 if self.fx.is_enabled():
                     text += self.fx.get_fiat_status_text(c + u + x,
@@ -920,6 +931,11 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
                 else:
                     icon = read_QIcon("status_connected_proxy%s.png"%fork_str)
         else:
+            text = _("Not connected")
+            price_vestx = text
+            balance_vestx = text
+            balance_btc = text
+            balance_fiat = text
             if self.network.proxy:
                 text = "{} ({})".format(_("Not connected"), _("proxy enabled"))
             else:
@@ -929,6 +945,11 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger):
         self.tray.setToolTip("%s (%s)" % (text, self.wallet.basename()))
         self.balance_label.setText(text)
         self.status_button.setIcon( icon )
+        #Dashboard
+        self.dashboard_price_label.setText(price_vestx or '')
+        self.dashboard_vestx_balance_label.setText(balance_vestx or '')
+        self.dashboard_btc_balance_label.setText(balance_btc or '')
+        self.dashboard_fiat_balance_label.setText(balance_fiat or '')
 
     def update_wallet(self):
         self.update_status()
