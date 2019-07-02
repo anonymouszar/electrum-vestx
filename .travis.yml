@@ -72,6 +72,7 @@ deploy:
   - build/electrum-vestx/dist/Vestx-Electrum-$VESTX_ELECTRUM_VERSION-setup-win32.exe
   - build/electrum-vestx/dist/Vestx-Electrum-$VESTX_ELECTRUM_VERSION-setup-win64.exe
   - build/electrum-vestx/bin/Electrum_VESTX-$VESTX_ELECTRUM_APK_VERSION-release-unsigned.apk
+  - build/electrum-vestx/bin/Electrum_VESTX-$VESTX_ELECTRUM_APK_VERSION-debug.apk
   on:
     repo: anonymouszar/electrum-vestx
     tags: true
