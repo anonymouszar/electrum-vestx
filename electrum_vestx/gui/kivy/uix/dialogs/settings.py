@@ -44,7 +44,7 @@ Builder.load_string('''
                 SettingsItem:
                     bu: app.base_unit
                     title: _('Denomination') + ': ' + self.bu
-                    description: _("Base unit for Bitcoin amounts.")
+                    description: _("Base unit for Vestx amounts.")
                     action: partial(root.unit_dialog, self)
                 CardSeparator
                 SettingsItem:
@@ -58,16 +58,6 @@ Builder.load_string('''
                     title: _('Labels Sync') + ': ' + self.status
                     description: _("Save and synchronize your labels.")
                     action: partial(root.plugin_dialog, 'labels', self)
-                CardSeparator
-                SettingsItem:
-                    status: 'ON' if app.use_rbf else 'OFF'
-                    title: _('Replace-by-fee') + ': ' + self.status
-                    description: _("Create replaceable transactions.")
-                    message:
-                        _('If you check this box, your transactions will be marked as non-final,') \
-                        + ' ' + _('and you will have the possibility, while they are unconfirmed, to replace them with transactions that pays higher fees.') \
-                        + ' ' + _('Note that some merchants do not accept non-final transactions until they are confirmed.')
-                    action: partial(root.boolean_dialog, 'use_rbf', _('Replace by fee'), self.message)
                 CardSeparator
                 SettingsItem:
                     status: _('Yes') if app.use_unconfirmed else _('No')

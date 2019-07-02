@@ -25,7 +25,6 @@ Builder.load_string('''
     is_mine: True
     can_sign: False
     can_broadcast: False
-    can_rbf: False
     fee_str: ''
     date_str: ''
     date_label:''
@@ -128,7 +127,6 @@ class TxDialog(Factory.Popup):
         self.status_str = tx_details.status
         self.description = tx_details.label
         self.can_broadcast = tx_details.can_broadcast
-        self.can_rbf = tx_details.can_bump
         self.tx_hash = tx_details.txid or ''
         if tx_mined_status.timestamp:
             self.date_label = _('Date')
@@ -159,7 +157,6 @@ class TxDialog(Factory.Popup):
         options = (
             ActionButtonOption(text=_('Sign'), func=lambda btn: self.do_sign(), enabled=self.can_sign),
             ActionButtonOption(text=_('Broadcast'), func=lambda btn: self.do_broadcast(), enabled=self.can_broadcast),
-            ActionButtonOption(text=_('Bump fee'), func=lambda btn: self.do_rbf(), enabled=self.can_rbf),
             ActionButtonOption(text=_('Remove'), func=lambda btn: self.remove_local_tx(), enabled=self.is_local_tx),
         )
         num_options = sum(map(lambda o: bool(o.enabled), options))
@@ -191,34 +188,6 @@ class TxDialog(Factory.Popup):
     def on_action_button_clicked(self):
         action_button = self.ids.action_button
         self._action_button_fn(action_button)
-
-    def do_rbf(self):
-        from .bump_fee_dialog import BumpFeeDialog
-        is_relevant, is_mine, v, fee = self.wallet.get_wallet_delta(self.tx)
-        if fee is None:
-            self.app.show_error(_("Can't bump fee: unknown fee for original transaction."))
-            return
-        size = self.tx.estimated_size()
-        d = BumpFeeDialog(self.app, fee, size, self._do_rbf)
-        d.open()
-
-    def _do_rbf(self, old_fee, new_fee, is_final):
-        if new_fee is None:
-            return
-        delta = new_fee - old_fee
-        if delta < 0:
-            self.app.show_error("fee too low")
-            return
-        try:
-            new_tx = self.wallet.bump_fee(self.tx, delta)
-        except BaseException as e:
-            self.app.show_error(str(e))
-            return
-        if is_final:
-            new_tx.set_rbf(False)
-        self.tx = new_tx
-        self.update()
-        self.do_sign()
 
     def do_sign(self):
         self.app.protected(_("Enter your PIN code in order to sign this transaction"), self._do_sign, ())

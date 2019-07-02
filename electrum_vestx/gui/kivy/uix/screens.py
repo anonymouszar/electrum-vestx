@@ -20,12 +20,11 @@ from kivy.utils import platform
 
 from electrum_vestx.util import profiler, parse_URI, format_time, InvalidPassword, NotEnoughFunds, Fiat
 from electrum_vestx import bitcoin
-from electrum_vestx.transaction import TxOutput, Transaction, tx_from_str
-from electrum_vestx.util import send_exception_to_crash_reporter, parse_URI, InvalidBitcoinURI
+from electrum_vestx .transaction import TxOutput
+from electrum_vestx.util import send_exception_to_crash_reporter
 from electrum_vestx.paymentrequest import PR_UNPAID, PR_PAID, PR_UNKNOWN, PR_EXPIRED
 from electrum_vestx.plugin import run_hook
 from electrum_vestx.wallet import InternalAddressCorruption
-from electrum_vestx import simple_config
 
 from .context_menu import ContextMenu
 
@@ -134,7 +133,7 @@ class HistoryScreen(CScreen):
         d = LabelDialog(_('Enter Transaction Label'), text, callback)
         d.open()
 
-    def get_card(self, tx_hash, tx_mined_status, value, balance):
+    def get_card(self, tx_hash, tx_type, tx_mined_status, value, balance):
         status, status_str = self.app.wallet.get_tx_status(tx_hash, tx_mined_status)
         icon = "atlas://electrum_vestx/gui/kivy/theming/light/" + TX_ICONS[status]
         label = self.app.wallet.get_label(tx_hash) if tx_hash else _('Pruned transaction outputs')
@@ -174,10 +173,11 @@ class SendScreen(CScreen):
         if not self.app.wallet:
             self.payment_request_queued = text
             return
+        import electrum_vestx
         try:
-            uri = parse_URI(text, self.app.on_pr, loop=self.app.asyncio_loop)
-        except InvalidBitcoinURI as e:
-            self.app.show_info(_("Error parsing URI") + f":\n{e}")
+            uri = electrum_vestx.util.parse_URI(text, self.app.on_pr)
+        except:
+            self.app.show_info(_("Not a Vestx URI"))
             return
         amount = uri.get('amount')
         self.screen.address = uri.get('address', '')
@@ -233,22 +233,11 @@ class SendScreen(CScreen):
             self.payment_request = None
 
     def do_paste(self):
-        data = self.app._clipboard.paste()
-        if not data:
+        contents = self.app._clipboard.paste()
+        if not contents:
             self.app.show_info(_("Clipboard is empty"))
             return
-        # try to decode as transaction
-        try:
-            raw_tx = tx_from_str(data)
-            tx = Transaction(raw_tx)
-            tx.deserialize()
-        except:
-            tx = None
-        if tx:
-            self.app.tx_dialog(tx)
-            return
-        # try to decode as URI/address
-        self.set_URI(data)
+        self.set_URI(contents)
 
     def do_send(self):
         if self.screen.is_pr:
@@ -259,7 +248,7 @@ class SendScreen(CScreen):
         else:
             address = str(self.screen.address)
             if not address:
-                self.app.show_error(_('Recipient not specified.') + ' ' + _('Please scan a Bitcoin address or a payment request'))
+                self.app.show_error(_('Recipient not specified.') + ' ' + _('Please scan a Vestx address or a payment request'))
                 return
             if not bitcoin.is_address(address):
                 self.app.show_error(_('Invalid Vestx Address') + ':\n' + address)
@@ -272,14 +261,9 @@ class SendScreen(CScreen):
             outputs = [TxOutput(bitcoin.TYPE_ADDRESS, address, amount)]
         message = self.screen.message
         amount = sum(map(lambda x:x[2], outputs))
-        if self.app.electrum_config.get('use_rbf'):
-            from .dialogs.question import Question
-            d = Question(_('Should this transaction be replaceable?'), lambda b: self._do_send(amount, message, outputs, b))
-            d.open()
-        else:
-            self._do_send(amount, message, outputs, False)
+        self._do_send(amount, message, outputs)
 
-    def _do_send(self, amount, message, outputs, rbf):
+    def _do_send(self, amount, message, outputs):
         # make unsigned transaction
         config = self.app.electrum_config
         coins = self.app.wallet.get_spendable_coins(None, config)
@@ -292,8 +276,6 @@ class SendScreen(CScreen):
             traceback.print_exc(file=sys.stdout)
             self.app.show_error(str(e))
             return
-        if rbf:
-            tx.set_rbf(True)
         fee = tx.get_fee()
         msg = [
             _("Amount to be sent") + ": " + self.app.format_amount_and_units(amount),
@@ -304,9 +286,8 @@ class SendScreen(CScreen):
             x_fee_address, x_fee_amount = x_fee
             msg.append(_("Additional fees") + ": " + self.app.format_amount_and_units(x_fee_amount))
 
-        feerate_warning = simple_config.FEERATE_WARNING_HIGH_FEE
-        if fee > feerate_warning * tx.estimated_size() / 1000:
-            msg.append(_('Warning') + ': ' + _("The fee for this transaction seems unusually high."))
+        if fee >= config.get('confirm_fee', 10000):
+            msg.append(_('Warning')+ ': ' + _("The fee for this transaction seems unusually high."))
         msg.append(_("Enter your PIN code to proceed"))
         self.app.protected('\n'.join(msg), self.send_tx, (tx, message))
 
