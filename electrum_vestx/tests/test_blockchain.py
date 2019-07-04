@@ -2,7 +2,7 @@ import shutil
 import tempfile
 import os
 
-from electrum import constants, blockchain
+from electrum_vestx import constants, blockchain
 from electrum_vestx.simple_config import SimpleConfig
 from electrum_vestx.blockchain import Blockchain, deserialize_header, hash_header
 from electrum_vestx.util import bh2u, bfh, make_dir

@@ -871,6 +871,13 @@ class Network(Logger):
             self.logger.info(f"unexpected txid for broadcast_transaction [DO NOT TRUST THIS MESSAGE]: {out} != {tx.txid()}")
             raise TxBroadcastHashMismatch(_("Server returned unexpected transaction ID."))
 
+
+    @best_effort_reliable
+    @catch_server_exceptions
+    async def masternode_announce_broadcast(self, mn) -> str:
+        serialized = '01' + mn.serialize()
+        return await self.interface.session.send_request('masternode.announce.broadcast', [serialized])
+
     @staticmethod
     def sanitize_tx_broadcast_response(server_msg) -> str:
         # Unfortunately, bitcoind and hence the Vestx-Electrum protocol doesn't return a useful error code.

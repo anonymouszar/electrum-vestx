@@ -1,4 +1,4 @@
-from electrum import transaction
+from electrum_vestx import transaction
 from electrum_vestx.transaction import TxOutputForUI, tx_from_str
 from electrum_vestx.bitcoin import TYPE_ADDRESS
 from electrum_vestx.keystore import xpubkey_to_address

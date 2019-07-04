@@ -284,18 +284,20 @@ class MasternodeManager(object):
 
         mn = self.get_masternode(alias)
         # Vector-serialize the masternode.
-        serialized = '01' + mn.serialize()
+        # serialized = '01' + mn.serialize()
         errmsg = []
-        callback = lambda r: self.broadcast_announce_callback(alias, errmsg, r)
-        self.network_event.clear()
-        self.wallet.network.send([('masternode.announce.broadcast', [serialized])], callback)
-        self.network_event.wait()
+        # callback = lambda r: self.broadcast_announce_callback(alias, errmsg, r)
+        # self.network_event.clear()
+        # self.wallet.network.send([('masternode.announce.broadcast', [serialized])], callback)
+        # self.network_event.wait()
+        res = await self.wallet.network.masternode_broadcast_announce(mn)
+        self.broadcast_announce(alias, errmsg, res)
         self.subscribe_to_masternodes()
         if errmsg:
             errmsg = errmsg[0]
         return (errmsg, mn.announced)
 
-    def broadcast_announce_callback(self, alias, errmsg, r):
+    def broadcast_announce(self, alias, errmsg, r):
         """Callback for when a Masternode Announce message is broadcasted."""
         try:
             self.on_broadcast_announce(alias, r)

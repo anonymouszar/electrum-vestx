@@ -2,9 +2,9 @@ import asyncio
 import tempfile
 import unittest
 
-from electrum import constants
+from electrum_vestx import constants
 from electrum_vestx.simple_config import SimpleConfig
-from electrum import blockchain
+from electrum_vestx import blockchain
 from electrum_vestx.interface import Interface
 from electrum_vestx.crypto import sha256
 from electrum_vestx.util import bh2u

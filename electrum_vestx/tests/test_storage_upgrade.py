@@ -4,7 +4,7 @@ import os
 
 from electrum_vestx.storage import WalletStorage
 from electrum_vestx.wallet import Wallet
-from electrum import constants
+from electrum_vestx import constants
 
 from .test_wallet import WalletTestCase
 

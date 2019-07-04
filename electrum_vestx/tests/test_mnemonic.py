@@ -1,8 +1,8 @@
 from typing import NamedTuple, Optional
 
-from electrum import keystore
-from electrum import mnemonic
-from electrum import old_mnemonic
+from electrum_vestx import keystore
+from electrum_vestx import mnemonic
+from electrum_vestx import old_mnemonic
 from electrum_vestx.util import bh2u, bfh
 from electrum_vestx.mnemonic import is_new_seed, is_old_seed, seed_type
 from electrum_vestx.version import SEED_PREFIX_SW, SEED_PREFIX
@@ -98,7 +98,7 @@ SEED_TEST_CASES = {
 class Test_NewMnemonic(SequentialTestCase):
 
     def test_mnemonic_to_seed_basic(self):
-        # note: not a valid electrum seed
+        # note: not a valid electrum_vestx seed
         seed = mnemonic.Mnemonic.mnemonic_to_seed(mnemonic='foobar', passphrase='none')
         self.assertEqual('741b72fd15effece6bfe5a26a52184f66811bd2be363190e07a42cca442b1a5bb22b3ad0eb338197287e6d314866c7fba863ac65d3f156087a5052ebc7157fce',
                          bh2u(seed))

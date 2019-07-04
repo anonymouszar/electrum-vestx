@@ -3,7 +3,7 @@ from unittest import mock
 from decimal import Decimal
 
 from electrum_vestx.commands import Commands, eval_bool
-from electrum import storage
+from electrum_vestx import storage
 from electrum_vestx.wallet import restore_wallet_from_text
 
 from . import TestCaseForTestnet

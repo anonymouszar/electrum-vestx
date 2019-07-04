@@ -14,13 +14,13 @@ from electrum_vestx.bip32 import (BIP32Node, convert_bip32_intpath_to_strpath,
                             is_xpub, convert_bip32_path_to_list_of_uint32,
                             normalize_bip32_derivation)
 from electrum_vestx.crypto import sha256d, SUPPORTED_PW_HASH_VERSIONS
-from electrum import ecc, crypto, constants
+from electrum_vestx import ecc, crypto, constants
 from electrum_vestx.ecc import number_to_string, string_to_number
 from electrum_vestx.util import bfh, bh2u, InvalidPassword
 from electrum_vestx.storage import WalletStorage
 from electrum_vestx.keystore import xtype_from_derivation
 
-from electrum import ecc_fast
+from electrum_vestx import ecc_fast
 
 from . import SequentialTestCase
 from . import TestCaseForTestnet
