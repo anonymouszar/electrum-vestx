@@ -290,7 +290,7 @@ class MasternodeManager(object):
         # self.network_event.clear()
         # self.wallet.network.send([('masternode.announce.broadcast', [serialized])], callback)
         # self.network_event.wait()
-        res = self.network.run_from_another_thread(self.wallet.network.masternode_broadcast_announce(mn))
+        res = self.wallet.network.run_from_another_thread(self.wallet.network.masternode_broadcast_announce(mn))
         self.broadcast_announce(alias, errmsg, res)
         self.subscribe_to_masternodes()
         if errmsg:
