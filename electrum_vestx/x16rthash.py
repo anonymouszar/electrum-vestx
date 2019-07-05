@@ -11,7 +11,7 @@ try:
 except ImportError as error:
     import_success = False
     load_libx16rthash = True
-    errorMsg = sys.exc_info()[0]
+    errorMsg = error.__cause__ + ' ' + error.__class__ + ' ' + error.__traceback__
 
 
 if load_libx16rthash:
