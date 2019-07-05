@@ -7,9 +7,11 @@ try:
     from x16rt_hash import getPoWHash
     import_success = True
     load_libx16rthash = False
-except ImportError:
+    errorMsg = 'Success'
+except ImportError as error:
     import_success = False
     load_libx16rthash = True
+    errorMsg = sys.exc_info()[0]
 
 
 if load_libx16rthash:
@@ -38,4 +40,4 @@ if load_libx16rthash:
 
 
 if not import_success and not load_libx16rthash:
-    raise ImportError('Can not import x16rt_hash')
+    raise ImportError(errorMsg)
