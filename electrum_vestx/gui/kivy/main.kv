@@ -27,11 +27,10 @@
 
 <Carousel>:
     canvas.before:
-        Color:
-            rgba: 0.1, 0.1, 0.1, 1
         Rectangle:
             size: self.size
             pos: self.pos
+            source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
 
 <ActionView>:
     canvas.before:
@@ -327,7 +326,6 @@
     background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_btn'
     background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_btn_pressed'
 
-
 <ColoredLabel@Label>:
     font_size: '48sp'
     color: (.6, .6, .6, 1)
@@ -371,7 +369,8 @@
 <ScreenTabs@Screen>
     TabbedCarousel:
         id: panel
-        tab_height: '48dp'
+        tab_pos: 'bottom_mid'
+        tab_height: '50dp'
         tab_width: panel.width/3
         strip_border: 0, 0, 0, 0
         SendScreen:
@@ -385,17 +384,37 @@
             tab: receive_tab
         CleanHeader:
             id: send_tab
-            text: _('Send')
+            text: _('')
             slide: 0
+            BoxLayout:
+                pos: send_tab.pos
+                size: send_tab.size
+                orientation: 'vertical'
+                padding: 3, 3, 3, 3
+                Image:
+                    source: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_send_dark'
         CleanHeader:
             id: history_tab
-            text: _('Balance')
+            text: _('')
             slide: 1
+			BoxLayout:
+                pos: history_tab.pos
+                size: history_tab.size
+                orientation: 'vertical'
+                padding: 3, 3, 3, 3
+                Image:
+                    source: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_home_dark'
         CleanHeader:
             id: receive_tab
-            text: _('Receive')
+            text: _('')
             slide: 2
-
+			BoxLayout:
+                pos: receive_tab.pos
+                size: receive_tab.size
+                orientation: 'vertical'
+                padding: 3, 3, 3, 3
+                Image:
+                    source: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_receive_dark'
 
 <ActionOvrButton@ActionButton>
     #on_release:
