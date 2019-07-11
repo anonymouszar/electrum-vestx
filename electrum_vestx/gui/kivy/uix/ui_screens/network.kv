@@ -3,6 +3,12 @@ Popup:
     title: _('Network')
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: .384, .018, .232, 0.5
+            Rectangle:
+                size: self.size
+                pos: self.pos
         ScrollView:
             GridLayout:
                 id: scrollviewlayout

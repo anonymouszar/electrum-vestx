@@ -21,6 +21,9 @@
 
 <Button>
     on_parent: self.MIN_STATE_TIME = 0.1
+    background_color: (0.471, 0.267, 0.231, 0.95)
+    background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
+    background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
 
 <ListItemButton>
     font_size: '12sp'
@@ -35,7 +38,7 @@
 <ActionView>:
     canvas.before:
         Color:
-            rgba: 0.1, 0.1, 0.1, 1
+            rgba: 0, 0, 0, 0
         Rectangle:
             size: self.size
             pos: self.pos
@@ -123,7 +126,7 @@
         padding: '10dp'
         canvas.before:
             Color:
-                rgb: .3, .3, .3
+                rgba: .522, .020, .314, 0.2
             Rectangle:
                 size: self.size
                 pos: self.pos
@@ -181,12 +184,12 @@
 
 <SendReceiveBlueBottom@GridLayout>
     item_height: dp(42)
-    foreground_color: .843, .914, .972, 1
+    foreground_color: 0.745, 0.863, 0.941, 0.5
     cols: 1
     padding: '12dp', 0
     canvas.before:
         Color:
-            rgba: 0.192, .498, 0.745, 1
+            rgba: 0.745, 0.863, 0.941, 0.5
         BorderImage:
             source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
             size: self.size
@@ -196,11 +199,11 @@
 <AddressFilter@GridLayout>
 	item_height: dp(42)
 	item_width: dp(60)
-	foreground_color: .843, .914, .972, 1
+	foreground_color: 0.745, 0.863, 0.941, 0.5
 	cols: 1
 	canvas.before:
 		Color:
-			rgba: 0.192, .498, 0.745, 1
+			rgba: 0.745, 0.863, 0.941, 0.5
 		BorderImage:
 			source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
 			size: self.size
@@ -208,12 +211,12 @@
 
 <SearchBox@GridLayout>
 	item_height: dp(42)
-	foreground_color: .843, .914, .972, 1
+	foreground_color: 0.745, 0.863, 0.941, 0.5
 	cols: 1
 	padding: '12dp', 0
 	canvas.before:
 		Color:
-			rgba: 0.192, .498, 0.745, 1
+			rgba: 0.745, 0.863, 0.941, 0.5
         BorderImage:
             source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
             size: self.size
@@ -222,7 +225,7 @@
 <CardSeparator@Widget>
     size_hint: 1, None
     height: dp(1)
-    color: .909, .909, .909, 1
+    color: 1, 1, 1, 1
     canvas:
         Color:
             rgba: root.color if root.color else (0, 0, 0, 0)
@@ -241,13 +244,13 @@
         self.screen.show_menu(args[0]) if self.state == 'down' else self.screen.hide_menu()
     canvas.before:
         Color:
-            rgba: (0.192, .498, 0.745, 1) if self.state == 'down' else (0.15, 0.15, 0.17, 1)
+            rgba: (0.745, 0.863, 0.941, 0.5) if self.state == 'down' else (0.15, 0.15, 0.17, 1)
         Rectangle:
             size: self.size
             pos: self.pos
 
 <BlueButton@Button>:
-    background_color: 1, .585, .878, 0
+    background_color: 0.318, 0.059, 0.208, 0
     halign: 'left'
     text_size: (self.width-10, None)
     size_hint: 0.5, None
@@ -260,13 +263,13 @@
     foreground_color: 1, 1, 1, 1
     canvas.before:
         Color:
-            rgba: (0.9, .498, 0.745, 1) if self.state == 'down' else self.background_color
+            rgba: (0.318, 0.059, 0.208, 1) if self.state == 'down' else self.background_color
         Rectangle:
             size: self.size
             pos: self.pos
 
 <AddressButton@Button>:
-	background_color: 1, .585, .878, 0
+	background_color: 1, .714, .345, 0
 	halign: 'center'
 	text_size: (self.width, None)
 	shorten: True
@@ -280,7 +283,7 @@
 	foreground_color: 1, 1, 1, 1
 	canvas.before:
 		Color:
-			rgba: (0.9, .498, 0.745, 1) if self.state == 'down' else self.background_color
+			rgba: (1, .714, .345, 1) if self.state == 'down' else self.background_color
 		Rectangle:
 			size: self.size
 			pos: self.pos
@@ -297,12 +300,24 @@
     padding: 0, 0, 0, 0
 
 <TabbedPanelStrip>:
+    canvas.before:
+        Color:
+            rgba: 0.122, 0.133, 0.200, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
     on_parent:
         if self.parent: self.parent.bar_width = 0
         if self.parent: self.parent.scroll_x = 0.5
 
 
 <TabbedCarousel>
+    canvas.before:
+        Color:
+            rgba: 0.122, 0.133, 0.200, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
     carousel: carousel
     do_default_tab: False
     Carousel:
@@ -316,6 +331,12 @@
 
 
 <CleanHeader@TabbedPanelHeader>
+    canvas.before:
+        Color:
+            rgba: 0.122, 0.133, 0.200, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
     border: 16, 0, 16, 0
     markup: False
     text_size: self.size
@@ -345,9 +366,10 @@
     height: self.minimum_height
     padding: 0, '10dp', 0, '10dp'
     spacing: '10dp'
+    background_color: (0.122, 0.133, 0.200, 0.7)
     canvas.before:
         Color:
-            rgba: (0.192, .498, 0.745, 1) if self.state == 'down' else (0.3, 0.3, 0.3, 0)
+            rgba: (0.3, .3, 0.3, 1) if self.state == 'down' else (0.3, 0.3, 0.3, 0)
         Rectangle:
             size: self.size
             pos: self.pos
@@ -360,7 +382,7 @@
         halign: 'left'
     TopLabel:
         text: self.parent.description
-        color: 0.8, 0.8, 0.8, 1
+        color: 0.3, 0.3, 0.3, 1
         halign: 'left'
 
 
@@ -372,7 +394,7 @@
         tab_pos: 'bottom_mid'
         tab_height: '50dp'
         tab_width: panel.width/3
-        strip_border: 0, 0, 0, 0
+        strip_border: 1, 1, 1, 1
         SendScreen:
             id: send_screen
             tab: send_tab
@@ -390,7 +412,7 @@
                 pos: send_tab.pos
                 size: send_tab.size
                 orientation: 'vertical'
-                padding: 3, 3, 3, 3
+                padding: 1, 1, 1, 1
                 Image:
                     source: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_send_dark'
         CleanHeader:
@@ -401,7 +423,7 @@
                 pos: history_tab.pos
                 size: history_tab.size
                 orientation: 'vertical'
-                padding: 3, 3, 3, 3
+                padding: 1, 1, 1, 1
                 Image:
                     source: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_home_dark'
         CleanHeader:
@@ -412,7 +434,7 @@
                 pos: receive_tab.pos
                 size: receive_tab.size
                 orientation: 'vertical'
-                padding: 3, 3, 3, 3
+                padding: 1, 1, 1, 1
                 Image:
                     source: 'atlas://electrum_vestx/gui/kivy/theming/light/tab_receive_dark'
 
@@ -427,23 +449,21 @@
 
 BoxLayout:
     orientation: 'vertical'
-
-    canvas.before:
-        Color:
-            rgb: .6, .6, .6
-        Rectangle:
-            size: self.size
-            source: 'electrum_vestx/gui/kivy/data/background.png'
-
     ActionBar:
-
         ActionView:
+            canvas.before:
+                Color:
+                    rgba: 0.122, 0.133, 0.200, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
             id: av
             ActionPrevious:
                 app_icon: 'atlas://electrum_vestx/gui/kivy/theming/light/logo'
                 app_icon_width: '100dp'
                 with_previous: False
                 size_hint_x: None
+                background_color: (0.122, 0.133, 0.200, 0.7)
                 on_release: app.popup_dialog('network')
 
             ActionButton:
@@ -451,7 +471,7 @@ BoxLayout:
                 important: True
                 size_hint: 1, 1
                 bold: True
-                color: 0.7, 0.7, 0.7, 1
+                color: 1, 1, 1, 1
                 text: app.wallet_name
                 font_size: '22dp'
                 #minimum_width: '1dp'
@@ -462,15 +482,19 @@ BoxLayout:
                 ActionOvrButton:
                     name: 'about'
                     text: _('About')
+                    background_color: (0.122, 0.133, 0.200, 0.7)
                 ActionOvrButton:
                     name: 'wallets'
                     text: _('Wallets')
+                    background_color: (0.122, 0.133, 0.200, 0.7)
                 ActionOvrButton:
                     name: 'network'
                     text: _('Network')
+                    background_color: (0.122, 0.133, 0.200, 0.7)
                 ActionOvrButton:
                     name: 'settings'
                     text: _('Settings')
+                    background_color: (0.122, 0.133, 0.200, 0.7)
                     on_parent:
                         # when widget overflow drop down is shown, adjust the width
                         parent = args[1]

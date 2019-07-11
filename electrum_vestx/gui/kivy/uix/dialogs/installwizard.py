@@ -61,7 +61,7 @@ Builder.load_string('''
     bold: True
 
 <-WizardDialog>
-    text_color: .854, .925, .984, 1
+    text_color: 1, 1, 1, 1
     value: ''
     #auto_dismiss: False
     size_hint: None, None
@@ -74,6 +74,10 @@ Builder.load_string('''
     crcontent: crcontent
     # add electrum icon
     BoxLayout:
+        canvas.before:
+            Rectangle:
+                size: Window.size
+                source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
         orientation: 'vertical' if self.width < self.height else 'horizontal'
         padding:
             min(dp(27), self.width/32), min(dp(27), self.height/32),\

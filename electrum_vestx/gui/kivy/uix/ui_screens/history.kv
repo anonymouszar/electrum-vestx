@@ -63,6 +63,12 @@ HistoryScreen:
     content: history_container
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: .384, .018, .232, 0.5
+            Rectangle:
+                size: self.size
+                pos: self.pos
         Button:
             background_color: 0, 0, 0, 0
             text: app.fiat_balance if app.is_fiat else app.balance

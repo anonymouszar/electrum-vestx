@@ -17,6 +17,11 @@ Builder.load_string('''
     BoxLayout:
         size_hint: 1, 1
         orientation: 'vertical'
+        canvas.before:
+            Rectangle:
+                size: self.size
+                pos: self.pos
+                source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
         Widget:
             size_hint: 1, 0.05
         Label:
