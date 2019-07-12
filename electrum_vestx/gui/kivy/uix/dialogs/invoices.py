@@ -61,10 +61,18 @@ Builder.load_string('''
 <InvoicesDialog@Popup>
     id: popup
     title: _('Invoices')
+    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background'
     BoxLayout:
         id: box
         orientation: 'vertical'
         spacing: '1dp'
+        canvas.before:
+            Color:
+                rgba: 0.122, 0.133, 0.200, 0.7
+            BorderImage:
+                source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
+                size: self.size
+                pos: self.pos
         ScrollView:
             GridLayout:
                 cols: 1

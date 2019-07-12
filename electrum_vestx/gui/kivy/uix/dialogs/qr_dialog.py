@@ -8,6 +8,7 @@ Builder.load_string('''
     data: ''
     shaded: False
     show_text: False
+    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background_std'
     AnchorLayout:
         anchor_x: 'center'
         BoxLayout:
@@ -15,6 +16,13 @@ Builder.load_string('''
             size_hint: 1, 1
             padding: '10dp'
             spacing: '10dp'
+            canvas.before:
+                Color:
+                    rgba: 0.122, 0.133, 0.200, 0.7
+                BorderImage:
+                    source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
+                    size: self.size
+                    pos: self.pos
             QRCodeWidget:
                 id: qr
             TopLabel:

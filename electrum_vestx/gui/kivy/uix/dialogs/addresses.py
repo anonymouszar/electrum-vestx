@@ -38,6 +38,7 @@ Builder.load_string('''
     pr_status: 'Pending'
     show_change: 0
     show_used: 0
+    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background'
     on_message:
         self.update()
     BoxLayout:
@@ -46,10 +47,18 @@ Builder.load_string('''
         spacing: '12dp'
         orientation: 'vertical'
         size_hint: 1, 1.1
+        canvas.before:
+            Color:
+                rgba: 0.122, 0.133, 0.200, 0.7
+            BorderImage:
+                source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
+                size: self.size
+                pos: self.pos
         BoxLayout:
             spacing: '6dp'
             size_hint: 1, None
             orientation: 'horizontal'
+            
             AddressFilter:
                 opacity: 1
                 size_hint: 1, None
@@ -89,12 +98,20 @@ Builder.load_string('''
             bar_width: '15dp'
             viewclass: 'AddressItem'
             id: search_container
+            background: 'atlas://electrum_vestx/gui/kivy/theming/light/background_std'
             RecycleBoxLayout:
                 orientation: 'vertical'
                 default_size: None, dp(56)
                 default_size_hint: 1, None
                 size_hint_y: None
                 height: self.minimum_height
+                canvas.before:
+                    Color:
+                        rgba: 0.122, 0.133, 0.200, 0.7
+                    BorderImage:
+                        source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
+                        size: self.size
+                        pos: self.pos
 ''')
 
 

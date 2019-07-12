@@ -14,14 +14,17 @@ Builder.load_string('''
     id: popup
     title: 'Vestx Electrum'
     message: ''
+    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background'
     BoxLayout:
         size_hint: 1, 1
         orientation: 'vertical'
         canvas.before:
-            Rectangle:
+            Color:
+                rgba: 0.122, 0.133, 0.200, 0.7
+            BorderImage:
+                source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
                 size: self.size
                 pos: self.pos
-                source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
         Widget:
             size_hint: 1, 0.05
         Label:

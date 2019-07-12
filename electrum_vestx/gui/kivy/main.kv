@@ -452,12 +452,6 @@ BoxLayout:
     orientation: 'vertical'
     ActionBar:
         ActionView:
-            canvas.before:
-                Color:
-                    rgba: 0.275, 0.435, 0.506, 1
-                Rectangle:
-                    size: self.size
-                    pos: self.pos
             id: av
             ActionPrevious:
                 app_icon: 'atlas://electrum_vestx/gui/kivy/theming/light/logo'
@@ -465,6 +459,8 @@ BoxLayout:
                 with_previous: False
                 size_hint_x: None
                 background_color: (0.275, 0.435, 0.506, 1)
+                background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_n'
+                background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
                 on_release: app.popup_dialog('network')
 
             ActionButton:
@@ -474,8 +470,10 @@ BoxLayout:
                 bold: True
                 color: 1, 1, 1, 1
                 text: app.wallet_name
-                font_size: '22dp'
+                font_size: '18dp'
                 background_color: (0.275, 0.435, 0.506, 1)
+                background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
+                background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
                 #minimum_width: '1dp'
                 on_release: app.popup_dialog('status')
 

@@ -20,6 +20,13 @@ Builder.load_string('''
 <CrashReporter@Popup>
     BoxLayout:
         orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.122, 0.133, 0.200, 0.7
+            BorderImage:
+                source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
+                size: self.size
+                pos: self.pos
         Label:
             id: crash_message
             text_size: root.width, None
