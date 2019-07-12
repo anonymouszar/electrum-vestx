@@ -1,4 +1,4 @@
-package org.electrum_vestx.qr;
+package org.vestx.electrum.qr;
 
 import android.app.Activity;
 import android.os.Bundle;
