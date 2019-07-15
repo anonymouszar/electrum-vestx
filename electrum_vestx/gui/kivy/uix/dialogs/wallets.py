@@ -34,9 +34,9 @@ Builder.load_string('''
             filter: '*.*'
             path: root.path
             rootpath: root.path
-            size_hint_y: 0.6
+            size_hint_y: 0.8
         Widget
-            size_hint_y: 0.1
+            size_hint_y: 0.2
         GridLayout:
             cols: 3
             size_hint_y: 0.1

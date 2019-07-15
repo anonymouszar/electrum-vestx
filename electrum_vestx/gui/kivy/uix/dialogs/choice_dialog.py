@@ -12,12 +12,13 @@ Builder.load_string('''
     title: ''
     size_hint: 0.8, 0.8
     pos_hint: {'top':0.9}
-    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background'
+    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background_std'
     BoxLayout:
         orientation: 'vertical'
         canvas.before:
             Color:
                 rgba: 0.122, 0.133, 0.200, 0.7
+            BorderImage:
                 source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
                 size: self.size
                 pos: self.pos
@@ -26,6 +27,7 @@ Builder.load_string('''
         ScrollView:
             orientation: 'vertical'
             size_hint: 1, 0.8
+
             GridLayout:
                 row_default_height: '48dp'
                 orientation: 'vertical'

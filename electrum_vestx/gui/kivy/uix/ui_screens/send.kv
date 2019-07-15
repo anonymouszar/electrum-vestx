@@ -107,7 +107,7 @@ SendScreen:
             IconButton:
                 id: qr
                 size_hint: 0.6, 1
-                on_release: Clock.schedule_once(lambda dt: app.scan_qr(on_complete=app.on_qr))
+                on_release: Clock.schedule_once(lambda dt: app.scan_qr(on_complete=app.on_qr)) #todo - change icon to qr, choice - camera or image
                 icon: 'atlas://electrum_vestx/gui/kivy/theming/light/camera'
         BoxLayout:
             size_hint: 1, None
