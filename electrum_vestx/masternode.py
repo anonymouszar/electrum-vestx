@@ -60,10 +60,11 @@ class MasternodePing(object):
     """A masternode ping message."""
     @classmethod
     def deserialize(cls, vds, protocol_version=70214):
-        if protocol_version <= 70214:
-            vin = parse_input(vds, full_parse=True)
-        else:
-            vin = parse_outpoint(vds)
+        vin = parse_input(vds, full_parse=True)
+        # if protocol_version <= 70214:
+        #     vin = parse_input(vds, full_parse=True)
+        # else:
+        #     vin = parse_outpoint(vds)
 
         block_hash = hash_encode(vds.read_bytes(32))
         sig_time = vds.read_int64()
@@ -106,10 +107,11 @@ class MasternodePing(object):
     def serialize(self, vds=None):
         if not vds:
             vds = BCDataStream()
-        if self.protocol_version <= 70214:
-            serialize_input(vds, self.vin)
-        else:
-            serialize_outpoint(vds, self.vin)
+        serialize_input(vds, self.vin)
+        # if self.protocol_version <= 70214:
+        #     serialize_input(vds, self.vin)
+        # else:
+        #     serialize_outpoint(vds, self.vin)
         vds.write(hash_decode(self.block_hash))
         vds.write_int64(self.sig_time)
         vds.write_string(self.sig)
@@ -187,9 +189,9 @@ class MasternodeAnnounce(object):
 
     Attributes:
         - alias: Alias to help the user identify this masternode.
-        - vin: 1K Dash input (outpoint: 1K Dash input for proto > 70214).
+        - vin: 15KK VESTX input (outpoint: 15KK VESTX input for proto > 70214).
         - addr: Address that the masternode can be reached at.
-        - collateral_key: Key that can spend the 1K Dash input.
+        - collateral_key: Key that can spend the 15KK VESTX input.
         - delegate_key: Key that the masternode will sign messages with.
         - sig: Message signature.
         - sig_time: Message signature creation time.
@@ -260,7 +262,7 @@ class MasternodeAnnounce(object):
             sig_time = vds.read_int64()
 
             protocol_version = vds.read_uint32()
-            if protocol_version in [70209, 70210]:
+            if protocol_version in [70214]:
                 return True
             else:
                 return False
@@ -277,10 +279,11 @@ class MasternodeAnnounce(object):
     def serialize(self, vds=None):
         if not vds:
             vds = BCDataStream()
-        if self.protocol_version <= 70214:
-            serialize_input(vds, self.vin)
-        else:
-            serialize_outpoint(vds, self.vin)
+        serialize_input(vds, self.vin)
+        # if self.protocol_version <= 70214:
+        #     serialize_input(vds, self.vin)
+        # else:
+        #     serialize_outpoint(vds, self.vin)
         self.addr.serialize(vds)
         vds.write_string(bfh(self.collateral_key))
         vds.write_string(bfh(self.delegate_key))
@@ -299,14 +302,17 @@ class MasternodeAnnounce(object):
         s = to_bytes(str(self.addr))
         s += to_bytes(str(self.sig_time))
 
-        if self.protocol_version < 70201:
-            # Decode the hex-encoded bytes for our keys.
-            s += bfh(self.collateral_key)
-            s += bfh(self.delegate_key)
-        else:
-            # Use the RIPEMD-160 hashes of our keys.
-            s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.collateral_key))), 'utf-8')
-            s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.delegate_key))), 'utf-8')
+        s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.collateral_key))), 'utf-8')
+        s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.delegate_key))), 'utf-8')
+        # DASH
+        # if self.protocol_version < 70201:
+        #     # Decode the hex-encoded bytes for our keys.
+        #     s += bfh(self.collateral_key)
+        #     s += bfh(self.delegate_key)
+        # else:
+        #     # Use the RIPEMD-160 hashes of our keys.
+        #     s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.collateral_key))), 'utf-8')
+        #     s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.delegate_key))), 'utf-8')
 
         s += to_bytes(str(self.protocol_version))
         return s

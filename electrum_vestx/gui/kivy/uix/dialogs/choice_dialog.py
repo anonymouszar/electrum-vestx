@@ -36,16 +36,16 @@ Builder.load_string('''
                 size_hint: 1, None
         BoxLayout:
             orientation: 'horizontal'
-            size_hint: 1, 0.2
+            size_hint: 0.8, 0.2
             Button:
                 text: 'Cancel'
-                size_hint: 0.5, None
-                height: '48dp'
+                size_hint: 0.3, 0.5
+                height: '40dp'
                 on_release: popup.dismiss()
             Button:
                 text: 'OK'
-                size_hint: 0.5, None
-                height: '48dp'
+                size_hint: 0.3, 0.5
+                height: '40dp'
                 on_release:
                     root.callback(popup.value)
                     popup.dismiss()
