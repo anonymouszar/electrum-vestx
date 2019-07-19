@@ -21,7 +21,7 @@
 
 <Button>
     on_parent: self.MIN_STATE_TIME = 0.1
-    background_color: (0.275, 0.435, 0.506, 0.95)
+    # background_color: (0.275, 0.435, 0.506, 0.95)
     background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
     background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
 
@@ -30,15 +30,16 @@
 
 <Carousel>:
     canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
         Rectangle:
             size: self.size
             pos: self.pos
-            source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
 
 <ActionView>:
     canvas.before:
         Color:
-            rgba: 0.275, 0.435, 0.506, 0.7
+            rgba: 0.275, 0.435, 0.506, 1
         Rectangle:
             size: self.size
             pos: self.pos
@@ -60,7 +61,7 @@
 
 <IconButton@Button>:
     icon: ''
-    background_color: (0.275, 0.435, 0.506, 0.7)
+    background_color: (0.275, 0.435, 0.506, 1)
     AnchorLayout:
         pos: self.parent.pos
         size: self.parent.size
@@ -367,7 +368,7 @@
     height: self.minimum_height
     padding: 0, '10dp', 0, '10dp'
     spacing: '10dp'
-    background_color: (0.122, 0.133, 0.200, 1)
+    #background_color: (0.122, 0.133, 0.200, 1)
     canvas.before:
         Color:
             rgba: (0.3, .3, 0.3, 1) if self.state == 'down' else (0.3, 0.3, 0.3, 0)
@@ -458,9 +459,8 @@ BoxLayout:
                 app_icon_width: '100dp'
                 with_previous: False
                 size_hint_x: None
-                background_color: (0.275, 0.435, 0.506, 1)
-                background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_n'
-                background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
+                # background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
+                # background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
                 on_release: app.popup_dialog('network')
 
             ActionButton:
@@ -471,9 +471,8 @@ BoxLayout:
                 color: 1, 1, 1, 1
                 text: app.wallet_name
                 font_size: '18dp'
-                background_color: (0.275, 0.435, 0.506, 1)
-                background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
-                background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
+                # background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
+                # background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
                 #minimum_width: '1dp'
                 on_release: app.popup_dialog('status')
 
@@ -482,19 +481,19 @@ BoxLayout:
                 ActionOvrButton:
                     name: 'about'
                     text: _('About')
-                    background_color: (0.275, 0.435, 0.506, 0.8)
+                    background_color: (0.275, 0.435, 0.506, 1)
                 ActionOvrButton:
                     name: 'wallets'
                     text: _('Wallets')
-                    background_color:(0.275, 0.435, 0.506, 0.8)
+                    background_color:(0.275, 0.435, 0.506, 1)
                 ActionOvrButton:
                     name: 'network'
                     text: _('Network')
-                    background_color: (0.275, 0.435, 0.506, 0.8)
+                    background_color: (0.275, 0.435, 0.506, 1)
                 ActionOvrButton:
                     name: 'settings'
                     text: _('Settings')
-                    background_color: (0.275, 0.435, 0.506, 0.8)
+                    background_color: (0.275, 0.435, 0.506, 1)
                     on_parent:
                         # when widget overflow drop down is shown, adjust the width
                         parent = args[1]

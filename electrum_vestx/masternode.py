@@ -61,10 +61,6 @@ class MasternodePing(object):
     @classmethod
     def deserialize(cls, vds, protocol_version=70214):
         vin = parse_input(vds, full_parse=True)
-        # if protocol_version <= 70214:
-        #     vin = parse_input(vds, full_parse=True)
-        # else:
-        #     vin = parse_outpoint(vds)
 
         block_hash = hash_encode(vds.read_bytes(32))
         sig_time = vds.read_int64()
@@ -108,10 +104,7 @@ class MasternodePing(object):
         if not vds:
             vds = BCDataStream()
         serialize_input(vds, self.vin)
-        # if self.protocol_version <= 70214:
-        #     serialize_input(vds, self.vin)
-        # else:
-        #     serialize_outpoint(vds, self.vin)
+
         vds.write(hash_decode(self.block_hash))
         vds.write_int64(self.sig_time)
         vds.write_string(self.sig)
@@ -280,10 +273,7 @@ class MasternodeAnnounce(object):
         if not vds:
             vds = BCDataStream()
         serialize_input(vds, self.vin)
-        # if self.protocol_version <= 70214:
-        #     serialize_input(vds, self.vin)
-        # else:
-        #     serialize_outpoint(vds, self.vin)
+
         self.addr.serialize(vds)
         vds.write_string(bfh(self.collateral_key))
         vds.write_string(bfh(self.delegate_key))
@@ -301,19 +291,8 @@ class MasternodeAnnounce(object):
 
         s = to_bytes(str(self.addr))
         s += to_bytes(str(self.sig_time))
-
         s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.collateral_key))), 'utf-8')
         s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.delegate_key))), 'utf-8')
-        # DASH
-        # if self.protocol_version < 70201:
-        #     # Decode the hex-encoded bytes for our keys.
-        #     s += bfh(self.collateral_key)
-        #     s += bfh(self.delegate_key)
-        # else:
-        #     # Use the RIPEMD-160 hashes of our keys.
-        #     s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.collateral_key))), 'utf-8')
-        #     s += to_bytes(hash_encode(bitcoin.hash_160(bfh(self.delegate_key))), 'utf-8')
-
         s += to_bytes(str(self.protocol_version))
         return s
 
