@@ -8,7 +8,6 @@ Builder.load_string('''
     data: ''
     shaded: False
     show_text: False
-    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background_std'
     AnchorLayout:
         anchor_x: 'center'
         BoxLayout:
@@ -18,7 +17,7 @@ Builder.load_string('''
             spacing: '10dp'
             canvas.before:
                 Color:
-                    rgba: 0.122, 0.133, 0.200, 0.7
+                    rgba: 0.180, 0.145, 0.196, 0.7
                 BorderImage:
                     source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
                     size: self.size

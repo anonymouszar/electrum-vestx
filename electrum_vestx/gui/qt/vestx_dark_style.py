@@ -127,6 +127,11 @@ QGroupBox::title {
     position: absolute;
 }
 
+#main_window_nav_bar QTabBar{
+    color: #fff;
+    border:0;
+}
+
 QTabWidget#main_window_nav_bar::tab-bar {
     alignment: center;
 }
@@ -588,6 +593,52 @@ QAbstractSpinBox::down-button {
     padding-bottom:2px;
 }
 
+							
+														   
+				
+				 
+ 
+
+																	 
+																	
+ 
+
+							  
+															 
+				
+				 
+ 
+
+																		 
+																	  
+ 
+
+							
+							  
+					   
+				 
+ 
+
+							  
+							  
+							  
+				 
+ 
+
+							  
+						
+							  
+				 
+ 
+
+							
+							  
+							  
+				
+					 
+						
+					   
+ 
 
 /**********************/
 /* 6. Table Headers */
@@ -630,8 +681,12 @@ QHeaderView::section:last {
 /**********************/
 /* 7. Scroll Bar */
 
-QScrollBar { /* Scroll Bar */
+							 
+					 
+				 
+ 
 
+QScrollBar { /* Scroll Bar */
 }
 
 QScrollBar:vertical { /* Vertical Scroll Bar Attributes */
@@ -647,6 +702,7 @@ QScrollBar:horizontal { /* Horizontal Scroll Bar Attributes */
     height:10px;
     margin: 0px 10px 0px 10px;
 }
+
 
 QScrollBar::handle:vertical { /* Scroll Bar Slider - vertical */
     background:#5f5f5f;
@@ -716,45 +772,72 @@ QScrollBar:right-arrow {
 
 
 /**********************/
-/* 8. Tree Widget & QTableView */
+/* 8. Tree Widget */
 
-QTreeWidget{
-    border: 0;
-    background-color:rgba(255,255,255,128);
+QTreeWidget, QListWidget, QTableView, QTextEdit  {
+    border: 0px;
+    color: #ccc;
+    background-color: #232629;
 }
+
+QTreeWidget QLineEdit {
+    min-height: 0;
+    padding: 0;
+}
+
+QListWidget, QTableView, QTextEdit, QDialog QTreeWidget {
+    border: 1px solid #1c75bc;
+}
+
+														 
+							  
+ 
+
 
 QTableView {
     border: 0;
     background-color:#fff;
 }
-
 QTreeWidget::item, 
 QTableView::item {
     color:#fff;
 }
  
+
 #inverted_font_color QTreeWidget::item,
 #inverted_font_color QTableView::item {
     color:#fff;
 }
-
 QTreeWidget QHeaderView::section, 
 QTableView QHeaderView::section{
     background-color: transparent;
     color: #fff;
     text-transform: uppercase;
 }
-
 #inverted_font_color QTreeWidget QHeaderView::section,
 #inverted_font_color QTableView QHeaderView::section {
     color:#000;
+    text-transform: uppercase;
 }
+
+				   
+				
+								  
+ 
+
+							
+							 
+ 
 
 QTreeWidget QHeaderView::section:horizontal, 
 QTableView QHeaderView::section:horizontal{
     border-bottom: 3px solid #ff7200;
     border-right: 0;
 }
+
+							
+							 
+ 
 
 QTreeView {
     selection-background-color: #333333; /* Used on Mac */
@@ -763,6 +846,7 @@ QTreeView {
 }
 
 QTreeView::item:selected {
+				
     background-color: #333333; /* Used on Windows */
 }
 
@@ -808,9 +892,18 @@ QDialog QTabWidget QWidget {
     /*color:#333;*/
 }
 
+					
+								  
+				
+ 
+
 QDialog QTabWidget QWidget QAbstractSpinBox {
     min-height:15px;
 }
+
+					   
+					 
+ 
 
 QDialog QTabWidget QWidget QAbstractSpinBox::down-button {
     width:15px;
@@ -826,6 +919,14 @@ QDialog QTabWidget QWidget QComboBox {
 
 QDialog QWidget { /* Remove Annoying Focus Rectangle */
     outline: 0;
+}
+
+QDialog #settings_tab {
+    min-width: 600px;
+}
+
+MasternodeDialog {
+    min-height: 650px;
 }
 """
 

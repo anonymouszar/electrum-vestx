@@ -12,12 +12,11 @@ Builder.load_string('''
     title: ''
     size_hint: 0.8, 0.8
     pos_hint: {'top':0.9}
-    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background_std'
     BoxLayout:
         orientation: 'vertical'
         canvas.before:
             Color:
-                rgba: 0.122, 0.133, 0.200, 0.7
+                rgba: 0.180, 0.145, 0.196, 0.7
             BorderImage:
                 source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
                 size: self.size

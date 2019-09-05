@@ -16,13 +16,12 @@ Builder.load_string('''
     title: _('Wallets')
     id: popup
     path: os.path.dirname(app.get_wallet_path())
-    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background'
     BoxLayout:
         orientation: 'vertical'
         padding: '10dp'
         canvas.before:
             Color:
-                rgba: 0.122, 0.133, 0.200, 0.7
+                rgba: 0.180, 0.145, 0.196, 0.7
             BorderImage:
                 source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
                 size: self.size

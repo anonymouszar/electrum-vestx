@@ -209,6 +209,7 @@ class MasternodesWidget(QWidget):
         self.proxy_model = QSortFilterProxyModel()
         self.proxy_model.setSourceModel(self.model)
         self.view = QTableView()
+        self.setObjectName("inverted_font_color")
         self.view.setModel(self.proxy_model)
         for header in [self.view.horizontalHeader(), self.view.verticalHeader()]:
             header.setHighlightSections(False)

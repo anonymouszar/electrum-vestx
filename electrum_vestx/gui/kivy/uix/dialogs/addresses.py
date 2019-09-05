@@ -38,7 +38,6 @@ Builder.load_string('''
     pr_status: 'Pending'
     show_change: 0
     show_used: 0
-    background:  'atlas://electrum_vestx/gui/kivy/theming/light/background'
     on_message:
         self.update()
     BoxLayout:
@@ -49,7 +48,7 @@ Builder.load_string('''
         size_hint: 1, 1.1
         canvas.before:
             Color:
-                rgba: 0.122, 0.133, 0.200, 0.7
+                rgba: 0.180, 0.145, 0.196, 0.7
             BorderImage:
                 source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
                 size: self.size
@@ -107,7 +106,7 @@ Builder.load_string('''
                 height: self.minimum_height
                 canvas.before:
                     Color:
-                        rgba: 0.122, 0.133, 0.200, 0.7
+                        rgba: 0.180, 0.145, 0.196, 0.7
                     BorderImage:
                         source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_bottom'
                         size: self.size

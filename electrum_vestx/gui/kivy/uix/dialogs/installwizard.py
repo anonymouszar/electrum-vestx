@@ -67,7 +67,7 @@ Builder.load_string('''
     size_hint: None, None
     canvas.before:
         Color:
-            rgba: .239, .588, .882, 1
+            rgba: 0.525, 0.0, 0.325, 1
         Rectangle:
             size: Window.size
 
@@ -77,7 +77,6 @@ Builder.load_string('''
         canvas.before:
             Rectangle:
                 size: Window.size
-                source: 'atlas://electrum_vestx/gui/kivy/theming/light/background'
         orientation: 'vertical' if self.width < self.height else 'horizontal'
         padding:
             min(dp(27), self.width/32), min(dp(27), self.height/32),\

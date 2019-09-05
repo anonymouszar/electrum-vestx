@@ -187,7 +187,7 @@ class MasternodeEditor(QWidget):
         self.delegate_key_edit.setFont(QFont(util.MONOSPACE_FONT))
         self.delegate_key_edit.setPlaceholderText(_('Your masternode\'s private key'))
         self.protocol_version_edit = QLineEdit()
-        self.protocol_version_edit.setText('70201')
+        self.protocol_version_edit.setText('70214')
 
         self.status_edit = QLineEdit()
         self.status_edit.setPlaceholderText(_('Masternode status'))
