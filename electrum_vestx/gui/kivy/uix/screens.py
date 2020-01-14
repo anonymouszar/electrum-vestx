@@ -87,8 +87,8 @@ class CScreen(Factory.Screen):
 
     def show_menu(self, obj):
         self.hide_menu()
-        self.context_menu = ContextMenu(obj, self.menu_actions)
-        self.add_widget(self.context_menu)
+        #self.context_menu = ContextMenu(obj, self.menu_actions)
+        #self.add_widget(self.context_menu)
 
 
 # note: this list needs to be kept in sync with another in qt
@@ -102,7 +102,8 @@ TX_ICONS = [
     "clock3",
     "clock4",
     "clock5",
-    "confirmed",
+    "confirmed_sent",
+    "confirmed_received"
 ]
 
 class HistoryScreen(CScreen):
@@ -135,7 +136,14 @@ class HistoryScreen(CScreen):
 
     def get_card(self, tx_hash, tx_mined_status, value, balance):
         status, status_str = self.app.wallet.get_tx_status(tx_hash, tx_mined_status)
-        icon = "atlas://electrum_vestx/gui/kivy/theming/light/" + TX_ICONS[status]
+        icon = ""
+        if status == 9 and value < 0:
+            icon = "atlas://electrum_vestx/gui/kivy/theming/light/" + TX_ICONS[status]
+        elif status == 9 and value > 0:
+            icon = "atlas://electrum_vestx/gui/kivy/theming/light/" + TX_ICONS[status+1]
+        else:
+            icon = "atlas://electrum_vestx/gui/kivy/theming/light/" + TX_ICONS[status]
+
         label = self.app.wallet.get_label(tx_hash) if tx_hash else _('Pruned transaction outputs')
         ri = {}
         ri['screen'] = self

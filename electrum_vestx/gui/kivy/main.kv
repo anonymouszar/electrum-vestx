@@ -246,7 +246,7 @@
         self.screen.show_menu(args[0]) if self.state == 'down' else self.screen.hide_menu()
     canvas.before:
         Color:
-            rgba: (0.620, 0.278, 0.439, 0.5) if self.state == 'down' else (0.15, 0.15, 0.17, 1)
+            rgba: (0.724, 0.804, 0.906, 1) if self.state == 'down' else (0.855, 0.898, 0.953, 0)
         Rectangle:
             size: self.size
             pos: self.pos
@@ -394,8 +394,8 @@
     TabbedCarousel:
         id: panel
         tab_pos: 'bottom_mid'
-        tab_height: '50dp'
-        tab_width: panel.width/3
+        tab_height: '0dp'
+        tab_width: panel.width
         strip_border: 1, 1, 1, 1
         SendScreen:
             id: send_screen
@@ -451,53 +451,53 @@
 
 BoxLayout:
     orientation: 'vertical'
-    ActionBar:
-        ActionView:
-            id: av
-            ActionPrevious:
-                app_icon: 'atlas://electrum_vestx/gui/kivy/theming/light/logo'
-                app_icon_width: '100dp'
-                with_previous: False
-                size_hint_x: None
-                # background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
-                # background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
-                on_release: app.popup_dialog('network')
+#     ActionBar:
+#         ActionView:
+#             id: av
+#             ActionPrevious:
+#                 app_icon: 'atlas://electrum_vestx/gui/kivy/theming/light/logo'
+#                 app_icon_width: '100dp'
+#                 with_previous: False
+#                 size_hint_x: None
+#                 # background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
+#                 # background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
+#                 on_release: app.popup_dialog('network')
 
-            ActionButton:
-                id: action_status
-                important: True
-                size_hint: 1, 1
-                bold: True
-                color: 1, 1, 1, 1
-                text: app.wallet_name
-                font_size: '18dp'
-                # background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
-                # background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
-                #minimum_width: '1dp'
-                on_release: app.popup_dialog('status')
+#             ActionButton:
+#                 id: action_status
+#                 important: True
+#                 size_hint: 1, 1
+#                 bold: True
+#                 color: 1, 1, 1, 1
+#                 text: app.wallet_name
+#                 font_size: '18dp'
+#                 # background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn'
+#                 # background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
+#                 #minimum_width: '1dp'
+#                 on_release: app.popup_dialog('status')
 
-            ActionOverflow:
-                id: ao
-                ActionOvrButton:
-                    name: 'about'
-                    text: _('About')
-                    background_color: (0.525, 0.0, 0.3251)
-                ActionOvrButton:
-                    name: 'wallets'
-                    text: _('Wallets')
-                    background_color:(0.525, 0.0, 0.325, 1)
-                ActionOvrButton:
-                    name: 'network'
-                    text: _('Network')
-                    background_color: (0.525, 0.0, 0.325, 1)
-                ActionOvrButton:
-                    name: 'settings'
-                    text: _('Settings')
-                    background_color: (0.525, 0.0, 0.325, 1)
-                    on_parent:
-                        # when widget overflow drop down is shown, adjust the width
-                        parent = args[1]
-                        if parent: ao._dropdown.width = sp(200)
+#             ActionOverflow:
+#                 id: ao
+#                 ActionOvrButton:
+#                     name: 'about'
+#                     text: _('About')
+#                     background_color: (0.525, 0.0, 0.3251)
+#                 ActionOvrButton:
+#                     name: 'wallets'
+#                     text: _('Wallets')
+#                     background_color:(0.525, 0.0, 0.325, 1)
+#                 ActionOvrButton:
+#                     name: 'network'
+#                     text: _('Network')
+#                     background_color: (0.525, 0.0, 0.325, 1)
+#                 ActionOvrButton:
+#                     name: 'settings'
+#                     text: _('Settings')
+#                     background_color: (0.525, 0.0, 0.325, 1)
+#                     on_parent:
+#                         # when widget overflow drop down is shown, adjust the width
+#                         parent = args[1]
+#                         if parent: ao._dropdown.width = sp(200)
     ScreenManager:
         id: manager
         ScreenTabs:
