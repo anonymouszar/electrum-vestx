@@ -5,7 +5,7 @@ PYTHON = python3
 .PHONY: theming apk clean
 
 theming:
-	$(PYTHON) -m kivy.atlas theming/light 1024 theming/light/*.png
+	$(PYTHON) -m kivy.atlas theming/light 2048 theming/light/*.png
 prepare:
 	# running pre build setup
 	@cp tools/buildozer.spec ../../../buildozer.spec
