@@ -68,6 +68,11 @@ Label.register('Montserrat',
                'electrum_vestx/gui/kivy/data/fonts/Montserrat-Regular.otf',
                'electrum_vestx/gui/kivy/data/fonts/Montserrat-Bold.otf',
                'electrum_vestx/gui/kivy/data/fonts/Montserrat-Bold.otf')
+Label.register('Roboto',
+               'electrum_vestx/gui/kivy/data/fonts/Roboto.ttf',
+               'electrum_vestx/gui/kivy/data/fonts/Roboto.ttf',
+               'electrum_vestx/gui/kivy/data/fonts/Roboto-Bold.ttf',
+               'electrum_vestx/gui/kivy/data/fonts/Roboto-Bold.ttf')
 
 
 from electrum_vestx.util import (base_units, NoDynamicFeeEstimates, decimal_point_to_base_unit_name,
@@ -277,7 +282,7 @@ class ElectrumWindow(App):
         self._clipboard = Clipboard
         self.info_bubble = None
         self.nfcscanner = None
-        self.tabs = None
+        #self.tabs = None
         self.is_exit = False
         self.wallet = None
         self.pause_time = 0
@@ -762,7 +767,8 @@ class ElectrumWindow(App):
         # since the callback has been called before the GUI was initialized
         if self.receive_screen:
             self.receive_screen.clear()
-        self.update_tabs()
+        print('Hello tabs update')
+        #self.update_tabs()
         run_hook('load_wallet', wallet, self)
         try:
             wallet.try_detecting_internal_addresses_corruption()
@@ -795,8 +801,8 @@ class ElectrumWindow(App):
         else:
             c, u, x = self.wallet.get_balance()
             text = self.format_amount(c+x+u)
-            self.balance = str(text.strip()) + ' [size=22dp]%s[/size]'% self.base_unit
-            self.fiat_balance = self.fx.format_amount(c+u+x) + ' [size=22dp]%s[/size]'% self.fx.ccy
+            self.balance = str(text.strip()) + ' [size=16sp]%s[/size]'% self.base_unit
+            self.fiat_balance = self.fx.format_amount(c+u+x) + ' [size=16sp]%s[/size]'% self.fx.ccy
 
     def update_wallet_synchronizing_progress(self, *dt):
         if not self.wallet:
@@ -839,7 +845,7 @@ class ElectrumWindow(App):
     def update_wallet(self, *dt):
         self._trigger_update_status()
         if self.wallet and (self.wallet.up_to_date or not self.network or not self.network.is_connected()):
-            self.update_tabs()
+            print('Hello tabs update') #self.update_tabs()
 
     def notify(self, message):
         try:

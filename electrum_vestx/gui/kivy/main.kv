@@ -25,6 +25,11 @@
     background_normal: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_n'
     background_down: 'atlas://electrum_vestx/gui/kivy/theming/light/btn_pressed'
 
+<DashboardButton@Button>
+    on_parent: self.MIN_STATE_TIME = 0.1
+    background_color: (1, 1, 1, 0)
+
+
 <ListItemButton>
     font_size: '12sp'
 

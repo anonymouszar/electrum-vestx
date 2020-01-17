@@ -102,8 +102,8 @@ TX_ICONS = [
     "clock3",
     "clock4",
     "clock5",
-    "confirmed_sent",
-    "confirmed_received"
+    "confirmed_sent2",
+    "confirmed_received2"
 ]
 
 class HistoryScreen(CScreen):

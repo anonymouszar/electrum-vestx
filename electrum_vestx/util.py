@@ -545,7 +545,7 @@ def format_satoshis_plain(x, decimal_point = 8):
 DECIMAL_POINT = localeconv()['decimal_point']
 
 
-def format_satoshis(x, num_zeros=0, decimal_point=8, precision=None, is_diff=False, whitespaces=False):
+def format_satoshis(x, num_zeros=0, decimal_point=8, precision=8, is_diff=False, whitespaces=False):
     if x is None:
         return 'unknown'
     if precision is None:
@@ -565,6 +565,8 @@ def format_satoshis(x, num_zeros=0, decimal_point=8, precision=None, is_diff=Fal
     integer_part, fract_part = result.split(".")
     if len(fract_part) < num_zeros:
         fract_part += "0" * (num_zeros - len(fract_part))
+    if (len(fract_part) > 3):
+        fract_part = fract_part[0:3]
     result = integer_part + DECIMAL_POINT + fract_part
     # leading/trailing whitespaces
     if whitespaces:
