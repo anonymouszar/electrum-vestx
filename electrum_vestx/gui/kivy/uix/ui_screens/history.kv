@@ -41,10 +41,10 @@
             CardLabel:
                 color: 0, 0, 0, 1
                 text: root.action
-                font_size: '12sp'
+                font_size: '8sp'
             CardLabel:
                 color: root.amount_color
-                font_size: '12sp'
+                font_size: '8sp'
                 shorten: True
                 halign: 'right'
                 text: root.quote_text if app.is_fiat else root.amount
@@ -52,12 +52,12 @@
             orientation: 'horizontal'
             CardLabel:
                 color: 0, 0, 0, 1
-                font_size: '10sp'
+                font_size: '8sp'
                 shorten: True
-                text: 'Sent to Address'
+                text: root.message
             CardLabel:
                 color: 0, 0, 0, 1
-                font_size: '10sp'
+                font_size: '8sp'
                 shorten: True
                 halign: 'right'
                 text: root.date
@@ -97,13 +97,13 @@ HistoryScreen:
             RelativeLayout:
                 CardLabel:
                     color: 0.486, 0.514, 0.584, 1
-                    size_hint: None, 0.5
-                    pos_hint: {'x': 0.05, 'y': 0.2}
-                    font_size: '18sp'
+                    size_hint: None, 0.7
+                    pos_hint: {'right': 0.3, 'center_y': 0.4}
+                    font_size: '9sp'
                     text: 'Dashboard'
                     bold: True
                 DashboardButton:
-                    size_hint: 0.15, 0.15
+                    size_hint: 0.20, 0.20
                     pos_hint: {'right': 1, 'center_y': 0.4}
                     Image:
                         size: self.parent.size
@@ -143,11 +143,11 @@ HistoryScreen:
                             source: 'atlas://electrum_vestx/gui/kivy/theming/light/wallet_card'
                     BoxLayout:
                         orientation: 'vertical'
-                        size_hint: 1, 0.54
+                        size_hint: 1, 0.4
                         RelativeLayout:
                             Label:
                                 size_hint: 0.35, 0.35
-                                pos_hint: {'x': 0.05, 'top': 0.8}
+                                pos_hint: {'right': 0.45, 'top': 0.8}
                                 Image:    
                                     size: self.parent.size
                                     pos: self.parent.pos
@@ -165,9 +165,9 @@ HistoryScreen:
                         #padding: 10
                         RelativeLayout:
                             CardLabel:
-                                pos_hint: {'x': 0.1, 'center_y': 0.4}
+                                pos_hint: {'center_x': 0.6, 'center_y': 0.5}
                                 color: 1, 1, 1, 1
-                                font_size: '10sp'
+                                font_size: '8sp'
                                 text: 'YOUR VESTX BALANCE'
                                 bold: True
                     BoxLayout:
@@ -176,12 +176,12 @@ HistoryScreen:
                         #padding: 5
                         RelativeLayout:
                             DashboardButton:
-                                pos_hint: {'x': 0, 'center_y': 0.7}
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 text: app.fiat_balance if app.is_fiat else app.balance
                                 markup: True
                                 shorten: False
                                 color: 1, 1, 1, 1
-                                font_size: '16sp'
+                                font_size: '10sp'
                                 on_release: app.is_fiat = not app.is_fiat if app.fx.is_enabled() else False            
                             
         BoxLayout:
@@ -196,7 +196,7 @@ HistoryScreen:
                     pos: self.pos
             CardLabel:
                 color: 0.463, 0.490, 0.557, 1
-                font_size: '14sp'
+                font_size: '10sp'
                 size_hint: 1, 0.2
                 text: 'Transactions' 
                 valign: 'center'
@@ -215,7 +215,7 @@ HistoryScreen:
                     pos: self.pos
             RelativeLayout:
                 DashboardButton:
-                    size_hint: 0.85, 0.5
+                    size_hint: 0.95, 0.95
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     Image:
                         size: self.parent.size
