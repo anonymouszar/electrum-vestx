@@ -21,6 +21,7 @@ from .i18n import _
 
 from kivy.app import App
 from kivy.core.window import Window
+Window.size = (1080, 1920)
 from kivy.logger import Logger
 from kivy.utils import platform
 from kivy.properties import (OptionProperty, AliasProperty, ObjectProperty,

@@ -95,11 +95,11 @@ HistoryScreen:
                     size: self.size
                     pos: self.pos
             RelativeLayout:
-                CardLabel:
+                Label:
                     color: 0.486, 0.514, 0.584, 1
                     size_hint: None, 0.7
-                    pos_hint: {'right': 0.3, 'center_y': 0.4}
-                    font_size: '9sp'
+                    pos_hint: {'right': 0.2, 'center_y': 0.4}
+                    font_size: '20sp'
                     text: 'Dashboard'
                     bold: True
                 DashboardButton:
@@ -119,9 +119,20 @@ HistoryScreen:
                 Rectangle:
                     size: self.size
                     pos: self.pos
+            # BoxLayout:
+            #     orientation: 'vertical'
+            #     size_hint: 0.9, 2
+            #     pos_hint: {'center_x': .5, 'center_y': .5}
+            #     canvas.before:
+            #         Color:
+            #             rgba: 1, 1, 1, 1
+            #         Rectangle:
+            #             pos: self.pos
+            #             size: self.size
+            #             source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_back'
             BoxLayout:
                 orientation: 'vertical'
-                size_hint: 0.9, 1
+                size_hint: 0.83, 0.5
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 canvas.before:
                     Color:
@@ -129,64 +140,52 @@ HistoryScreen:
                     Rectangle:
                         pos: self.pos
                         size: self.size
-                        source: 'atlas://electrum_vestx/gui/kivy/theming/light/card_back'
+                        source: 'atlas://electrum_vestx/gui/kivy/theming/light/wallet_card'
                 BoxLayout:
                     orientation: 'vertical'
-                    size_hint: 0.83, 0.6
-                    pos_hint: {'center_x': .5, 'center_y': .5}
-                    canvas.before:
-                        Color:
-                            rgba: 1, 1, 1, 1
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-                            source: 'atlas://electrum_vestx/gui/kivy/theming/light/wallet_card'
-                    BoxLayout:
-                        orientation: 'vertical'
-                        size_hint: 1, 0.4
-                        RelativeLayout:
-                            Label:
-                                size_hint: 0.35, 0.35
-                                pos_hint: {'right': 0.45, 'top': 0.8}
-                                Image:    
-                                    size: self.parent.size
-                                    pos: self.parent.pos
-                                    source: 'atlas://electrum_vestx/gui/kivy/theming/light/wallet_card_logo'
-                            DashboardButton: #qr icon button
-                                size_hint: 0.35, 0.35
-                                pos_hint: {'right': 1, 'top': 0.8}
-                                Image:      
-                                    size: self.parent.size
-                                    pos: self.parent.pos
-                                    source: 'atlas://electrum_vestx/gui/kivy/theming/light/qrcode_button'
-                    BoxLayout:
-                        orientation: 'vertical'
-                        size_hint: 1, 0.14
-                        #padding: 10
-                        RelativeLayout:
-                            CardLabel:
-                                pos_hint: {'center_x': 0.6, 'center_y': 0.5}
-                                color: 1, 1, 1, 1
-                                font_size: '8sp'
-                                text: 'YOUR VESTX BALANCE'
-                                bold: True
-                    BoxLayout:
-                        orientation: 'vertical'
-                        size_hint: 1, 0.32
-                        #padding: 5
-                        RelativeLayout:
-                            DashboardButton:
-                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                text: app.fiat_balance if app.is_fiat else app.balance
-                                markup: True
-                                shorten: False
-                                color: 1, 1, 1, 1
-                                font_size: '10sp'
-                                on_release: app.is_fiat = not app.is_fiat if app.fx.is_enabled() else False            
-                            
+                    size_hint: 1, 0.4
+                    RelativeLayout:
+                        Label:
+                            size_hint: 0.55, 0.55
+                            pos_hint: {'right': 0.45, 'top': 0.9}
+                            Image:    
+                                size: self.parent.size
+                                pos: self.parent.pos
+                                source: 'atlas://electrum_vestx/gui/kivy/theming/light/wallet_card_logo'
+                        DashboardButton: #qr icon button
+                            size_hint: 0.55, 0.55
+                            pos_hint: {'right': 1.15, 'top': 0.9}
+                            Image:      
+                                size: self.parent.size
+                                pos: self.parent.pos
+                                source: 'atlas://electrum_vestx/gui/kivy/theming/light/qrcode_button'
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, 0.14
+                    #padding: 10
+                    RelativeLayout:
+                        CardLabel:
+                            pos_hint: {'center_x': 0.6, 'center_y': 0.5}
+                            color: 1, 1, 1, 1
+                            font_size: '10sp'
+                            text: 'YOUR VESTX BALANCE'
+                            bold: True
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, 0.32
+                    #padding: 5
+                    RelativeLayout:
+                        DashboardButton:
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            text: app.fiat_balance if app.is_fiat else app.balance
+                            markup: True
+                            shorten: False
+                            color: 1, 1, 1, 1
+                            font_size: '10sp'
+                            on_release: app.is_fiat = not app.is_fiat if app.fx.is_enabled() else False            
+                        
         BoxLayout:
             orientation: 'vertical'
-            padding: 10
             size_hint: 1, 0.46
             canvas.before:
                 Color:
@@ -194,16 +193,19 @@ HistoryScreen:
                 Rectangle:
                     size: self.size
                     pos: self.pos
-            CardLabel:
-                color: 0.463, 0.490, 0.557, 1
-                font_size: '10sp'
-                size_hint: 1, 0.2
-                text: 'Transactions' 
-                valign: 'center'
-            HistoryRecycleView:
-                id: history_container
-                scroll_type: ['bars', 'content']
-                bar_width: '15dp'
+            RelativeLayout:
+                Label:
+                    color: 0.463, 0.490, 0.557, 1
+                    font_size: '14sp'
+                    size_hint: None, 0.2
+                    pos_hint: {'right': 0.2, 'top': 0.95}
+                    text: 'Transactions' 
+                HistoryRecycleView:
+                    id: history_container
+                    size_hint: 0.9, 0.8
+                    pos_hint: {'right': 0.95, 'top' : 0.75}
+                    scroll_type: ['bars', 'content']
+                    bar_width: '15dp'
         BoxLayout:
             orientation: 'vertical'
             size_hint: 1, 0.1
@@ -213,11 +215,11 @@ HistoryScreen:
                 Rectangle:
                     size: self.size
                     pos: self.pos
-            RelativeLayout:
-                DashboardButton:
-                    size_hint: 0.95, 0.95
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    Image:
-                        size: self.parent.size
-                        pos: self.parent.pos
-                        source: 'atlas://electrum_vestx/gui/kivy/theming/light/send_button'
+            #RelativeLayout:
+            DashboardButton:
+                size_hint: 1.5, 1
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                Image:
+                    size: self.parent.size
+                    pos: self.parent.pos
+                    source: 'atlas://electrum_vestx/gui/kivy/theming/light/send_button'
